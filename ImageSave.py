@@ -140,7 +140,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.setupCamra()
+        self.setupCapture()
 
+## WebCam Image(BEGIN)
     def CameraWindowSize(self, ch=0):
         width, height = 0, 0
         if ch == 0:
@@ -152,7 +154,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Initialize camera.
         """
         cameraWidth, cameraHeight = self.CameraWindowSize(0)
-        print(cameraWidth, cameraHeight)
 
         self.capture = cv2.VideoCapture(0)
         self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, cameraWidth)
@@ -171,6 +172,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         image = QImage(frame, frame.shape[1], frame.shape[0],
                        frame.strides[0], QImage.Format_RGB888)
         self.ImageLabel.setPixmap(QPixmap.fromImage(image))
+        self.capImage = image.copy(0, 0, image.width(), image.height()) #temp code
+## WebCam Image(ENDED)
+
+## Capture(BEGIN)
+    def setupCapture(self):
+        self.CaptureSaveButton.clicked.connect(self.saveCaptureImage)
+
+    def saveCaptureImage(self):
+        imageNumber = 1
+        while True:
+            if cv2.imread("image.jpg") is None:
+                self.capImage.save("image.jpg")
+                break
+
+            fileName = "image(" + str(imageNumber) + ").jpg"
+            if cv2.imread(fileName) is None:
+                self.capImage.save(fileName)
+                break
+            else:
+                imageNumber = imageNumber + 1
+## Capture(ENDED)
 
 def main():
     app = QApplication(sys.argv)
