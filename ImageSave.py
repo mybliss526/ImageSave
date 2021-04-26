@@ -13,7 +13,7 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 import sys
-
+import cv2
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -28,6 +28,12 @@ class Ui_MainWindow(object):
         self.CameraImage = QHBoxLayout(self.horizontalLayoutWidget)
         self.CameraImage.setObjectName(u"CameraImage")
         self.CameraImage.setContentsMargins(0, 0, 0, 0)
+        self.ImageLabel = QLabel(self.horizontalLayoutWidget)
+        self.ImageLabel.setObjectName(u"ImageLabel")
+        self.ImageLabel.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.CameraImage.addWidget(self.ImageLabel)
+
         self.horizontalLayoutWidget_2 = QWidget(self.centralwidget)
         self.horizontalLayoutWidget_2.setObjectName(u"horizontalLayoutWidget_2")
         self.horizontalLayoutWidget_2.setGeometry(QRect(440, 440, 321, 31))
@@ -128,11 +134,43 @@ class Ui_MainWindow(object):
     # retranslateUi
 
 
-class MainWindow(QMainWindow):
+
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        self.setupUi(self)
+        self.setupCamra()
+
+    def CameraWindowSize(self, ch=0):
+        width, height = 0, 0
+        if ch == 0:
+            width = self.horizontalLayoutWidget.width()
+            height = self.horizontalLayoutWidget.height()
+        return width, height
+
+    def setupCamra(self):
+        """Initialize camera.
+        """
+        cameraWidth, cameraHeight = self.CameraWindowSize(0)
+        print(cameraWidth, cameraHeight)
+
+        self.capture = cv2.VideoCapture(0)
+        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, cameraWidth)
+        self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, cameraHeight)
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.displayVideoStream)
+        self.timer.start(30)
+
+    def displayVideoStream(self):
+        """Read frame from camera and repaint QLabel widget.
+        """
+        _, frame = self.capture.read()
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        frame = cv2.flip(frame, 1)
+        image = QImage(frame, frame.shape[1], frame.shape[0],
+                       frame.strides[0], QImage.Format_RGB888)
+        self.ImageLabel.setPixmap(QPixmap.fromImage(image))
 
 def main():
     app = QApplication(sys.argv)
