@@ -138,6 +138,10 @@ class Ui_MainWindow(object):
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        self.cameraWidth, self.cameraHeight = 0, 0
+        self.isDrawRectangleStatus, self.isDrawingEnded = False, False
+        self.startX, self.startY, self.endX, self.endY = 0, 0, 0, 0
+
         self.setupUi(self)
         self.setupCamra()
         self.setupCapture()
@@ -153,11 +157,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def setupCamra(self):
         """Initialize camera.
         """
-        cameraWidth, cameraHeight = self.CameraWindowSize(0)
+        self.cameraWidth, self.cameraHeight = self.CameraWindowSize(0)
 
         self.capture = cv2.VideoCapture(0)
-        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, cameraWidth)
-        self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, cameraHeight)
+        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.cameraWidth)
+        self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.cameraHeight)
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.displayVideoStream)
@@ -169,15 +173,61 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _, frame = self.capture.read()
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
         frame = cv2.flip(frame, 1)
+
+        x, y, width, height = 0, 0, self.cameraWidth, self.cameraHeight
+        if self.isDrawRectangleStatus and self.isDrawingEnded:
+            frame, x, y, width, height = self.drawRectangleRegion(frame)
+        else:
+            x, y, width, height = 0, 0, self.cameraWidth, self.cameraHeight
+
         image = QImage(frame, frame.shape[1], frame.shape[0],
                        frame.strides[0], QImage.Format_RGB888)
         self.ImageLabel.setPixmap(QPixmap.fromImage(image))
-        self.capImage = image.copy(0, 0, image.width(), image.height()) #temp code
+        self.capImage = image.copy(x, y, width, height)
 ## WebCam Image(ENDED)
 
 ## Capture(BEGIN)
     def setupCapture(self):
         self.CaptureSaveButton.clicked.connect(self.saveCaptureImage)
+        self.CaptureSetButton.clicked.connect(lambda: self.drawRectangleStatus(True))
+        self.CaptureReleaseButton.clicked.connect(lambda: self.drawRectangleStatus(False))
+
+    def drawRectangleRegion(self, frame):
+        frameHeight, frameWidth = frame.shape[:2]
+        offsetX = frameWidth - self.cameraWidth
+        offsetY = (frameHeight - self.cameraHeight) // 2
+        drawMargin = 2      #이미지캡쳐에서 rectangle이 포함되지 않도록 drawMargin 추가
+        frame = cv2.rectangle(frame, (offsetX + self.startX - drawMargin, offsetY + self.startY - drawMargin),
+                              (offsetX + self.endX + drawMargin, offsetY + self.endY + drawMargin), (0, 0, 255), 2)
+        return frame, offsetX + self.startX, offsetY + self.startY, self.endX - self.startX, self.endY - self.startY
+
+    def mousePressEvent(self, QMouseEvent):
+        self.isDrawingEnded = False
+        self.startX, self.startY = QMouseEvent.x(), QMouseEvent.y()
+
+    def mouseReleaseEvent(self, QMouseEvent):
+        self.isDrawingEnded = True
+        self.endX, self.endY = QMouseEvent.x(), QMouseEvent.y()
+
+        if self.endX < self.startX:
+            self.startX, self.endX = self.endX, self.startX
+        if self.endY < self.startY:
+            self.startY, self.endY = self.endY, self.startY
+
+        #code refactoring point!!(about. size)
+        if self.startX < 9: self.startX = 9
+        if self.startY < 9: self.startY = 9
+        if self.endX >= 760: self.endX = 760
+        if self.endY >= 430: self.endY = 430
+
+        self.startX -= 9
+        self.startY -= 9
+        self.endX -= 9
+        self.endY -= 9
+
+    def drawRectangleStatus(self, isTrue):
+        self.isDrawRectangleStatus = isTrue
+        print("isDrawRectangleStatus: {}".format(self.isDrawRectangleStatus))
 
     def saveCaptureImage(self):
         imageNumber = 1
