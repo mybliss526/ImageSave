@@ -122,7 +122,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.RecordCapLabel.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc6a9\ub7c9", None))
+        self.RecordCapLabel.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc6a9\ub7c9(MB)", None))
         self.RecordStartButton.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc2dc\uc791", None))
         self.RecordEndButton.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\ud574\uc81c", None))
         self.CaptureLabel.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
@@ -130,7 +130,7 @@ class Ui_MainWindow(object):
         self.CaptureReleaseButton.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
         self.CaptureSaveButton.setText(QCoreApplication.translate("MainWindow", u"\uc800\uc7a5", None))
         self.RecordStatusTitle.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc0c1\ud0dc:", None))
-        self.RecordStatuslabel.setText(QCoreApplication.translate("MainWindow", u"(\ub179\ud654\uc911)", None))
+        self.RecordStatuslabel.setText(QCoreApplication.translate("MainWindow", u"(녹화해제)", None))
     # retranslateUi
 
 
@@ -138,12 +138,16 @@ class Ui_MainWindow(object):
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        self.isRecordStatus = False
+        self.isCreateFile = False
+
         self.cameraWindowWidth, self.cameraWindowHeight = 0, 0
         self.isDrawRectangleStatus, self.isDrawingEnded = False, False
         self.startX, self.startY, self.endX, self.endY = 0, 0, 0, 0
 
         self.setupUi(self)
         self.setupCamra()
+        self.setupRecord()
         self.setupCapture()
 
 ## WebCam Image(BEGIN)
@@ -171,8 +175,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Read frame from camera and repaint QLabel widget.
         """
         _, frame = self.capture.read()
-        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
         frame = cv2.flip(frame, 1)
+        self.frameRecording(frame)
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
         frame, x, y, width, height = self.drawRectangleRegion(frame)
 
         image = QImage(frame, frame.shape[1], frame.shape[0],
@@ -180,6 +185,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ImageLabel.setPixmap(QPixmap.fromImage(image))
         self.capImage = image.copy(x, y, width, height)
 ## WebCam Image(ENDED)
+
+## Record(START)
+    def setupRecord(self):
+        self.RecordStartButton.clicked.connect(lambda: self.recordStatus(True))
+        self.RecordEndButton.clicked.connect(lambda: self.recordStatus(False))
+
+    def recordStatus(self, isBoolState):
+        self.isRecordStatus = isBoolState
+        strRecordStatus = "(녹화중)" if isBoolState else "(녹화해제)"
+        self.RecordStatuslabel.setText(strRecordStatus)
+        print("{}".format(strRecordStatus))
+
+    def frameRecording(self, frame):
+        if self.isRecordStatus:
+            frameHeight, frameWidth = frame.shape[:2]
+            offsetX = frameWidth - self.cameraWindowWidth
+            offsetY = (frameHeight - self.cameraWindowHeight) // 2
+            frame = frame[offsetY : offsetY + self.cameraWindowHeight, offsetX: offsetX + self.cameraWindowWidth] #cropImage
+
+            if not self.isCreateFile:
+                self.videoCodec = cv2.VideoWriter_fourcc(*'XVID')
+                self.videoWriterAVI = cv2.VideoWriter("Video.avi", self.videoCodec, 30.0, (self.cameraWindowWidth, self.cameraWindowHeight))
+                self.isCreateFile = True
+                print("isCreateFile: {}".format(self.isCreateFile))
+
+            self.videoWriterAVI.write(frame)
+        else:
+            if self.isCreateFile:
+                self.videoWriterAVI.release()
+                self.isCreateFile = False
+                print("isCreateFile: {}".format(self.isCreateFile))
+## Record(ENDED)
 
 ## Capture(BEGIN)
     def setupCapture(self):
