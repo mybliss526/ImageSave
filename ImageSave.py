@@ -264,6 +264,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 ## Record(START)
     def setupRecord(self):
+        self.strVideoFile = self.setVideoDirlineEdit.text() + "Video.mp4"  # original video
+        self.tempVideoFileForMERGE = "tempMergeVideo.mp4"  # temp for Merge original
+
         self.RecordStartButton.clicked.connect(lambda: self.recordStatus(True))
         self.RecordEndButton.clicked.connect(lambda: self.recordStatus(False))
 
@@ -277,9 +280,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("{} maxRecordStorage: {}(MB)".format(strRecordStatus, self.maxRecordStorage))
 
     def frameRecording(self, frame):
-        strVideoFile = "Video.mp4"                      #original video
-        tempVideoFileForMERGE = "tempMergeVideo.mp4"    #temp for Merge original
-
         if self.isRecordStatus:
             frameHeight, frameWidth = frame.shape[:2]
             offsetX = frameWidth - self.cameraWindowWidth
@@ -290,22 +290,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if not self.isOversizeStatus:
                 if not self.isCreateFile:
                     self.videoCodec = cv2.VideoWriter_fourcc(*'mp4v')
-                    self.videoWriterOriginal = cv2.VideoWriter(strVideoFile, self.videoCodec, 30.0,
+                    self.videoWriterOriginal = cv2.VideoWriter(self.strVideoFile, self.videoCodec, 30.0,
                                                                (self.cameraWindowWidth, self.cameraWindowHeight))
                     self.isCreateFile = True
                     print("isCreateFile: {}".format(self.isCreateFile))
 
                 self.videoWriterOriginal.write(frame)
-                fileSize = os.path.getsize(strVideoFile)
+                fileSize = os.path.getsize(self.strVideoFile)
             else:
                 if not self.isCreateOversizeFile:
                     self.videoCodec = cv2.VideoWriter_fourcc(*'mp4v')
-                    self.videoWriterMergeFile = cv2.VideoWriter(tempVideoFileForMERGE, self.videoCodec, 30.0,
+                    self.videoWriterMergeFile = cv2.VideoWriter(self.tempVideoFileForMERGE, self.videoCodec, 30.0,
                                                                 (self.cameraWindowWidth, self.cameraWindowHeight))
                     self.isCreateOversizeFile = True
                     print("isCreateFile: {}".format(self.isCreateFile))
                 self.videoWriterMergeFile.write(frame)
-                fileSize = os.path.getsize(strVideoFile) + os.path.getsize(tempVideoFileForMERGE)
+                fileSize = os.path.getsize(self.strVideoFile) + os.path.getsize(self.tempVideoFileForMERGE)
             ### Create Video File from Frame (ENDED)
 
             if self.maxRecordStorage * 1024 * 1024 < fileSize:  # 1MB = 1048576
@@ -313,10 +313,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.videoWriterOriginal.release()          #Orignal Video File을 release해주어 앞부분 cut할 수 있도록 해줌.
                 else:
                     self.videoWriterMergeFile.release()
-                    self.mergeVideoFile(strVideoFile, tempVideoFileForMERGE, strVideoFile)
+                    self.mergeVideoFile(self.strVideoFile, self.tempVideoFileForMERGE, self.strVideoFile)
                     self.isCreateOversizeFile = False
 
-                self.cutVideoFile(10, strVideoFile)             #cut Video prev 10sec.
+                self.cutVideoFile(10, self.strVideoFile)             #cut Video prev 10sec.
                 self.isOversizeStatus = True
         else:
             if not self.isOversizeStatus:
@@ -327,7 +327,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 if self.isCreateOversizeFile:
                     self.videoWriterMergeFile.release()
-                    self.mergeVideoFile(strVideoFile, tempVideoFileForMERGE, strVideoFile)
+                    self.mergeVideoFile(self.strVideoFile, self.tempVideoFileForMERGE, self.strVideoFile)
                     self.isCreateOversizeFile = False
                     print("isCreateFile: {}".format(self.isCreateFile))
 
@@ -365,6 +365,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print(dirName)
         if id == 1:
             self.setVideoDirlineEdit.setText(dirName)
+            self.strVideoFile = dirName + "/Video.mp4"  # original video
+            print(self.strVideoFile)
         elif id == 2:
             self.setOKImagelineEdit.setText(dirName)
         elif id == 3:
