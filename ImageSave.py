@@ -68,7 +68,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_3 = QWidget(self.centralwidget)
         self.horizontalLayoutWidget_3.setObjectName(u"horizontalLayoutWidget_3")
-        self.horizontalLayoutWidget_3.setGeometry(QRect(470, 500, 291, 31))
+        self.horizontalLayoutWidget_3.setGeometry(QRect(440, 500, 321, 31))
         self.CaptureLayout = QHBoxLayout(self.horizontalLayoutWidget_3)
         self.CaptureLayout.setObjectName(u"CaptureLayout")
         self.CaptureLayout.setContentsMargins(0, 0, 0, 0)
@@ -87,10 +87,15 @@ class Ui_MainWindow(object):
 
         self.CaptureLayout.addWidget(self.CaptureReleaseButton)
 
-        self.CaptureSaveButton = QPushButton(self.horizontalLayoutWidget_3)
-        self.CaptureSaveButton.setObjectName(u"CaptureSaveButton")
+        self.OKImageSaveButton = QPushButton(self.horizontalLayoutWidget_3)
+        self.OKImageSaveButton.setObjectName(u"OKImageSaveButton")
 
-        self.CaptureLayout.addWidget(self.CaptureSaveButton)
+        self.CaptureLayout.addWidget(self.OKImageSaveButton)
+
+        self.NGImageSaveButton = QPushButton(self.horizontalLayoutWidget_3)
+        self.NGImageSaveButton.setObjectName(u"NGImageSaveButton")
+
+        self.CaptureLayout.addWidget(self.NGImageSaveButton)
 
         self.horizontalLayoutWidget_4 = QWidget(self.centralwidget)
         self.horizontalLayoutWidget_4.setObjectName(u"horizontalLayoutWidget_4")
@@ -196,7 +201,8 @@ class Ui_MainWindow(object):
         self.CaptureLabel.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
         self.CaptureSetButton.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
         self.CaptureReleaseButton.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
-        self.CaptureSaveButton.setText(QCoreApplication.translate("MainWindow", u"\uc800\uc7a5", None))
+        self.OKImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
+        self.NGImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
         self.RecordStatusTitle.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc0c1\ud0dc:", None))
         self.RecordStatuslabel.setText(QCoreApplication.translate("MainWindow", u"(녹화해제)", None))
         self.setVideoDirLabel.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1 \uc800\uc7a5\uacbd\ub85c:", None))
@@ -353,7 +359,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 ## Capture(BEGIN)
     def setupCapture(self):
-        self.CaptureSaveButton.clicked.connect(self.saveCaptureImage)
+        self.OKImageSaveButton.clicked.connect(lambda: self.saveCaptureImage(1))
+        self.NGImageSaveButton.clicked.connect(lambda: self.saveCaptureImage(2))
         self.CaptureSetButton.clicked.connect(lambda: self.drawRectangleStatus(True))
         self.CaptureReleaseButton.clicked.connect(lambda: self.drawRectangleStatus(False))
         self.setVideoDirbutton.clicked.connect(lambda: self.setDirectory(1))
@@ -412,8 +419,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.isDrawRectangleStatus = isBoolState
         print("isDrawRectangleStatus: {}".format(self.isDrawRectangleStatus))
 
-    def saveCaptureImage(self):
+    def saveCaptureImage(self, id): # id - 1:OK, 2: NG
         imageNumber = 1
+        tempCurPwd = os.getcwd()
+        if id == 1 and (len(self.setOKImagelineEdit.text()) > 0):
+            os.chdir(self.setOKImagelineEdit.text()) # Move TO Save PWD
+        elif id == 2 and (len(self.setNGImagelineEdit.text()) > 0):
+            os.chdir(self.setNGImagelineEdit.text()) # Move TO Save PWD
+
         while True:
             if cv2.imread("image.jpg") is None:
                 self.capImage.save("image.jpg")
@@ -425,6 +438,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 break
             else:
                 imageNumber = imageNumber + 1
+        os.chdir(tempCurPwd)
 ## Capture(ENDED)
 
 def main():
