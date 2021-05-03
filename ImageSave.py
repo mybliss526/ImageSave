@@ -111,6 +111,69 @@ class Ui_MainWindow(object):
 
         self.RecordStatusLayout.addWidget(self.RecordStatuslabel)
 
+        self.horizontalLayoutWidget_5 = QWidget(self.centralwidget)
+        self.horizontalLayoutWidget_5.setObjectName(u"horizontalLayoutWidget_5")
+        self.horizontalLayoutWidget_5.setGeometry(QRect(10, 440, 381, 31))
+        self.setVideoDirLayout = QHBoxLayout(self.horizontalLayoutWidget_5)
+        self.setVideoDirLayout.setObjectName(u"setVideoDirLayout")
+        self.setVideoDirLayout.setContentsMargins(0, 0, 0, 0)
+        self.setVideoDirLabel = QLabel(self.horizontalLayoutWidget_5)
+        self.setVideoDirLabel.setObjectName(u"setVideoDirLabel")
+
+        self.setVideoDirLayout.addWidget(self.setVideoDirLabel)
+
+        self.setVideoDirlineEdit = QLineEdit(self.horizontalLayoutWidget_5)
+        self.setVideoDirlineEdit.setObjectName(u"setVideoDirlineEdit")
+
+        self.setVideoDirLayout.addWidget(self.setVideoDirlineEdit)
+
+        self.setVideoDirbutton = QPushButton(self.horizontalLayoutWidget_5)
+        self.setVideoDirbutton.setObjectName(u"setVideoDirbutton")
+
+        self.setVideoDirLayout.addWidget(self.setVideoDirbutton)
+
+        self.horizontalLayoutWidget_6 = QWidget(self.centralwidget)
+        self.horizontalLayoutWidget_6.setObjectName(u"horizontalLayoutWidget_6")
+        self.horizontalLayoutWidget_6.setGeometry(QRect(10, 470, 381, 31))
+        self.setOKImageLayout = QHBoxLayout(self.horizontalLayoutWidget_6)
+        self.setOKImageLayout.setObjectName(u"setOKImageLayout")
+        self.setOKImageLayout.setContentsMargins(0, 0, 0, 0)
+        self.setOKImageLabel = QLabel(self.horizontalLayoutWidget_6)
+        self.setOKImageLabel.setObjectName(u"setOKImageLabel")
+
+        self.setOKImageLayout.addWidget(self.setOKImageLabel)
+
+        self.setOKImagelineEdit = QLineEdit(self.horizontalLayoutWidget_6)
+        self.setOKImagelineEdit.setObjectName(u"setOKImagelineEdit")
+
+        self.setOKImageLayout.addWidget(self.setOKImagelineEdit)
+
+        self.setOKImagebutton = QPushButton(self.horizontalLayoutWidget_6)
+        self.setOKImagebutton.setObjectName(u"setOKImagebutton")
+
+        self.setOKImageLayout.addWidget(self.setOKImagebutton)
+
+        self.horizontalLayoutWidget_7 = QWidget(self.centralwidget)
+        self.horizontalLayoutWidget_7.setObjectName(u"horizontalLayoutWidget_7")
+        self.horizontalLayoutWidget_7.setGeometry(QRect(10, 500, 381, 31))
+        self.setNGImageLayout = QHBoxLayout(self.horizontalLayoutWidget_7)
+        self.setNGImageLayout.setObjectName(u"setNGImageLayout")
+        self.setNGImageLayout.setContentsMargins(0, 0, 0, 0)
+        self.setNGImageLabel = QLabel(self.horizontalLayoutWidget_7)
+        self.setNGImageLabel.setObjectName(u"setNGImageLabel")
+
+        self.setNGImageLayout.addWidget(self.setNGImageLabel)
+
+        self.setNGImagelineEdit = QLineEdit(self.horizontalLayoutWidget_7)
+        self.setNGImagelineEdit.setObjectName(u"setNGImagelineEdit")
+
+        self.setNGImageLayout.addWidget(self.setNGImagelineEdit)
+
+        self.setNGImagebutton = QPushButton(self.horizontalLayoutWidget_7)
+        self.setNGImagebutton.setObjectName(u"setNGImagebutton")
+
+        self.setNGImageLayout.addWidget(self.setNGImagebutton)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -136,6 +199,12 @@ class Ui_MainWindow(object):
         self.CaptureSaveButton.setText(QCoreApplication.translate("MainWindow", u"\uc800\uc7a5", None))
         self.RecordStatusTitle.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc0c1\ud0dc:", None))
         self.RecordStatuslabel.setText(QCoreApplication.translate("MainWindow", u"(녹화해제)", None))
+        self.setVideoDirLabel.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1 \uc800\uc7a5\uacbd\ub85c:", None))
+        self.setVideoDirbutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.setOKImageLabel.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
+        self.setOKImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.setNGImageLabel.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
+        self.setNGImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
     # retranslateUi
 
 
@@ -287,6 +356,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.CaptureSaveButton.clicked.connect(self.saveCaptureImage)
         self.CaptureSetButton.clicked.connect(lambda: self.drawRectangleStatus(True))
         self.CaptureReleaseButton.clicked.connect(lambda: self.drawRectangleStatus(False))
+        self.setVideoDirbutton.clicked.connect(lambda: self.setDirectory(1))
+        self.setOKImagebutton.clicked.connect(lambda: self.setDirectory(2))
+        self.setNGImagebutton.clicked.connect(lambda: self.setDirectory(3))
+
+    def setDirectory(self, id):
+        dirName = QFileDialog.getExistingDirectory(self, self.tr("저장 경로 설정"), "./", QFileDialog.ShowDirsOnly)
+        print(dirName)
+        if id == 1:
+            self.setVideoDirlineEdit.setText(dirName)
+        elif id == 2:
+            self.setOKImagelineEdit.setText(dirName)
+        elif id == 3:
+            self.setNGImagelineEdit.setText(dirName)
 
     def drawRectangleRegion(self, frame):
         if self.isDrawRectangleStatus and self.isDrawingEnded:
