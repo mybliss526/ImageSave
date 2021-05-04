@@ -48,6 +48,11 @@ class Ui_MainWindow(object):
         self.Page01_CameraImage1 = QHBoxLayout(self.horizontalLayoutWidget_5)
         self.Page01_CameraImage1.setObjectName(u"Page01_CameraImage1")
         self.Page01_CameraImage1.setContentsMargins(0, 0, 0, 0)
+        self.Page01_LiveImagelabel = QLabel(self.horizontalLayoutWidget_5)
+        self.Page01_LiveImagelabel.setObjectName(u"Page01_LiveImagelabel")
+
+        self.Page01_CameraImage1.addWidget(self.Page01_LiveImagelabel)
+
         self.horizontalLayoutWidget_6 = QWidget(self.Page01)
         self.horizontalLayoutWidget_6.setObjectName(u"horizontalLayoutWidget_6")
         self.horizontalLayoutWidget_6.setGeometry(QRect(0, 280, 391, 241))
@@ -882,7 +887,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         image = QImage(frame, frame.shape[1], frame.shape[0],
                        frame.strides[0], QImage.Format_RGB888)
-        self.Page02_ImageLabel1.setPixmap(QPixmap.fromImage(image))
+        liveImage1 = image.scaled(self.Page01_CameraImage1.geometry().width(), self.Page01_CameraImage1.geometry().height())
+        captureImage1 = image.scaled(self.Page02_CameraImage1.geometry().width(), self.Page02_CameraImage1.geometry().height())
+        self.Page01_LiveImagelabel.setPixmap(QPixmap.fromImage(liveImage1))
+        self.Page02_ImageLabel1.setPixmap(QPixmap.fromImage(captureImage1))
         self.capImage = image.copy(x, y, width, height)
 ## WebCam Image(ENDED)
 
