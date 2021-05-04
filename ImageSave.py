@@ -727,7 +727,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
         self.CameratabWidget.setCurrentIndex(0)
 
 
@@ -835,6 +835,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupCamra()
         self.setupRecord()
         self.setupCapture()
+        self.setupMenuBar()
+
+## MenuBar(BEGIN)
+    def setupMenuBar(self):
+        self.Menu_LivepushButton.clicked.connect(lambda: self.changeStackWidget(0))
+        self.Menu_CapturepushButton.clicked.connect(lambda: self.changeStackWidget(1))
+        self.Menu_RecordpushButton.clicked.connect(lambda: self.changeStackWidget(2))
+
+    def changeStackWidget(self, id):
+        PageIdList = [self.Page01, self.Page02, self.Page03]
+
+        self.stackedWidget.setCurrentWidget(PageIdList[id])
+
+## MenuBar(ENDED)
 
 ## WebCam Image(BEGIN)
     def CameraWindowSize(self, ch=0):
