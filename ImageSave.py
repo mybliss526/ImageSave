@@ -22,167 +22,704 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(772, 584)
+        MainWindow.resize(991, 585)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.horizontalLayoutWidget = QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
-        self.horizontalLayoutWidget.setGeometry(QRect(9, 9, 751, 421))
-        self.CameraImage = QHBoxLayout(self.horizontalLayoutWidget)
-        self.CameraImage.setObjectName(u"CameraImage")
-        self.CameraImage.setContentsMargins(0, 0, 0, 0)
-        self.ImageLabel = QLabel(self.horizontalLayoutWidget)
-        self.ImageLabel.setObjectName(u"ImageLabel")
-        self.ImageLabel.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-
-        self.CameraImage.addWidget(self.ImageLabel)
-
-        self.horizontalLayoutWidget_2 = QWidget(self.centralwidget)
-        self.horizontalLayoutWidget_2.setObjectName(u"horizontalLayoutWidget_2")
-        self.horizontalLayoutWidget_2.setGeometry(QRect(440, 440, 321, 31))
-        self.RecordLayout = QHBoxLayout(self.horizontalLayoutWidget_2)
-        self.RecordLayout.setObjectName(u"RecordLayout")
-        self.RecordLayout.setContentsMargins(0, 0, 0, 0)
-        self.RecordCapLabel = QLabel(self.horizontalLayoutWidget_2)
-        self.RecordCapLabel.setObjectName(u"RecordCapLabel")
-        self.RecordCapLabel.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-
-        self.RecordLayout.addWidget(self.RecordCapLabel)
-
-        self.RecordCapSpinBox = QSpinBox(self.horizontalLayoutWidget_2)
-        self.RecordCapSpinBox.setValue(20)
-        self.RecordCapSpinBox.setMinimum(5)
-        self.RecordCapSpinBox.setObjectName(u"RecordCapSpinBox")
-
-        self.RecordLayout.addWidget(self.RecordCapSpinBox)
-
-        self.RecordStartButton = QPushButton(self.horizontalLayoutWidget_2)
-        self.RecordStartButton.setObjectName(u"RecordStartButton")
-
-        self.RecordLayout.addWidget(self.RecordStartButton)
-
-        self.RecordEndButton = QPushButton(self.horizontalLayoutWidget_2)
-        self.RecordEndButton.setObjectName(u"RecordEndButton")
-
-        self.RecordLayout.addWidget(self.RecordEndButton)
-
-        self.horizontalLayoutWidget_3 = QWidget(self.centralwidget)
-        self.horizontalLayoutWidget_3.setObjectName(u"horizontalLayoutWidget_3")
-        self.horizontalLayoutWidget_3.setGeometry(QRect(440, 500, 321, 31))
-        self.CaptureLayout = QHBoxLayout(self.horizontalLayoutWidget_3)
-        self.CaptureLayout.setObjectName(u"CaptureLayout")
-        self.CaptureLayout.setContentsMargins(0, 0, 0, 0)
-        self.CaptureLabel = QLabel(self.horizontalLayoutWidget_3)
-        self.CaptureLabel.setObjectName(u"CaptureLabel")
-
-        self.CaptureLayout.addWidget(self.CaptureLabel)
-
-        self.CaptureSetButton = QPushButton(self.horizontalLayoutWidget_3)
-        self.CaptureSetButton.setObjectName(u"CaptureSetButton")
-
-        self.CaptureLayout.addWidget(self.CaptureSetButton)
-
-        self.CaptureReleaseButton = QPushButton(self.horizontalLayoutWidget_3)
-        self.CaptureReleaseButton.setObjectName(u"CaptureReleaseButton")
-
-        self.CaptureLayout.addWidget(self.CaptureReleaseButton)
-
-        self.OKImageSaveButton = QPushButton(self.horizontalLayoutWidget_3)
-        self.OKImageSaveButton.setObjectName(u"OKImageSaveButton")
-
-        self.CaptureLayout.addWidget(self.OKImageSaveButton)
-
-        self.NGImageSaveButton = QPushButton(self.horizontalLayoutWidget_3)
-        self.NGImageSaveButton.setObjectName(u"NGImageSaveButton")
-
-        self.CaptureLayout.addWidget(self.NGImageSaveButton)
-
-        self.horizontalLayoutWidget_4 = QWidget(self.centralwidget)
-        self.horizontalLayoutWidget_4.setObjectName(u"horizontalLayoutWidget_4")
-        self.horizontalLayoutWidget_4.setGeometry(QRect(620, 470, 141, 21))
-        self.RecordStatusLayout = QHBoxLayout(self.horizontalLayoutWidget_4)
-        self.RecordStatusLayout.setObjectName(u"RecordStatusLayout")
-        self.RecordStatusLayout.setContentsMargins(0, 0, 0, 0)
-        self.RecordStatusTitle = QLabel(self.horizontalLayoutWidget_4)
-        self.RecordStatusTitle.setObjectName(u"RecordStatusTitle")
-        self.RecordStatusTitle.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-
-        self.RecordStatusLayout.addWidget(self.RecordStatusTitle)
-
-        self.RecordStatuslabel = QLabel(self.horizontalLayoutWidget_4)
-        self.RecordStatuslabel.setObjectName(u"RecordStatuslabel")
-        self.RecordStatuslabel.setTextFormat(Qt.AutoText)
-        self.RecordStatuslabel.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-
-        self.RecordStatusLayout.addWidget(self.RecordStatuslabel)
-
-        self.horizontalLayoutWidget_5 = QWidget(self.centralwidget)
+        self.stackedWidget = QStackedWidget(self.centralwidget)
+        self.stackedWidget.setObjectName(u"stackedWidget")
+        self.stackedWidget.setGeometry(QRect(190, 9, 791, 521))
+        self.Page01 = QWidget()
+        self.Page01.setObjectName(u"Page01")
+        self.Page01_Livelabel1 = QLabel(self.Page01)
+        self.Page01_Livelabel1.setObjectName(u"Page01_Livelabel1")
+        self.Page01_Livelabel1.setGeometry(QRect(0, 10, 56, 12))
+        self.Page01_Livelabel2 = QLabel(self.Page01)
+        self.Page01_Livelabel2.setObjectName(u"Page01_Livelabel2")
+        self.Page01_Livelabel2.setGeometry(QRect(400, 10, 56, 12))
+        self.Page01_Livelabel3 = QLabel(self.Page01)
+        self.Page01_Livelabel3.setObjectName(u"Page01_Livelabel3")
+        self.Page01_Livelabel3.setGeometry(QRect(0, 270, 56, 12))
+        self.Page01_Livelabel4 = QLabel(self.Page01)
+        self.Page01_Livelabel4.setObjectName(u"Page01_Livelabel4")
+        self.Page01_Livelabel4.setGeometry(QRect(400, 270, 56, 12))
+        self.horizontalLayoutWidget_5 = QWidget(self.Page01)
         self.horizontalLayoutWidget_5.setObjectName(u"horizontalLayoutWidget_5")
-        self.horizontalLayoutWidget_5.setGeometry(QRect(10, 440, 381, 31))
-        self.setVideoDirLayout = QHBoxLayout(self.horizontalLayoutWidget_5)
-        self.setVideoDirLayout.setObjectName(u"setVideoDirLayout")
-        self.setVideoDirLayout.setContentsMargins(0, 0, 0, 0)
-        self.setVideoDirLabel = QLabel(self.horizontalLayoutWidget_5)
-        self.setVideoDirLabel.setObjectName(u"setVideoDirLabel")
-
-        self.setVideoDirLayout.addWidget(self.setVideoDirLabel)
-
-        self.setVideoDirlineEdit = QLineEdit(self.horizontalLayoutWidget_5)
-        self.setVideoDirlineEdit.setObjectName(u"setVideoDirlineEdit")
-
-        self.setVideoDirLayout.addWidget(self.setVideoDirlineEdit)
-
-        self.setVideoDirbutton = QPushButton(self.horizontalLayoutWidget_5)
-        self.setVideoDirbutton.setObjectName(u"setVideoDirbutton")
-
-        self.setVideoDirLayout.addWidget(self.setVideoDirbutton)
-
-        self.horizontalLayoutWidget_6 = QWidget(self.centralwidget)
+        self.horizontalLayoutWidget_5.setGeometry(QRect(0, 20, 391, 241))
+        self.Page01_CameraImage1 = QHBoxLayout(self.horizontalLayoutWidget_5)
+        self.Page01_CameraImage1.setObjectName(u"Page01_CameraImage1")
+        self.Page01_CameraImage1.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayoutWidget_6 = QWidget(self.Page01)
         self.horizontalLayoutWidget_6.setObjectName(u"horizontalLayoutWidget_6")
-        self.horizontalLayoutWidget_6.setGeometry(QRect(10, 470, 381, 31))
-        self.setOKImageLayout = QHBoxLayout(self.horizontalLayoutWidget_6)
-        self.setOKImageLayout.setObjectName(u"setOKImageLayout")
-        self.setOKImageLayout.setContentsMargins(0, 0, 0, 0)
-        self.setOKImageLabel = QLabel(self.horizontalLayoutWidget_6)
-        self.setOKImageLabel.setObjectName(u"setOKImageLabel")
+        self.horizontalLayoutWidget_6.setGeometry(QRect(0, 280, 391, 241))
+        self.Page01_CameraImage3 = QHBoxLayout(self.horizontalLayoutWidget_6)
+        self.Page01_CameraImage3.setObjectName(u"Page01_CameraImage3")
+        self.Page01_CameraImage3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayoutWidget_10 = QWidget(self.Page01)
+        self.horizontalLayoutWidget_10.setObjectName(u"horizontalLayoutWidget_10")
+        self.horizontalLayoutWidget_10.setGeometry(QRect(400, 20, 391, 241))
+        self.Page01_CameraImage2 = QHBoxLayout(self.horizontalLayoutWidget_10)
+        self.Page01_CameraImage2.setObjectName(u"Page01_CameraImage2")
+        self.Page01_CameraImage2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayoutWidget_11 = QWidget(self.Page01)
+        self.horizontalLayoutWidget_11.setObjectName(u"horizontalLayoutWidget_11")
+        self.horizontalLayoutWidget_11.setGeometry(QRect(400, 280, 391, 241))
+        self.Page01_CameraImage4 = QHBoxLayout(self.horizontalLayoutWidget_11)
+        self.Page01_CameraImage4.setObjectName(u"Page01_CameraImage4")
+        self.Page01_CameraImage4.setContentsMargins(0, 0, 0, 0)
+        self.stackedWidget.addWidget(self.Page01)
+        self.Page02 = QWidget()
+        self.Page02.setObjectName(u"Page02")
+        self.CameratabWidget = QTabWidget(self.Page02)
+        self.CameratabWidget.setObjectName(u"CameratabWidget")
+        self.CameratabWidget.setGeometry(QRect(0, 0, 791, 521))
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.horizontalLayoutWidget = QWidget(self.tab)
+        self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
+        self.horizontalLayoutWidget.setGeometry(QRect(20, 0, 751, 421))
+        self.Page02_CameraImage1 = QHBoxLayout(self.horizontalLayoutWidget)
+        self.Page02_CameraImage1.setObjectName(u"Page02_CameraImage1")
+        self.Page02_CameraImage1.setContentsMargins(0, 0, 0, 0)
+        self.Page02_ImageLabel1 = QLabel(self.horizontalLayoutWidget)
+        self.Page02_ImageLabel1.setObjectName(u"Page02_ImageLabel1")
 
-        self.setOKImageLayout.addWidget(self.setOKImageLabel)
+        self.Page02_CameraImage1.addWidget(self.Page02_ImageLabel1)
 
-        self.setOKImagelineEdit = QLineEdit(self.horizontalLayoutWidget_6)
-        self.setOKImagelineEdit.setObjectName(u"setOKImagelineEdit")
+        self.horizontalLayoutWidget_8 = QWidget(self.tab)
+        self.horizontalLayoutWidget_8.setObjectName(u"horizontalLayoutWidget_8")
+        self.horizontalLayoutWidget_8.setGeometry(QRect(0, 460, 411, 31))
+        self.Page02_setNGImageLayout1 = QHBoxLayout(self.horizontalLayoutWidget_8)
+        self.Page02_setNGImageLayout1.setObjectName(u"Page02_setNGImageLayout1")
+        self.Page02_setNGImageLayout1.setContentsMargins(0, 0, 0, 0)
+        self.Page02_setNGImageLabel1 = QLabel(self.horizontalLayoutWidget_8)
+        self.Page02_setNGImageLabel1.setObjectName(u"Page02_setNGImageLabel1")
 
-        self.setOKImageLayout.addWidget(self.setOKImagelineEdit)
+        self.Page02_setNGImageLayout1.addWidget(self.Page02_setNGImageLabel1)
 
-        self.setOKImagebutton = QPushButton(self.horizontalLayoutWidget_6)
-        self.setOKImagebutton.setObjectName(u"setOKImagebutton")
+        self.Page02_setNGImagelineEdit1 = QLineEdit(self.horizontalLayoutWidget_8)
+        self.Page02_setNGImagelineEdit1.setObjectName(u"Page02_setNGImagelineEdit1")
 
-        self.setOKImageLayout.addWidget(self.setOKImagebutton)
+        self.Page02_setNGImageLayout1.addWidget(self.Page02_setNGImagelineEdit1)
 
-        self.horizontalLayoutWidget_7 = QWidget(self.centralwidget)
+        self.Page02_setNGImagebutton1 = QPushButton(self.horizontalLayoutWidget_8)
+        self.Page02_setNGImagebutton1.setObjectName(u"Page02_setNGImagebutton1")
+
+        self.Page02_setNGImageLayout1.addWidget(self.Page02_setNGImagebutton1)
+
+        self.horizontalLayoutWidget_3 = QWidget(self.tab)
+        self.horizontalLayoutWidget_3.setObjectName(u"horizontalLayoutWidget_3")
+        self.horizontalLayoutWidget_3.setGeometry(QRect(430, 440, 350, 31))
+        self.Page02_CaptureLayout1 = QHBoxLayout(self.horizontalLayoutWidget_3)
+        self.Page02_CaptureLayout1.setObjectName(u"Page02_CaptureLayout1")
+        self.Page02_CaptureLayout1.setContentsMargins(0, 0, 0, 0)
+        self.Page02_CaptureLabel1 = QLabel(self.horizontalLayoutWidget_3)
+        self.Page02_CaptureLabel1.setObjectName(u"Page02_CaptureLabel1")
+
+        self.Page02_CaptureLayout1.addWidget(self.Page02_CaptureLabel1)
+
+        self.Page02_CaptureSetButton1 = QPushButton(self.horizontalLayoutWidget_3)
+        self.Page02_CaptureSetButton1.setObjectName(u"Page02_CaptureSetButton1")
+
+        self.Page02_CaptureLayout1.addWidget(self.Page02_CaptureSetButton1)
+
+        self.Page02_CaptureReleaseButton1 = QPushButton(self.horizontalLayoutWidget_3)
+        self.Page02_CaptureReleaseButton1.setObjectName(u"Page02_CaptureReleaseButton1")
+
+        self.Page02_CaptureLayout1.addWidget(self.Page02_CaptureReleaseButton1)
+
+        self.Page02_OKImageSaveButton1 = QPushButton(self.horizontalLayoutWidget_3)
+        self.Page02_OKImageSaveButton1.setObjectName(u"Page02_OKImageSaveButton1")
+
+        self.Page02_CaptureLayout1.addWidget(self.Page02_OKImageSaveButton1)
+
+        self.Page02_NGImageSaveButton1 = QPushButton(self.horizontalLayoutWidget_3)
+        self.Page02_NGImageSaveButton1.setObjectName(u"Page02_NGImageSaveButton1")
+
+        self.Page02_CaptureLayout1.addWidget(self.Page02_NGImageSaveButton1)
+
+        self.horizontalLayoutWidget_7 = QWidget(self.tab)
         self.horizontalLayoutWidget_7.setObjectName(u"horizontalLayoutWidget_7")
-        self.horizontalLayoutWidget_7.setGeometry(QRect(10, 500, 381, 31))
-        self.setNGImageLayout = QHBoxLayout(self.horizontalLayoutWidget_7)
-        self.setNGImageLayout.setObjectName(u"setNGImageLayout")
-        self.setNGImageLayout.setContentsMargins(0, 0, 0, 0)
-        self.setNGImageLabel = QLabel(self.horizontalLayoutWidget_7)
-        self.setNGImageLabel.setObjectName(u"setNGImageLabel")
+        self.horizontalLayoutWidget_7.setGeometry(QRect(0, 430, 411, 31))
+        self.Page02_setOKImageLayout1 = QHBoxLayout(self.horizontalLayoutWidget_7)
+        self.Page02_setOKImageLayout1.setObjectName(u"Page02_setOKImageLayout1")
+        self.Page02_setOKImageLayout1.setContentsMargins(0, 0, 0, 0)
+        self.Page02_setOKImageLabel1 = QLabel(self.horizontalLayoutWidget_7)
+        self.Page02_setOKImageLabel1.setObjectName(u"Page02_setOKImageLabel1")
 
-        self.setNGImageLayout.addWidget(self.setNGImageLabel)
+        self.Page02_setOKImageLayout1.addWidget(self.Page02_setOKImageLabel1)
 
-        self.setNGImagelineEdit = QLineEdit(self.horizontalLayoutWidget_7)
-        self.setNGImagelineEdit.setObjectName(u"setNGImagelineEdit")
+        self.Page02_setOKImagelineEdit1 = QLineEdit(self.horizontalLayoutWidget_7)
+        self.Page02_setOKImagelineEdit1.setObjectName(u"Page02_setOKImagelineEdit1")
 
-        self.setNGImageLayout.addWidget(self.setNGImagelineEdit)
+        self.Page02_setOKImageLayout1.addWidget(self.Page02_setOKImagelineEdit1)
 
-        self.setNGImagebutton = QPushButton(self.horizontalLayoutWidget_7)
-        self.setNGImagebutton.setObjectName(u"setNGImagebutton")
+        self.Page02_setOKImagebutton1 = QPushButton(self.horizontalLayoutWidget_7)
+        self.Page02_setOKImagebutton1.setObjectName(u"Page02_setOKImagebutton1")
 
-        self.setNGImageLayout.addWidget(self.setNGImagebutton)
+        self.Page02_setOKImageLayout1.addWidget(self.Page02_setOKImagebutton1)
+
+        self.CameratabWidget.addTab(self.tab, "")
+        self.tab_2 = QWidget()
+        self.tab_2.setObjectName(u"tab_2")
+        self.horizontalLayoutWidget_9 = QWidget(self.tab_2)
+        self.horizontalLayoutWidget_9.setObjectName(u"horizontalLayoutWidget_9")
+        self.horizontalLayoutWidget_9.setGeometry(QRect(0, 430, 411, 31))
+        self.Page02_setOKImageLayout2 = QHBoxLayout(self.horizontalLayoutWidget_9)
+        self.Page02_setOKImageLayout2.setObjectName(u"Page02_setOKImageLayout2")
+        self.Page02_setOKImageLayout2.setContentsMargins(0, 0, 0, 0)
+        self.Page02_setOKImageLabel2 = QLabel(self.horizontalLayoutWidget_9)
+        self.Page02_setOKImageLabel2.setObjectName(u"Page02_setOKImageLabel2")
+
+        self.Page02_setOKImageLayout2.addWidget(self.Page02_setOKImageLabel2)
+
+        self.Page02_setOKImagelineEdit2 = QLineEdit(self.horizontalLayoutWidget_9)
+        self.Page02_setOKImagelineEdit2.setObjectName(u"Page02_setOKImagelineEdit2")
+
+        self.Page02_setOKImageLayout2.addWidget(self.Page02_setOKImagelineEdit2)
+
+        self.Page02_setOKImagebutton2 = QPushButton(self.horizontalLayoutWidget_9)
+        self.Page02_setOKImagebutton2.setObjectName(u"Page02_setOKImagebutton2")
+
+        self.Page02_setOKImageLayout2.addWidget(self.Page02_setOKImagebutton2)
+
+        self.horizontalLayoutWidget_2 = QWidget(self.tab_2)
+        self.horizontalLayoutWidget_2.setObjectName(u"horizontalLayoutWidget_2")
+        self.horizontalLayoutWidget_2.setGeometry(QRect(20, 0, 751, 421))
+        self.Page02_CameraImage2 = QHBoxLayout(self.horizontalLayoutWidget_2)
+        self.Page02_CameraImage2.setObjectName(u"Page02_CameraImage2")
+        self.Page02_CameraImage2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayoutWidget_4 = QWidget(self.tab_2)
+        self.horizontalLayoutWidget_4.setObjectName(u"horizontalLayoutWidget_4")
+        self.horizontalLayoutWidget_4.setGeometry(QRect(430, 440, 350, 31))
+        self.Page02_CaptureLayout2 = QHBoxLayout(self.horizontalLayoutWidget_4)
+        self.Page02_CaptureLayout2.setObjectName(u"Page02_CaptureLayout2")
+        self.Page02_CaptureLayout2.setContentsMargins(0, 0, 0, 0)
+        self.Page02_CaptureLabel2 = QLabel(self.horizontalLayoutWidget_4)
+        self.Page02_CaptureLabel2.setObjectName(u"Page02_CaptureLabel2")
+
+        self.Page02_CaptureLayout2.addWidget(self.Page02_CaptureLabel2)
+
+        self.Page02_CaptureSetButton2 = QPushButton(self.horizontalLayoutWidget_4)
+        self.Page02_CaptureSetButton2.setObjectName(u"Page02_CaptureSetButton2")
+
+        self.Page02_CaptureLayout2.addWidget(self.Page02_CaptureSetButton2)
+
+        self.Page02_CaptureReleaseButton2 = QPushButton(self.horizontalLayoutWidget_4)
+        self.Page02_CaptureReleaseButton2.setObjectName(u"Page02_CaptureReleaseButton2")
+
+        self.Page02_CaptureLayout2.addWidget(self.Page02_CaptureReleaseButton2)
+
+        self.Page02_OKImageSaveButton2 = QPushButton(self.horizontalLayoutWidget_4)
+        self.Page02_OKImageSaveButton2.setObjectName(u"Page02_OKImageSaveButton2")
+
+        self.Page02_CaptureLayout2.addWidget(self.Page02_OKImageSaveButton2)
+
+        self.Page02_NGImageSaveButton2 = QPushButton(self.horizontalLayoutWidget_4)
+        self.Page02_NGImageSaveButton2.setObjectName(u"Page02_NGImageSaveButton2")
+
+        self.Page02_CaptureLayout2.addWidget(self.Page02_NGImageSaveButton2)
+
+        self.horizontalLayoutWidget_12 = QWidget(self.tab_2)
+        self.horizontalLayoutWidget_12.setObjectName(u"horizontalLayoutWidget_12")
+        self.horizontalLayoutWidget_12.setGeometry(QRect(0, 460, 411, 31))
+        self.Page02_setNGImageLayout2 = QHBoxLayout(self.horizontalLayoutWidget_12)
+        self.Page02_setNGImageLayout2.setObjectName(u"Page02_setNGImageLayout2")
+        self.Page02_setNGImageLayout2.setContentsMargins(0, 0, 0, 0)
+        self.Page02_setNGImageLabel2 = QLabel(self.horizontalLayoutWidget_12)
+        self.Page02_setNGImageLabel2.setObjectName(u"Page02_setNGImageLabel2")
+
+        self.Page02_setNGImageLayout2.addWidget(self.Page02_setNGImageLabel2)
+
+        self.Page02_setNGImagelineEdit2 = QLineEdit(self.horizontalLayoutWidget_12)
+        self.Page02_setNGImagelineEdit2.setObjectName(u"Page02_setNGImagelineEdit2")
+
+        self.Page02_setNGImageLayout2.addWidget(self.Page02_setNGImagelineEdit2)
+
+        self.Page02_setNGImagebutton2 = QPushButton(self.horizontalLayoutWidget_12)
+        self.Page02_setNGImagebutton2.setObjectName(u"Page02_setNGImagebutton2")
+
+        self.Page02_setNGImageLayout2.addWidget(self.Page02_setNGImagebutton2)
+
+        self.CameratabWidget.addTab(self.tab_2, "")
+        self.tab_3 = QWidget()
+        self.tab_3.setObjectName(u"tab_3")
+        self.horizontalLayoutWidget_13 = QWidget(self.tab_3)
+        self.horizontalLayoutWidget_13.setObjectName(u"horizontalLayoutWidget_13")
+        self.horizontalLayoutWidget_13.setGeometry(QRect(0, 460, 411, 31))
+        self.Page02_setNGImageLayout3 = QHBoxLayout(self.horizontalLayoutWidget_13)
+        self.Page02_setNGImageLayout3.setObjectName(u"Page02_setNGImageLayout3")
+        self.Page02_setNGImageLayout3.setContentsMargins(0, 0, 0, 0)
+        self.Page02_setNGImageLabel3 = QLabel(self.horizontalLayoutWidget_13)
+        self.Page02_setNGImageLabel3.setObjectName(u"Page02_setNGImageLabel3")
+
+        self.Page02_setNGImageLayout3.addWidget(self.Page02_setNGImageLabel3)
+
+        self.Page02_setNGImagelineEdit3 = QLineEdit(self.horizontalLayoutWidget_13)
+        self.Page02_setNGImagelineEdit3.setObjectName(u"Page02_setNGImagelineEdit3")
+
+        self.Page02_setNGImageLayout3.addWidget(self.Page02_setNGImagelineEdit3)
+
+        self.Page02_setNGImagebutton3 = QPushButton(self.horizontalLayoutWidget_13)
+        self.Page02_setNGImagebutton3.setObjectName(u"Page02_setNGImagebutton3")
+
+        self.Page02_setNGImageLayout3.addWidget(self.Page02_setNGImagebutton3)
+
+        self.horizontalLayoutWidget_14 = QWidget(self.tab_3)
+        self.horizontalLayoutWidget_14.setObjectName(u"horizontalLayoutWidget_14")
+        self.horizontalLayoutWidget_14.setGeometry(QRect(0, 430, 411, 31))
+        self.Page02_setOKImageLayout3 = QHBoxLayout(self.horizontalLayoutWidget_14)
+        self.Page02_setOKImageLayout3.setObjectName(u"Page02_setOKImageLayout3")
+        self.Page02_setOKImageLayout3.setContentsMargins(0, 0, 0, 0)
+        self.Page02_setOKImageLabel3 = QLabel(self.horizontalLayoutWidget_14)
+        self.Page02_setOKImageLabel3.setObjectName(u"Page02_setOKImageLabel3")
+
+        self.Page02_setOKImageLayout3.addWidget(self.Page02_setOKImageLabel3)
+
+        self.Page02_setOKImagelineEdit3 = QLineEdit(self.horizontalLayoutWidget_14)
+        self.Page02_setOKImagelineEdit3.setObjectName(u"Page02_setOKImagelineEdit3")
+
+        self.Page02_setOKImageLayout3.addWidget(self.Page02_setOKImagelineEdit3)
+
+        self.Page02_setOKImagebutton3 = QPushButton(self.horizontalLayoutWidget_14)
+        self.Page02_setOKImagebutton3.setObjectName(u"Page02_setOKImagebutton3")
+
+        self.Page02_setOKImageLayout3.addWidget(self.Page02_setOKImagebutton3)
+
+        self.horizontalLayoutWidget_15 = QWidget(self.tab_3)
+        self.horizontalLayoutWidget_15.setObjectName(u"horizontalLayoutWidget_15")
+        self.horizontalLayoutWidget_15.setGeometry(QRect(430, 440, 350, 31))
+        self.Page02_CaptureLayout3 = QHBoxLayout(self.horizontalLayoutWidget_15)
+        self.Page02_CaptureLayout3.setObjectName(u"Page02_CaptureLayout3")
+        self.Page02_CaptureLayout3.setContentsMargins(0, 0, 0, 0)
+        self.Page02_CaptureLabel3 = QLabel(self.horizontalLayoutWidget_15)
+        self.Page02_CaptureLabel3.setObjectName(u"Page02_CaptureLabel3")
+
+        self.Page02_CaptureLayout3.addWidget(self.Page02_CaptureLabel3)
+
+        self.Page02_CaptureSetButton3 = QPushButton(self.horizontalLayoutWidget_15)
+        self.Page02_CaptureSetButton3.setObjectName(u"Page02_CaptureSetButton3")
+
+        self.Page02_CaptureLayout3.addWidget(self.Page02_CaptureSetButton3)
+
+        self.Page02_CaptureReleaseButton3 = QPushButton(self.horizontalLayoutWidget_15)
+        self.Page02_CaptureReleaseButton3.setObjectName(u"Page02_CaptureReleaseButton3")
+
+        self.Page02_CaptureLayout3.addWidget(self.Page02_CaptureReleaseButton3)
+
+        self.Page02_OKImageSaveButton3 = QPushButton(self.horizontalLayoutWidget_15)
+        self.Page02_OKImageSaveButton3.setObjectName(u"Page02_OKImageSaveButton3")
+
+        self.Page02_CaptureLayout3.addWidget(self.Page02_OKImageSaveButton3)
+
+        self.Page02_NGImageSaveButton3 = QPushButton(self.horizontalLayoutWidget_15)
+        self.Page02_NGImageSaveButton3.setObjectName(u"Page02_NGImageSaveButton3")
+
+        self.Page02_CaptureLayout3.addWidget(self.Page02_NGImageSaveButton3)
+
+        self.horizontalLayoutWidget_16 = QWidget(self.tab_3)
+        self.horizontalLayoutWidget_16.setObjectName(u"horizontalLayoutWidget_16")
+        self.horizontalLayoutWidget_16.setGeometry(QRect(20, 0, 751, 421))
+        self.Page02_CameraImage3 = QHBoxLayout(self.horizontalLayoutWidget_16)
+        self.Page02_CameraImage3.setObjectName(u"Page02_CameraImage3")
+        self.Page02_CameraImage3.setContentsMargins(0, 0, 0, 0)
+        self.CameratabWidget.addTab(self.tab_3, "")
+        self.tab_4 = QWidget()
+        self.tab_4.setObjectName(u"tab_4")
+        self.horizontalLayoutWidget_17 = QWidget(self.tab_4)
+        self.horizontalLayoutWidget_17.setObjectName(u"horizontalLayoutWidget_17")
+        self.horizontalLayoutWidget_17.setGeometry(QRect(0, 460, 411, 31))
+        self.Page02_setNGImageLayout4 = QHBoxLayout(self.horizontalLayoutWidget_17)
+        self.Page02_setNGImageLayout4.setObjectName(u"Page02_setNGImageLayout4")
+        self.Page02_setNGImageLayout4.setContentsMargins(0, 0, 0, 0)
+        self.Page02_setNGImageLabel4 = QLabel(self.horizontalLayoutWidget_17)
+        self.Page02_setNGImageLabel4.setObjectName(u"Page02_setNGImageLabel4")
+
+        self.Page02_setNGImageLayout4.addWidget(self.Page02_setNGImageLabel4)
+
+        self.Page02_setNGImagelineEdit4 = QLineEdit(self.horizontalLayoutWidget_17)
+        self.Page02_setNGImagelineEdit4.setObjectName(u"Page02_setNGImagelineEdit4")
+
+        self.Page02_setNGImageLayout4.addWidget(self.Page02_setNGImagelineEdit4)
+
+        self.Page02_setNGImagebutton4 = QPushButton(self.horizontalLayoutWidget_17)
+        self.Page02_setNGImagebutton4.setObjectName(u"Page02_setNGImagebutton4")
+
+        self.Page02_setNGImageLayout4.addWidget(self.Page02_setNGImagebutton4)
+
+        self.horizontalLayoutWidget_18 = QWidget(self.tab_4)
+        self.horizontalLayoutWidget_18.setObjectName(u"horizontalLayoutWidget_18")
+        self.horizontalLayoutWidget_18.setGeometry(QRect(0, 430, 411, 31))
+        self.Page02_setOKImageLayout4 = QHBoxLayout(self.horizontalLayoutWidget_18)
+        self.Page02_setOKImageLayout4.setObjectName(u"Page02_setOKImageLayout4")
+        self.Page02_setOKImageLayout4.setContentsMargins(0, 0, 0, 0)
+        self.Page02_setOKImageLabel4 = QLabel(self.horizontalLayoutWidget_18)
+        self.Page02_setOKImageLabel4.setObjectName(u"Page02_setOKImageLabel4")
+
+        self.Page02_setOKImageLayout4.addWidget(self.Page02_setOKImageLabel4)
+
+        self.Page02_setOKImagelineEdit4 = QLineEdit(self.horizontalLayoutWidget_18)
+        self.Page02_setOKImagelineEdit4.setObjectName(u"Page02_setOKImagelineEdit4")
+
+        self.Page02_setOKImageLayout4.addWidget(self.Page02_setOKImagelineEdit4)
+
+        self.Page02_setOKImagebutton4 = QPushButton(self.horizontalLayoutWidget_18)
+        self.Page02_setOKImagebutton4.setObjectName(u"Page02_setOKImagebutton4")
+
+        self.Page02_setOKImageLayout4.addWidget(self.Page02_setOKImagebutton4)
+
+        self.horizontalLayoutWidget_19 = QWidget(self.tab_4)
+        self.horizontalLayoutWidget_19.setObjectName(u"horizontalLayoutWidget_19")
+        self.horizontalLayoutWidget_19.setGeometry(QRect(430, 440, 350, 31))
+        self.Page02_CaptureLayout4 = QHBoxLayout(self.horizontalLayoutWidget_19)
+        self.Page02_CaptureLayout4.setObjectName(u"Page02_CaptureLayout4")
+        self.Page02_CaptureLayout4.setContentsMargins(0, 0, 0, 0)
+        self.Page02_CaptureLabel4 = QLabel(self.horizontalLayoutWidget_19)
+        self.Page02_CaptureLabel4.setObjectName(u"Page02_CaptureLabel4")
+
+        self.Page02_CaptureLayout4.addWidget(self.Page02_CaptureLabel4)
+
+        self.Page02_CaptureSetButton4 = QPushButton(self.horizontalLayoutWidget_19)
+        self.Page02_CaptureSetButton4.setObjectName(u"Page02_CaptureSetButton4")
+
+        self.Page02_CaptureLayout4.addWidget(self.Page02_CaptureSetButton4)
+
+        self.Page02_CaptureReleaseButton4 = QPushButton(self.horizontalLayoutWidget_19)
+        self.Page02_CaptureReleaseButton4.setObjectName(u"Page02_CaptureReleaseButton4")
+
+        self.Page02_CaptureLayout4.addWidget(self.Page02_CaptureReleaseButton4)
+
+        self.Page02_OKImageSaveButton4 = QPushButton(self.horizontalLayoutWidget_19)
+        self.Page02_OKImageSaveButton4.setObjectName(u"Page02_OKImageSaveButton4")
+
+        self.Page02_CaptureLayout4.addWidget(self.Page02_OKImageSaveButton4)
+
+        self.Page02_NGImageSaveButton4 = QPushButton(self.horizontalLayoutWidget_19)
+        self.Page02_NGImageSaveButton4.setObjectName(u"Page02_NGImageSaveButton4")
+
+        self.Page02_CaptureLayout4.addWidget(self.Page02_NGImageSaveButton4)
+
+        self.horizontalLayoutWidget_20 = QWidget(self.tab_4)
+        self.horizontalLayoutWidget_20.setObjectName(u"horizontalLayoutWidget_20")
+        self.horizontalLayoutWidget_20.setGeometry(QRect(20, 0, 751, 421))
+        self.Page02_CameraImage4 = QHBoxLayout(self.horizontalLayoutWidget_20)
+        self.Page02_CameraImage4.setObjectName(u"Page02_CameraImage4")
+        self.Page02_CameraImage4.setContentsMargins(0, 0, 0, 0)
+        self.CameratabWidget.addTab(self.tab_4, "")
+        self.stackedWidget.addWidget(self.Page02)
+        self.Page03 = QWidget()
+        self.Page03.setObjectName(u"Page03")
+        self.Page03_groupBox1 = QGroupBox(self.Page03)
+        self.Page03_groupBox1.setObjectName(u"Page03_groupBox1")
+        self.Page03_groupBox1.setGeometry(QRect(0, 10, 791, 61))
+        self.horizontalLayoutWidget_22 = QWidget(self.Page03_groupBox1)
+        self.horizontalLayoutWidget_22.setObjectName(u"horizontalLayoutWidget_22")
+        self.horizontalLayoutWidget_22.setGeometry(QRect(390, 10, 401, 31))
+        self.Page03_RecordLayout1 = QHBoxLayout(self.horizontalLayoutWidget_22)
+        self.Page03_RecordLayout1.setObjectName(u"Page03_RecordLayout1")
+        self.Page03_RecordLayout1.setContentsMargins(0, 0, 0, 0)
+        self.Page03_RecordCapLabel1 = QLabel(self.horizontalLayoutWidget_22)
+        self.Page03_RecordCapLabel1.setObjectName(u"Page03_RecordCapLabel1")
+        self.Page03_RecordCapLabel1.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.Page03_RecordLayout1.addWidget(self.Page03_RecordCapLabel1)
+
+        self.Page03_RecordCapSpinBox1 = QSpinBox(self.horizontalLayoutWidget_22)
+        self.Page03_RecordCapSpinBox1.setObjectName(u"Page03_RecordCapSpinBox1")
+        self.Page03_RecordCapSpinBox1.setMaximum(99)
+
+        self.Page03_RecordLayout1.addWidget(self.Page03_RecordCapSpinBox1)
+
+        self.Page03_RecordStartButton1 = QPushButton(self.horizontalLayoutWidget_22)
+        self.Page03_RecordStartButton1.setObjectName(u"Page03_RecordStartButton1")
+
+        self.Page03_RecordLayout1.addWidget(self.Page03_RecordStartButton1)
+
+        self.Page03_RecordEndButton1 = QPushButton(self.horizontalLayoutWidget_22)
+        self.Page03_RecordEndButton1.setObjectName(u"Page03_RecordEndButton1")
+
+        self.Page03_RecordLayout1.addWidget(self.Page03_RecordEndButton1)
+
+        self.horizontalLayoutWidget_21 = QWidget(self.Page03_groupBox1)
+        self.horizontalLayoutWidget_21.setObjectName(u"horizontalLayoutWidget_21")
+        self.horizontalLayoutWidget_21.setGeometry(QRect(660, 40, 131, 21))
+        self.Page03_RecordStatusLayout1 = QHBoxLayout(self.horizontalLayoutWidget_21)
+        self.Page03_RecordStatusLayout1.setObjectName(u"Page03_RecordStatusLayout1")
+        self.Page03_RecordStatusLayout1.setContentsMargins(0, 0, 0, 0)
+        self.Page03_RecordStatusTitle1 = QLabel(self.horizontalLayoutWidget_21)
+        self.Page03_RecordStatusTitle1.setObjectName(u"Page03_RecordStatusTitle1")
+        self.Page03_RecordStatusTitle1.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.Page03_RecordStatusLayout1.addWidget(self.Page03_RecordStatusTitle1)
+
+        self.Page03_RecordStatuslabel1 = QLabel(self.horizontalLayoutWidget_21)
+        self.Page03_RecordStatuslabel1.setObjectName(u"Page03_RecordStatuslabel1")
+        self.Page03_RecordStatuslabel1.setTextFormat(Qt.AutoText)
+        self.Page03_RecordStatuslabel1.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+
+        self.Page03_RecordStatusLayout1.addWidget(self.Page03_RecordStatuslabel1)
+
+        self.horizontalLayoutWidget_23 = QWidget(self.Page03_groupBox1)
+        self.horizontalLayoutWidget_23.setObjectName(u"horizontalLayoutWidget_23")
+        self.horizontalLayoutWidget_23.setGeometry(QRect(0, 10, 381, 31))
+        self.Page03_setVideoDirLayout1 = QHBoxLayout(self.horizontalLayoutWidget_23)
+        self.Page03_setVideoDirLayout1.setObjectName(u"Page03_setVideoDirLayout1")
+        self.Page03_setVideoDirLayout1.setContentsMargins(0, 0, 0, 0)
+        self.Page03_setVideoDirLabel1 = QLabel(self.horizontalLayoutWidget_23)
+        self.Page03_setVideoDirLabel1.setObjectName(u"Page03_setVideoDirLabel1")
+
+        self.Page03_setVideoDirLayout1.addWidget(self.Page03_setVideoDirLabel1)
+
+        self.Page03_setVideoDirlineEdit1 = QLineEdit(self.horizontalLayoutWidget_23)
+        self.Page03_setVideoDirlineEdit1.setObjectName(u"Page03_setVideoDirlineEdit1")
+
+        self.Page03_setVideoDirLayout1.addWidget(self.Page03_setVideoDirlineEdit1)
+
+        self.Page03_setVideoDirbutton1 = QPushButton(self.horizontalLayoutWidget_23)
+        self.Page03_setVideoDirbutton1.setObjectName(u"Page03_setVideoDirbutton1")
+
+        self.Page03_setVideoDirLayout1.addWidget(self.Page03_setVideoDirbutton1)
+
+        self.Page03_groupBox2 = QGroupBox(self.Page03)
+        self.Page03_groupBox2.setObjectName(u"Page03_groupBox2")
+        self.Page03_groupBox2.setGeometry(QRect(0, 80, 791, 61))
+        self.horizontalLayoutWidget_24 = QWidget(self.Page03_groupBox2)
+        self.horizontalLayoutWidget_24.setObjectName(u"horizontalLayoutWidget_24")
+        self.horizontalLayoutWidget_24.setGeometry(QRect(390, 10, 401, 31))
+        self.Page03_RecordLayout2 = QHBoxLayout(self.horizontalLayoutWidget_24)
+        self.Page03_RecordLayout2.setObjectName(u"Page03_RecordLayout2")
+        self.Page03_RecordLayout2.setContentsMargins(0, 0, 0, 0)
+        self.Page03_RecordCapLabel2 = QLabel(self.horizontalLayoutWidget_24)
+        self.Page03_RecordCapLabel2.setObjectName(u"Page03_RecordCapLabel2")
+        self.Page03_RecordCapLabel2.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.Page03_RecordLayout2.addWidget(self.Page03_RecordCapLabel2)
+
+        self.Page03_RecordCapSpinBox2 = QSpinBox(self.horizontalLayoutWidget_24)
+        self.Page03_RecordCapSpinBox2.setObjectName(u"Page03_RecordCapSpinBox2")
+
+        self.Page03_RecordLayout2.addWidget(self.Page03_RecordCapSpinBox2)
+
+        self.Page03_RecordStartButton2 = QPushButton(self.horizontalLayoutWidget_24)
+        self.Page03_RecordStartButton2.setObjectName(u"Page03_RecordStartButton2")
+
+        self.Page03_RecordLayout2.addWidget(self.Page03_RecordStartButton2)
+
+        self.Page03_RecordEndButton2 = QPushButton(self.horizontalLayoutWidget_24)
+        self.Page03_RecordEndButton2.setObjectName(u"Page03_RecordEndButton2")
+
+        self.Page03_RecordLayout2.addWidget(self.Page03_RecordEndButton2)
+
+        self.horizontalLayoutWidget_25 = QWidget(self.Page03_groupBox2)
+        self.horizontalLayoutWidget_25.setObjectName(u"horizontalLayoutWidget_25")
+        self.horizontalLayoutWidget_25.setGeometry(QRect(660, 40, 131, 21))
+        self.Page03_RecordStatusLayout2 = QHBoxLayout(self.horizontalLayoutWidget_25)
+        self.Page03_RecordStatusLayout2.setObjectName(u"Page03_RecordStatusLayout2")
+        self.Page03_RecordStatusLayout2.setContentsMargins(0, 0, 0, 0)
+        self.Page03_RecordStatusTitle2 = QLabel(self.horizontalLayoutWidget_25)
+        self.Page03_RecordStatusTitle2.setObjectName(u"Page03_RecordStatusTitle2")
+        self.Page03_RecordStatusTitle2.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.Page03_RecordStatusLayout2.addWidget(self.Page03_RecordStatusTitle2)
+
+        self.Page03_RecordStatuslabel2 = QLabel(self.horizontalLayoutWidget_25)
+        self.Page03_RecordStatuslabel2.setObjectName(u"Page03_RecordStatuslabel2")
+        self.Page03_RecordStatuslabel2.setTextFormat(Qt.AutoText)
+        self.Page03_RecordStatuslabel2.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+
+        self.Page03_RecordStatusLayout2.addWidget(self.Page03_RecordStatuslabel2)
+
+        self.horizontalLayoutWidget_26 = QWidget(self.Page03_groupBox2)
+        self.horizontalLayoutWidget_26.setObjectName(u"horizontalLayoutWidget_26")
+        self.horizontalLayoutWidget_26.setGeometry(QRect(0, 10, 381, 31))
+        self.Page03_setVideoDirLayout2 = QHBoxLayout(self.horizontalLayoutWidget_26)
+        self.Page03_setVideoDirLayout2.setObjectName(u"Page03_setVideoDirLayout2")
+        self.Page03_setVideoDirLayout2.setContentsMargins(0, 0, 0, 0)
+        self.Page03_setVideoDirLabel2 = QLabel(self.horizontalLayoutWidget_26)
+        self.Page03_setVideoDirLabel2.setObjectName(u"Page03_setVideoDirLabel2")
+
+        self.Page03_setVideoDirLayout2.addWidget(self.Page03_setVideoDirLabel2)
+
+        self.Page03_setVideoDirlineEdit2 = QLineEdit(self.horizontalLayoutWidget_26)
+        self.Page03_setVideoDirlineEdit2.setObjectName(u"Page03_setVideoDirlineEdit2")
+
+        self.Page03_setVideoDirLayout2.addWidget(self.Page03_setVideoDirlineEdit2)
+
+        self.Page03_setVideoDirbutton2 = QPushButton(self.horizontalLayoutWidget_26)
+        self.Page03_setVideoDirbutton2.setObjectName(u"Page03_setVideoDirbutton2")
+
+        self.Page03_setVideoDirLayout2.addWidget(self.Page03_setVideoDirbutton2)
+
+        self.Page03_groupBox3 = QGroupBox(self.Page03)
+        self.Page03_groupBox3.setObjectName(u"Page03_groupBox3")
+        self.Page03_groupBox3.setGeometry(QRect(0, 150, 791, 61))
+        self.horizontalLayoutWidget_27 = QWidget(self.Page03_groupBox3)
+        self.horizontalLayoutWidget_27.setObjectName(u"horizontalLayoutWidget_27")
+        self.horizontalLayoutWidget_27.setGeometry(QRect(390, 10, 401, 31))
+        self.Page03_RecordLayout3 = QHBoxLayout(self.horizontalLayoutWidget_27)
+        self.Page03_RecordLayout3.setObjectName(u"Page03_RecordLayout3")
+        self.Page03_RecordLayout3.setContentsMargins(0, 0, 0, 0)
+        self.Page03_RecordCapLabel3 = QLabel(self.horizontalLayoutWidget_27)
+        self.Page03_RecordCapLabel3.setObjectName(u"Page03_RecordCapLabel3")
+        self.Page03_RecordCapLabel3.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.Page03_RecordLayout3.addWidget(self.Page03_RecordCapLabel3)
+
+        self.Page03_RecordCapSpinBox3 = QSpinBox(self.horizontalLayoutWidget_27)
+        self.Page03_RecordCapSpinBox3.setObjectName(u"Page03_RecordCapSpinBox3")
+
+        self.Page03_RecordLayout3.addWidget(self.Page03_RecordCapSpinBox3)
+
+        self.Page03_RecordStartButton3 = QPushButton(self.horizontalLayoutWidget_27)
+        self.Page03_RecordStartButton3.setObjectName(u"Page03_RecordStartButton3")
+
+        self.Page03_RecordLayout3.addWidget(self.Page03_RecordStartButton3)
+
+        self.Page03_RecordEndButton3 = QPushButton(self.horizontalLayoutWidget_27)
+        self.Page03_RecordEndButton3.setObjectName(u"Page03_RecordEndButton3")
+
+        self.Page03_RecordLayout3.addWidget(self.Page03_RecordEndButton3)
+
+        self.horizontalLayoutWidget_28 = QWidget(self.Page03_groupBox3)
+        self.horizontalLayoutWidget_28.setObjectName(u"horizontalLayoutWidget_28")
+        self.horizontalLayoutWidget_28.setGeometry(QRect(660, 40, 131, 21))
+        self.Page03_RecordStatusLayout3 = QHBoxLayout(self.horizontalLayoutWidget_28)
+        self.Page03_RecordStatusLayout3.setObjectName(u"Page03_RecordStatusLayout3")
+        self.Page03_RecordStatusLayout3.setContentsMargins(0, 0, 0, 0)
+        self.Page03_RecordStatusTitle3 = QLabel(self.horizontalLayoutWidget_28)
+        self.Page03_RecordStatusTitle3.setObjectName(u"Page03_RecordStatusTitle3")
+        self.Page03_RecordStatusTitle3.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.Page03_RecordStatusLayout3.addWidget(self.Page03_RecordStatusTitle3)
+
+        self.Page03_RecordStatuslabel3 = QLabel(self.horizontalLayoutWidget_28)
+        self.Page03_RecordStatuslabel3.setObjectName(u"Page03_RecordStatuslabel3")
+        self.Page03_RecordStatuslabel3.setTextFormat(Qt.AutoText)
+        self.Page03_RecordStatuslabel3.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+
+        self.Page03_RecordStatusLayout3.addWidget(self.Page03_RecordStatuslabel3)
+
+        self.horizontalLayoutWidget_29 = QWidget(self.Page03_groupBox3)
+        self.horizontalLayoutWidget_29.setObjectName(u"horizontalLayoutWidget_29")
+        self.horizontalLayoutWidget_29.setGeometry(QRect(0, 10, 381, 31))
+        self.Page03_setVideoDirLayout3 = QHBoxLayout(self.horizontalLayoutWidget_29)
+        self.Page03_setVideoDirLayout3.setObjectName(u"Page03_setVideoDirLayout3")
+        self.Page03_setVideoDirLayout3.setContentsMargins(0, 0, 0, 0)
+        self.Page03_setVideoDirLabel3 = QLabel(self.horizontalLayoutWidget_29)
+        self.Page03_setVideoDirLabel3.setObjectName(u"Page03_setVideoDirLabel3")
+
+        self.Page03_setVideoDirLayout3.addWidget(self.Page03_setVideoDirLabel3)
+
+        self.Page03_setVideoDirlineEdit3 = QLineEdit(self.horizontalLayoutWidget_29)
+        self.Page03_setVideoDirlineEdit3.setObjectName(u"Page03_setVideoDirlineEdit3")
+
+        self.Page03_setVideoDirLayout3.addWidget(self.Page03_setVideoDirlineEdit3)
+
+        self.Page03_setVideoDirbutton3 = QPushButton(self.horizontalLayoutWidget_29)
+        self.Page03_setVideoDirbutton3.setObjectName(u"Page03_setVideoDirbutton3")
+
+        self.Page03_setVideoDirLayout3.addWidget(self.Page03_setVideoDirbutton3)
+
+        self.Page03_groupBox4 = QGroupBox(self.Page03)
+        self.Page03_groupBox4.setObjectName(u"Page03_groupBox4")
+        self.Page03_groupBox4.setGeometry(QRect(0, 220, 791, 61))
+        self.horizontalLayoutWidget_62 = QWidget(self.Page03_groupBox4)
+        self.horizontalLayoutWidget_62.setObjectName(u"horizontalLayoutWidget_62")
+        self.horizontalLayoutWidget_62.setGeometry(QRect(390, 10, 401, 31))
+        self.Page03_RecordLayout4 = QHBoxLayout(self.horizontalLayoutWidget_62)
+        self.Page03_RecordLayout4.setObjectName(u"Page03_RecordLayout4")
+        self.Page03_RecordLayout4.setContentsMargins(0, 0, 0, 0)
+        self.Page03_RecordCapLabel4 = QLabel(self.horizontalLayoutWidget_62)
+        self.Page03_RecordCapLabel4.setObjectName(u"Page03_RecordCapLabel4")
+        self.Page03_RecordCapLabel4.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.Page03_RecordLayout4.addWidget(self.Page03_RecordCapLabel4)
+
+        self.Page03_RecordCapSpinBox4 = QSpinBox(self.horizontalLayoutWidget_62)
+        self.Page03_RecordCapSpinBox4.setObjectName(u"Page03_RecordCapSpinBox4")
+
+        self.Page03_RecordLayout4.addWidget(self.Page03_RecordCapSpinBox4)
+
+        self.Page03_RecordStartButton4 = QPushButton(self.horizontalLayoutWidget_62)
+        self.Page03_RecordStartButton4.setObjectName(u"Page03_RecordStartButton4")
+
+        self.Page03_RecordLayout4.addWidget(self.Page03_RecordStartButton4)
+
+        self.Page03_RecordEndButton4 = QPushButton(self.horizontalLayoutWidget_62)
+        self.Page03_RecordEndButton4.setObjectName(u"Page03_RecordEndButton4")
+
+        self.Page03_RecordLayout4.addWidget(self.Page03_RecordEndButton4)
+
+        self.horizontalLayoutWidget_63 = QWidget(self.Page03_groupBox4)
+        self.horizontalLayoutWidget_63.setObjectName(u"horizontalLayoutWidget_63")
+        self.horizontalLayoutWidget_63.setGeometry(QRect(660, 40, 131, 21))
+        self.Page03_RecordStatusLayout4 = QHBoxLayout(self.horizontalLayoutWidget_63)
+        self.Page03_RecordStatusLayout4.setObjectName(u"Page03_RecordStatusLayout4")
+        self.Page03_RecordStatusLayout4.setContentsMargins(0, 0, 0, 0)
+        self.Page03_RecordStatusTitle4 = QLabel(self.horizontalLayoutWidget_63)
+        self.Page03_RecordStatusTitle4.setObjectName(u"Page03_RecordStatusTitle4")
+        self.Page03_RecordStatusTitle4.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.Page03_RecordStatusLayout4.addWidget(self.Page03_RecordStatusTitle4)
+
+        self.Page03_RecordStatuslabel4 = QLabel(self.horizontalLayoutWidget_63)
+        self.Page03_RecordStatuslabel4.setObjectName(u"Page03_RecordStatuslabel4")
+        self.Page03_RecordStatuslabel4.setTextFormat(Qt.AutoText)
+        self.Page03_RecordStatuslabel4.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+
+        self.Page03_RecordStatusLayout4.addWidget(self.Page03_RecordStatuslabel4)
+
+        self.horizontalLayoutWidget_64 = QWidget(self.Page03_groupBox4)
+        self.horizontalLayoutWidget_64.setObjectName(u"horizontalLayoutWidget_64")
+        self.horizontalLayoutWidget_64.setGeometry(QRect(0, 10, 381, 31))
+        self.Page03_setVideoDirLayout4 = QHBoxLayout(self.horizontalLayoutWidget_64)
+        self.Page03_setVideoDirLayout4.setObjectName(u"Page03_setVideoDirLayout4")
+        self.Page03_setVideoDirLayout4.setContentsMargins(0, 0, 0, 0)
+        self.Page03_setVideoDirLabel4 = QLabel(self.horizontalLayoutWidget_64)
+        self.Page03_setVideoDirLabel4.setObjectName(u"Page03_setVideoDirLabel4")
+
+        self.Page03_setVideoDirLayout4.addWidget(self.Page03_setVideoDirLabel4)
+
+        self.Page03_setVideoDirlineEdit4 = QLineEdit(self.horizontalLayoutWidget_64)
+        self.Page03_setVideoDirlineEdit4.setObjectName(u"Page03_setVideoDirlineEdit4")
+
+        self.Page03_setVideoDirLayout4.addWidget(self.Page03_setVideoDirlineEdit4)
+
+        self.Page03_setVideoDirbutton4 = QPushButton(self.horizontalLayoutWidget_64)
+        self.Page03_setVideoDirbutton4.setObjectName(u"Page03_setVideoDirbutton4")
+
+        self.Page03_setVideoDirLayout4.addWidget(self.Page03_setVideoDirbutton4)
+
+        self.stackedWidget.addWidget(self.Page03)
+        self.verticalLayoutWidget = QWidget(self.centralwidget)
+        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
+        self.verticalLayoutWidget.setGeometry(QRect(11, 10, 171, 521))
+        self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.Menu_LivepushButton = QPushButton(self.verticalLayoutWidget)
+        self.Menu_LivepushButton.setObjectName(u"Menu_LivepushButton")
+
+        self.verticalLayout.addWidget(self.Menu_LivepushButton)
+
+        self.Menu_CapturepushButton = QPushButton(self.verticalLayoutWidget)
+        self.Menu_CapturepushButton.setObjectName(u"Menu_CapturepushButton")
+
+        self.verticalLayout.addWidget(self.Menu_CapturepushButton)
+
+        self.Menu_RecordpushButton = QPushButton(self.verticalLayoutWidget)
+        self.Menu_RecordpushButton.setObjectName(u"Menu_RecordpushButton")
+
+        self.verticalLayout.addWidget(self.Menu_RecordpushButton)
+
+        self.MenubarLabel = QLabel(self.verticalLayoutWidget)
+        self.MenubarLabel.setObjectName(u"MenubarLabel")
+
+        self.verticalLayout.addWidget(self.MenubarLabel)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 772, 21))
+        self.menubar.setGeometry(QRect(0, 0, 991, 21))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -190,30 +727,97 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
+        self.stackedWidget.setCurrentIndex(2)
+        self.CameratabWidget.setCurrentIndex(0)
+
+
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.RecordCapLabel.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc6a9\ub7c9(MB)", None))
-        self.RecordStartButton.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc2dc\uc791", None))
-        self.RecordEndButton.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\ud574\uc81c", None))
-        self.CaptureLabel.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
-        self.CaptureSetButton.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
-        self.CaptureReleaseButton.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
-        self.OKImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
-        self.NGImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
-        self.RecordStatusTitle.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc0c1\ud0dc:", None))
-        self.RecordStatuslabel.setText(QCoreApplication.translate("MainWindow", u"(녹화해제)", None))
-        self.setVideoDirLabel.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1 \uc800\uc7a5\uacbd\ub85c:", None))
-        self.setVideoDirbutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
-        self.setOKImageLabel.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
-        self.setOKImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
-        self.setNGImageLabel.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
-        self.setNGImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page01_Livelabel1.setText(QCoreApplication.translate("MainWindow", u"CAM 1", None))
+        self.Page01_Livelabel2.setText(QCoreApplication.translate("MainWindow", u"CAM 2", None))
+        self.Page01_Livelabel3.setText(QCoreApplication.translate("MainWindow", u"CAM 3", None))
+        self.Page01_Livelabel4.setText(QCoreApplication.translate("MainWindow", u"CAM 4", None))
+        self.Page02_ImageLabel1.setText("")
+        self.Page02_setNGImageLabel1.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
+        self.Page02_setNGImagebutton1.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page02_CaptureLabel1.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
+        self.Page02_CaptureSetButton1.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
+        self.Page02_CaptureReleaseButton1.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
+        self.Page02_OKImageSaveButton1.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
+        self.Page02_NGImageSaveButton1.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
+        self.Page02_setOKImageLabel1.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
+        self.Page02_setOKImagebutton1.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.CameratabWidget.setTabText(self.CameratabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"CAM1", None))
+        self.Page02_setOKImageLabel2.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
+        self.Page02_setOKImagebutton2.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page02_CaptureLabel2.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
+        self.Page02_CaptureSetButton2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
+        self.Page02_CaptureReleaseButton2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
+        self.Page02_OKImageSaveButton2.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
+        self.Page02_NGImageSaveButton2.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
+        self.Page02_setNGImageLabel2.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
+        self.Page02_setNGImagebutton2.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.CameratabWidget.setTabText(self.CameratabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"CAM2", None))
+        self.Page02_setNGImageLabel3.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
+        self.Page02_setNGImagebutton3.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page02_setOKImageLabel3.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
+        self.Page02_setOKImagebutton3.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page02_CaptureLabel3.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
+        self.Page02_CaptureSetButton3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
+        self.Page02_CaptureReleaseButton3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
+        self.Page02_OKImageSaveButton3.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
+        self.Page02_NGImageSaveButton3.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
+        self.CameratabWidget.setTabText(self.CameratabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"CAM3", None))
+        self.Page02_setNGImageLabel4.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
+        self.Page02_setNGImagebutton4.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page02_setOKImageLabel4.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
+        self.Page02_setOKImagebutton4.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page02_CaptureLabel4.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
+        self.Page02_CaptureSetButton4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
+        self.Page02_CaptureReleaseButton4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
+        self.Page02_OKImageSaveButton4.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
+        self.Page02_NGImageSaveButton4.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
+        self.CameratabWidget.setTabText(self.CameratabWidget.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"CAM4", None))
+        self.Page03_groupBox1.setTitle(QCoreApplication.translate("MainWindow", u"CAM1", None))
+        self.Page03_RecordCapLabel1.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc6a9\ub7c9(MB)", None))
+        self.Page03_RecordStartButton1.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc2dc\uc791", None))
+        self.Page03_RecordEndButton1.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\ud574\uc81c", None))
+        self.Page03_RecordStatusTitle1.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc0c1\ud0dc:", None))
+        self.Page03_RecordStatuslabel1.setText(QCoreApplication.translate("MainWindow", u"(\ub179\ud654\ud574\uc81c)", None))
+        self.Page03_setVideoDirLabel1.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1 \uc800\uc7a5\uacbd\ub85c:", None))
+        self.Page03_setVideoDirbutton1.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page03_groupBox2.setTitle(QCoreApplication.translate("MainWindow", u"CAM2", None))
+        self.Page03_RecordCapLabel2.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc6a9\ub7c9(MB)", None))
+        self.Page03_RecordStartButton2.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc2dc\uc791", None))
+        self.Page03_RecordEndButton2.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\ud574\uc81c", None))
+        self.Page03_RecordStatusTitle2.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc0c1\ud0dc:", None))
+        self.Page03_RecordStatuslabel2.setText(QCoreApplication.translate("MainWindow", u"(\ub179\ud654\ud574\uc81c)", None))
+        self.Page03_setVideoDirLabel2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1 \uc800\uc7a5\uacbd\ub85c:", None))
+        self.Page03_setVideoDirbutton2.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page03_groupBox3.setTitle(QCoreApplication.translate("MainWindow", u"CAM3", None))
+        self.Page03_RecordCapLabel3.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc6a9\ub7c9(MB)", None))
+        self.Page03_RecordStartButton3.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc2dc\uc791", None))
+        self.Page03_RecordEndButton3.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\ud574\uc81c", None))
+        self.Page03_RecordStatusTitle3.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc0c1\ud0dc:", None))
+        self.Page03_RecordStatuslabel3.setText(QCoreApplication.translate("MainWindow", u"(\ub179\ud654\ud574\uc81c)", None))
+        self.Page03_setVideoDirLabel3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1 \uc800\uc7a5\uacbd\ub85c:", None))
+        self.Page03_setVideoDirbutton3.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page03_groupBox4.setTitle(QCoreApplication.translate("MainWindow", u"CAM4", None))
+        self.Page03_RecordCapLabel4.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc6a9\ub7c9(MB)", None))
+        self.Page03_RecordStartButton4.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc2dc\uc791", None))
+        self.Page03_RecordEndButton4.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\ud574\uc81c", None))
+        self.Page03_RecordStatusTitle4.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc0c1\ud0dc:", None))
+        self.Page03_RecordStatuslabel4.setText(QCoreApplication.translate("MainWindow", u"(\ub179\ud654\ud574\uc81c)", None))
+        self.Page03_setVideoDirLabel4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1 \uc800\uc7a5\uacbd\ub85c:", None))
+        self.Page03_setVideoDirbutton4.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Menu_LivepushButton.setText(QCoreApplication.translate("MainWindow", u"Live", None))
+        self.Menu_CapturepushButton.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
+        self.Menu_RecordpushButton.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654", None))
+        self.MenubarLabel.setText("")
     # retranslateUi
-
-
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -264,24 +868,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         image = QImage(frame, frame.shape[1], frame.shape[0],
                        frame.strides[0], QImage.Format_RGB888)
-        self.ImageLabel.setPixmap(QPixmap.fromImage(image))
+        self.Page02_ImageLabel1.setPixmap(QPixmap.fromImage(image))
         self.capImage = image.copy(x, y, width, height)
 ## WebCam Image(ENDED)
 
 ## Record(START)
     def setupRecord(self):
-        self.strVideoFile = self.setVideoDirlineEdit.text() + "Video.mp4"  # original video
+        self.strVideoFile = self.Page03_setVideoDirlineEdit1.text() + "Video.mp4"  # original video
         self.tempVideoFileForMERGE = "tempMergeVideo.mp4"  # temp for Merge original
 
-        self.RecordStartButton.clicked.connect(lambda: self.recordStatus(True))
-        self.RecordEndButton.clicked.connect(lambda: self.recordStatus(False))
+        self.Page03_RecordStartButton1.clicked.connect(lambda: self.recordStatus(True))
+        self.Page03_RecordEndButton1.clicked.connect(lambda: self.recordStatus(False))
 
     def recordStatus(self, isBoolState):
         self.isRecordStatus = isBoolState
         strRecordStatus = "(녹화중)" if isBoolState else "(녹화해제)"
-        self.RecordStatuslabel.setText(strRecordStatus)
-        self.maxRecordStorage = self.RecordCapSpinBox.value()
-        self.RecordCapSpinBox.setDisabled(isBoolState)
+        self.Page03_RecordStatuslabel1.setText(strRecordStatus)
+        self.maxRecordStorage = self.Page03_RecordCapSpinBox1.value()
+        self.Page03_RecordCapSpinBox1.setDisabled(isBoolState)
 
         print("{} maxRecordStorage: {}(MB)".format(strRecordStatus, self.maxRecordStorage))
 
@@ -359,25 +963,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 ## Capture(BEGIN)
     def setupCapture(self):
-        self.OKImageSaveButton.clicked.connect(lambda: self.saveCaptureImage(1))
-        self.NGImageSaveButton.clicked.connect(lambda: self.saveCaptureImage(2))
-        self.CaptureSetButton.clicked.connect(lambda: self.drawRectangleStatus(True))
-        self.CaptureReleaseButton.clicked.connect(lambda: self.drawRectangleStatus(False))
-        self.setVideoDirbutton.clicked.connect(lambda: self.setDirectory(1))
-        self.setOKImagebutton.clicked.connect(lambda: self.setDirectory(2))
-        self.setNGImagebutton.clicked.connect(lambda: self.setDirectory(3))
+        self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1))
+        self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(2))
+        self.Page02_CaptureSetButton1.clicked.connect(lambda: self.drawRectangleStatus(True))
+        self.Page02_CaptureReleaseButton1.clicked.connect(lambda: self.drawRectangleStatus(False))
+        self.Page03_setVideoDirbutton1.clicked.connect(lambda: self.setDirectory(1))
+        self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(2))
+        self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(3))
 
     def setDirectory(self, id):
         dirName = QFileDialog.getExistingDirectory(self, self.tr("저장 경로 설정"), "./", QFileDialog.ShowDirsOnly)
         print(dirName)
         if id == 1:
-            self.setVideoDirlineEdit.setText(dirName)
+            self.Page03_setVideoDirlineEdit1.setText(dirName)
             self.strVideoFile = dirName + "/Video.mp4"  # original video
             print(self.strVideoFile)
         elif id == 2:
-            self.setOKImagelineEdit.setText(dirName)
+            self.Page02_setOKImagelineEdit1.setText(dirName)
         elif id == 3:
-            self.setNGImagelineEdit.setText(dirName)
+            self.Page02_setNGImagelineEdit1.setText(dirName)
 
     def drawRectangleRegion(self, frame):
         if self.isDrawRectangleStatus and self.isDrawingEnded:
@@ -422,10 +1026,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def saveCaptureImage(self, id): # id - 1:OK, 2: NG
         imageNumber = 1
         tempCurPwd = os.getcwd()
-        if id == 1 and (len(self.setOKImagelineEdit.text()) > 0):
-            os.chdir(self.setOKImagelineEdit.text()) # Move TO Save PWD
-        elif id == 2 and (len(self.setNGImagelineEdit.text()) > 0):
-            os.chdir(self.setNGImagelineEdit.text()) # Move TO Save PWD
+        if id == 1 and (len(self.Page02_setOKImagelineEdit1.text()) > 0):
+            os.chdir(self.Page02_setOKImagelineEdit1.text()) # Move TO Save PWD
+        elif id == 2 and (len(self.Page02_setNGImagelineEdit1.text()) > 0):
+            os.chdir(self.Page02_setNGImagelineEdit1.text()) # Move TO Save PWD
 
         while True:
             if cv2.imread("image.jpg") is None:
