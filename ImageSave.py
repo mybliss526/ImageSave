@@ -638,6 +638,7 @@ class Ui_MainWindow(object):
 
         self.Page03_RecordCapSpinBox1 = QSpinBox(self.horizontalLayoutWidget_22)
         self.Page03_RecordCapSpinBox1.setObjectName(u"Page03_RecordCapSpinBox1")
+        self.Page03_RecordCapSpinBox1.setStyleSheet(u"color: rgb(0, 0, 0);")
         self.Page03_RecordCapSpinBox1.setValue(20)
         self.Page03_RecordCapSpinBox1.setRange(5, 99 * 1024) # max: 99GB
 
@@ -934,6 +935,7 @@ class Ui_MainWindow(object):
 
         self.Page03_RecordCapSpinBox2 = QSpinBox(self.horizontalLayoutWidget_24)
         self.Page03_RecordCapSpinBox2.setObjectName(u"Page03_RecordCapSpinBox2")
+        self.Page03_RecordCapSpinBox2.setStyleSheet(u"color: rgb(0, 0, 0);")
         self.Page03_RecordCapSpinBox2.setValue(20)
         self.Page03_RecordCapSpinBox2.setRange(5, 99 * 1024)  # max: 99GB
 
@@ -1230,6 +1232,7 @@ class Ui_MainWindow(object):
 
         self.Page03_RecordCapSpinBox3 = QSpinBox(self.horizontalLayoutWidget_27)
         self.Page03_RecordCapSpinBox3.setObjectName(u"Page03_RecordCapSpinBox3")
+        self.Page03_RecordCapSpinBox3.setStyleSheet(u"color: rgb(0, 0, 0);")
         self.Page03_RecordCapSpinBox3.setValue(20)
         self.Page03_RecordCapSpinBox3.setRange(5, 99 * 1024)  # max: 99GB
 
@@ -1526,6 +1529,7 @@ class Ui_MainWindow(object):
 
         self.Page03_RecordCapSpinBox4 = QSpinBox(self.horizontalLayoutWidget_62)
         self.Page03_RecordCapSpinBox4.setObjectName(u"Page03_RecordCapSpinBox4")
+        self.Page03_RecordCapSpinBox4.setStyleSheet(u"color: rgb(0, 0, 0);")
         self.Page03_RecordCapSpinBox4.setValue(20)
         self.Page03_RecordCapSpinBox4.setRange(5, 99 * 1024)  # max: 99GB
 
