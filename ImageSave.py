@@ -885,15 +885,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         frame = cv2.flip(frame, 1)
         self.frameRecording(frame)
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-        frame, x, y, width, height = self.drawRectangleRegion(frame)
 
-        image = QImage(frame, frame.shape[1], frame.shape[0],
-                       frame.strides[0], QImage.Format_RGB888)
-        liveImage1 = image.scaled(self.Page01_CameraImage1.geometry().width(), self.Page01_CameraImage1.geometry().height())
-        captureImage1 = image.scaled(self.Page02_CameraImage1.geometry().width(), self.Page02_CameraImage1.geometry().height())
+        liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
+        liveImage1 = liveImage.scaled(self.Page01_CameraImage1.geometry().width(), self.Page01_CameraImage1.geometry().height())
         self.Page01_LiveImagelabel.setPixmap(QPixmap.fromImage(liveImage1))
+
+        frame, x, y, width, height = self.drawRectangleRegion(frame)
+        capImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
+        captureImage1 = capImage.scaled(self.Page02_CameraImage1.geometry().width(), self.Page02_CameraImage1.geometry().height())
         self.Page02_ImageLabel1.setPixmap(QPixmap.fromImage(captureImage1))
-        self.capImage = image.copy(x, y, width, height)
+        self.capImage = capImage.copy(x, y, width, height)
 ## WebCam Image(ENDED)
 
 ## Record(START)
