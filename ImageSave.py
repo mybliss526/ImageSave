@@ -844,6 +844,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 ## MenuBar(BEGIN)
     def setupMenuBar(self):
+        self.capturePageOn = False
         self.Menu_LivepushButton.clicked.connect(lambda: self.changeStackWidget(0))
         self.Menu_CapturepushButton.clicked.connect(lambda: self.changeStackWidget(1))
         self.Menu_RecordpushButton.clicked.connect(lambda: self.changeStackWidget(2))
@@ -852,6 +853,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         PageIdList = [self.Page01, self.Page02, self.Page03]
 
         self.stackedWidget.setCurrentWidget(PageIdList[id])
+        self.capturePageOn = (id == 1)
 
 ## MenuBar(ENDED)
 
@@ -985,6 +987,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 ## Capture(BEGIN)
     def setupCapture(self):
+        self.isStPosOnImage = False
+        self.capImgStartX, self.capImgStartY, self.capImgEndX, self.capImgEndY = 212, 30, 962, 450  ### Note: Image Mouse Postion
+
         self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1))
         self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(2))
         self.Page02_CaptureSetButton1.clicked.connect(lambda: self.drawRectangleStatus(True))
@@ -993,7 +998,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(2))
         self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(3))
 
-    def setDirectory(self, id):
+    def setDirectory(self, id): ## 1: Video, 2: OK Image, 3: NG Image
         dirName = QFileDialog.getExistingDirectory(self, self.tr("저장 경로 설정"), "./", QFileDialog.ShowDirsOnly)
         print(dirName)
         if id == 1:
@@ -1008,20 +1013,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def drawRectangleRegion(self, frame):
         if self.isDrawRectangleStatus and self.isDrawingEnded:
             frameHeight, frameWidth = frame.shape[:2]
-            offsetX = frameWidth - self.cameraWindowWidth
-            offsetY = (frameHeight - self.cameraWindowHeight) // 2
-            drawMargin = 2      #이미지캡쳐에서 rectangle이 포함되지 않도록 drawMargin 추가
-            frame = cv2.rectangle(frame, (offsetX + self.startX - drawMargin, offsetY + self.startY - drawMargin),
-                                  (offsetX + self.endX + drawMargin, offsetY + self.endY + drawMargin), (0, 0, 255), 2)
-            return frame, offsetX + self.startX, offsetY + self.startY, self.endX - self.startX, self.endY - self.startY
+
+            ratioX = frameWidth / self.cameraWindowWidth
+            ratioY = frameHeight / self.cameraWindowHeight
+            drawMargin = 2  # 이미지캡쳐에서 rectangle이 포함되지 않도록 drawMargin 추가
+
+            stPosX, stPosY, endPosX, endPosY= int(self.startX * ratioX), int(self.startY * ratioY), int(self.endX * ratioX), int(self.endY * ratioY)
+
+            frame = cv2.rectangle(frame, (stPosX - drawMargin, stPosY - drawMargin),
+                                   (endPosX + drawMargin, endPosY + drawMargin), (0, 0, 255), 2)
+            return frame, stPosX, stPosY, endPosX - stPosX, endPosY - stPosY
         else:
-            return frame, 0, 0, self.cameraWindowWidth, self.cameraWindowHeight
+            return frame, 0, 0, frame.shape[1], frame.shape[0]
 
     def mousePressEvent(self, QMouseEvent):
+        if self.capturePageOn and self.capImgStartX < QMouseEvent.x() <= self.capImgEndX and self.capImgStartY < QMouseEvent.y() <= self.capImgEndY:
+            self.isStPosOnImage = True
+        else:
+            self.isStPosOnImage = False
+            return
+
         self.isDrawingEnded = False
         self.startX, self.startY = QMouseEvent.x(), QMouseEvent.y()
 
     def mouseReleaseEvent(self, QMouseEvent):
+        if not self.isStPosOnImage:
+            return
+
         self.isDrawingEnded = True
         self.endX, self.endY = QMouseEvent.x(), QMouseEvent.y()
 
@@ -1030,16 +1048,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.endY < self.startY:
             self.startY, self.endY = self.endY, self.startY
 
-        #code refactoring point!!(about. size)
-        if self.startX < 9: self.startX = 9
-        if self.startY < 9: self.startY = 9
-        if self.endX >= 760: self.endX = 760
-        if self.endY >= 430: self.endY = 430
+        if self.startX < self.capImgStartX : self.startX = self.capImgStartX
+        if self.startY < self.capImgStartY : self.startY = self.capImgStartY
+        if self.endX >= self.capImgEndX    : self.endX = self.capImgEndX
+        if self.endY >= self.capImgEndY    : self.endY = self.capImgEndY
 
-        self.startX -= 9
-        self.startY -= 9
-        self.endX -= 9
-        self.endY -= 9
+        self.startX -= self.capImgStartX
+        self.startY -= self.capImgStartY
+        self.endX -= self.capImgStartX
+        self.endY -= self.capImgStartY
 
     def drawRectangleStatus(self, isBoolState):
         self.isDrawRectangleStatus = isBoolState
