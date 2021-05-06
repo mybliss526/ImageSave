@@ -2323,10 +2323,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def frameRecording(self, frame):
         if self.isRecordStatus:
-            frameHeight, frameWidth = frame.shape[:2]
-            offsetX = frameWidth - self.cameraWindowWidth
-            offsetY = (frameHeight - self.cameraWindowHeight) // 2
-            frame = frame[offsetY : offsetY + self.cameraWindowHeight, offsetX: offsetX + self.cameraWindowWidth] #cropImage
+            frame = cv2.resize(frame, (self.cameraWindowWidth, self.cameraWindowHeight))
 
             ### Create Video File from Frame (START) - (NOTE: 'Codec: mp4v, 확장자:mp4'를 사용해야 VideoWriter 및 VideoFileClip 클래스가 정상적으로 동작함.)
             if not self.isOversizeStatus:
