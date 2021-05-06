@@ -990,24 +990,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.isStPosOnImage = False
         self.capImgStartX, self.capImgStartY, self.capImgEndX, self.capImgEndY = 212, 30, 962, 450  ### Note: Image Mouse Postion
 
-        self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1))
-        self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(2))
+        self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(0))
+        self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1))
         self.Page02_CaptureSetButton1.clicked.connect(lambda: self.drawRectangleStatus(True))
         self.Page02_CaptureReleaseButton1.clicked.connect(lambda: self.drawRectangleStatus(False))
-        self.Page03_setVideoDirbutton1.clicked.connect(lambda: self.setDirectory(1))
-        self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(2))
-        self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(3))
+        self.Page03_setVideoDirbutton1.clicked.connect(lambda: self.setDirectory(0))
+        self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(1))
+        self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(2))
 
-    def setDirectory(self, id): ## 1: Video, 2: OK Image, 3: NG Image
+    def setDirectory(self, id): ## 0 Video, 1: OK Image, 2: NG Image
         dirName = QFileDialog.getExistingDirectory(self, self.tr("저장 경로 설정"), "./", QFileDialog.ShowDirsOnly)
         print(dirName)
-        if id == 1:
+        if id == 0:
             self.Page03_setVideoDirlineEdit1.setText(dirName)
             self.strVideoFile = dirName + "/Video.mp4"  # original video
             print(self.strVideoFile)
-        elif id == 2:
+        elif id == 1:
             self.Page02_setOKImagelineEdit1.setText(dirName)
-        elif id == 3:
+        elif id == 2:
             self.Page02_setNGImagelineEdit1.setText(dirName)
 
     def drawRectangleRegion(self, frame):
@@ -1062,12 +1062,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.isDrawRectangleStatus = isBoolState
         print("isDrawRectangleStatus: {}".format(self.isDrawRectangleStatus))
 
-    def saveCaptureImage(self, id): # id - 1:OK, 2: NG
+    def saveCaptureImage(self, id): # id - 0:OK, 1: NG
         imageNumber = 1
         tempCurPwd = os.getcwd()
-        if id == 1 and (len(self.Page02_setOKImagelineEdit1.text()) > 0):
+        if id == 0 and (len(self.Page02_setOKImagelineEdit1.text()) > 0):
             os.chdir(self.Page02_setOKImagelineEdit1.text()) # Move TO Save PWD
-        elif id == 2 and (len(self.Page02_setNGImagelineEdit1.text()) > 0):
+        elif id == 1 and (len(self.Page02_setNGImagelineEdit1.text()) > 0):
             os.chdir(self.Page02_setNGImagelineEdit1.text()) # Move TO Save PWD
 
         while True:
