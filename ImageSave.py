@@ -257,7 +257,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_3 = QWidget(self.tab)
         self.horizontalLayoutWidget_3.setObjectName(u"horizontalLayoutWidget_3")
-        self.horizontalLayoutWidget_3.setGeometry(QRect(430, 440, 350, 31))
+        self.horizontalLayoutWidget_3.setGeometry(QRect(589, 460, 191, 31))
         self.Page02_CaptureLayout1 = QHBoxLayout(self.horizontalLayoutWidget_3)
         self.Page02_CaptureLayout1.setObjectName(u"Page02_CaptureLayout1")
         self.Page02_CaptureLayout1.setContentsMargins(0, 0, 0, 0)
@@ -265,16 +265,6 @@ class Ui_MainWindow(object):
         self.Page02_CaptureLabel1.setObjectName(u"Page02_CaptureLabel1")
 
         self.Page02_CaptureLayout1.addWidget(self.Page02_CaptureLabel1)
-
-        self.Page02_CaptureSetButton1 = QPushButton(self.horizontalLayoutWidget_3)
-        self.Page02_CaptureSetButton1.setObjectName(u"Page02_CaptureSetButton1")
-
-        self.Page02_CaptureLayout1.addWidget(self.Page02_CaptureSetButton1)
-
-        self.Page02_CaptureReleaseButton1 = QPushButton(self.horizontalLayoutWidget_3)
-        self.Page02_CaptureReleaseButton1.setObjectName(u"Page02_CaptureReleaseButton1")
-
-        self.Page02_CaptureLayout1.addWidget(self.Page02_CaptureReleaseButton1)
 
         self.Page02_OKImageSaveButton1 = QPushButton(self.horizontalLayoutWidget_3)
         self.Page02_OKImageSaveButton1.setObjectName(u"Page02_OKImageSaveButton1")
@@ -306,6 +296,37 @@ class Ui_MainWindow(object):
         self.Page02_setOKImagebutton1.setObjectName(u"Page02_setOKImagebutton1")
 
         self.Page02_setOKImageLayout1.addWidget(self.Page02_setOKImagebutton1)
+
+        self.horizontalLayoutWidget_33 = QWidget(self.tab)
+        self.horizontalLayoutWidget_33.setObjectName(u"horizontalLayoutWidget_33")
+        self.horizontalLayoutWidget_33.setGeometry(QRect(430, 430, 351, 31))
+        self.Page02_VideoLayout1 = QHBoxLayout(self.horizontalLayoutWidget_33)
+        self.Page02_VideoLayout1.setObjectName(u"Page02_VideoLayout1")
+        self.Page02_VideoLayout1.setContentsMargins(0, 0, 0, 0)
+        self.Page02_Videolabel1 = QLabel(self.horizontalLayoutWidget_33)
+        self.Page02_Videolabel1.setObjectName(u"Page02_Videolabel1")
+
+        self.Page02_VideoLayout1.addWidget(self.Page02_Videolabel1)
+
+        self.Page02_VideoStopButton1 = QPushButton(self.horizontalLayoutWidget_33)
+        self.Page02_VideoStopButton1.setObjectName(u"Page02_VideoStopButton1")
+
+        self.Page02_VideoLayout1.addWidget(self.Page02_VideoStopButton1)
+
+        self.Page02_VideoPlayButton1 = QPushButton(self.horizontalLayoutWidget_33)
+        self.Page02_VideoPlayButton1.setObjectName(u"Page02_VideoPlayButton1")
+
+        self.Page02_VideoLayout1.addWidget(self.Page02_VideoPlayButton1)
+
+        self.Page02_CaptureSetButton1 = QPushButton(self.horizontalLayoutWidget_33)
+        self.Page02_CaptureSetButton1.setObjectName(u"Page02_CaptureSetButton1")
+
+        self.Page02_VideoLayout1.addWidget(self.Page02_CaptureSetButton1)
+
+        self.Page02_CaptureReleaseButton1 = QPushButton(self.horizontalLayoutWidget_33)
+        self.Page02_CaptureReleaseButton1.setObjectName(u"Page02_CaptureReleaseButton1")
+
+        self.Page02_VideoLayout1.addWidget(self.Page02_CaptureReleaseButton1)
 
         self.CameratabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
@@ -339,7 +360,7 @@ class Ui_MainWindow(object):
         self.Page02_CameraImage2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayoutWidget_4 = QWidget(self.tab_2)
         self.horizontalLayoutWidget_4.setObjectName(u"horizontalLayoutWidget_4")
-        self.horizontalLayoutWidget_4.setGeometry(QRect(430, 440, 350, 31))
+        self.horizontalLayoutWidget_4.setGeometry(QRect(589, 460, 191, 31))
         self.Page02_CaptureLayout2 = QHBoxLayout(self.horizontalLayoutWidget_4)
         self.Page02_CaptureLayout2.setObjectName(u"Page02_CaptureLayout2")
         self.Page02_CaptureLayout2.setContentsMargins(0, 0, 0, 0)
@@ -347,16 +368,6 @@ class Ui_MainWindow(object):
         self.Page02_CaptureLabel2.setObjectName(u"Page02_CaptureLabel2")
 
         self.Page02_CaptureLayout2.addWidget(self.Page02_CaptureLabel2)
-
-        self.Page02_CaptureSetButton2 = QPushButton(self.horizontalLayoutWidget_4)
-        self.Page02_CaptureSetButton2.setObjectName(u"Page02_CaptureSetButton2")
-
-        self.Page02_CaptureLayout2.addWidget(self.Page02_CaptureSetButton2)
-
-        self.Page02_CaptureReleaseButton2 = QPushButton(self.horizontalLayoutWidget_4)
-        self.Page02_CaptureReleaseButton2.setObjectName(u"Page02_CaptureReleaseButton2")
-
-        self.Page02_CaptureLayout2.addWidget(self.Page02_CaptureReleaseButton2)
 
         self.Page02_OKImageSaveButton2 = QPushButton(self.horizontalLayoutWidget_4)
         self.Page02_OKImageSaveButton2.setObjectName(u"Page02_OKImageSaveButton2")
@@ -388,6 +399,37 @@ class Ui_MainWindow(object):
         self.Page02_setNGImagebutton2.setObjectName(u"Page02_setNGImagebutton2")
 
         self.Page02_setNGImageLayout2.addWidget(self.Page02_setNGImagebutton2)
+
+        self.horizontalLayoutWidget_32 = QWidget(self.tab_2)
+        self.horizontalLayoutWidget_32.setObjectName(u"horizontalLayoutWidget_32")
+        self.horizontalLayoutWidget_32.setGeometry(QRect(430, 430, 351, 31))
+        self.Page02_VideoLayout2 = QHBoxLayout(self.horizontalLayoutWidget_32)
+        self.Page02_VideoLayout2.setObjectName(u"Page02_VideoLayout2")
+        self.Page02_VideoLayout2.setContentsMargins(0, 0, 0, 0)
+        self.Page02_Videolabel2 = QLabel(self.horizontalLayoutWidget_32)
+        self.Page02_Videolabel2.setObjectName(u"Page02_Videolabel2")
+
+        self.Page02_VideoLayout2.addWidget(self.Page02_Videolabel2)
+
+        self.Page02_VideoStopButton2 = QPushButton(self.horizontalLayoutWidget_32)
+        self.Page02_VideoStopButton2.setObjectName(u"Page02_VideoStopButton2")
+
+        self.Page02_VideoLayout2.addWidget(self.Page02_VideoStopButton2)
+
+        self.Page02_VideoPlayButton2 = QPushButton(self.horizontalLayoutWidget_32)
+        self.Page02_VideoPlayButton2.setObjectName(u"Page02_VideoPlayButton2")
+
+        self.Page02_VideoLayout2.addWidget(self.Page02_VideoPlayButton2)
+
+        self.Page02_CaptureSetButton2 = QPushButton(self.horizontalLayoutWidget_32)
+        self.Page02_CaptureSetButton2.setObjectName(u"Page02_CaptureSetButton2")
+
+        self.Page02_VideoLayout2.addWidget(self.Page02_CaptureSetButton2)
+
+        self.Page02_CaptureReleaseButton2 = QPushButton(self.horizontalLayoutWidget_32)
+        self.Page02_CaptureReleaseButton2.setObjectName(u"Page02_CaptureReleaseButton2")
+
+        self.Page02_VideoLayout2.addWidget(self.Page02_CaptureReleaseButton2)
 
         self.CameratabWidget.addTab(self.tab_2, "")
         self.tab_3 = QWidget()
@@ -436,7 +478,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_15 = QWidget(self.tab_3)
         self.horizontalLayoutWidget_15.setObjectName(u"horizontalLayoutWidget_15")
-        self.horizontalLayoutWidget_15.setGeometry(QRect(430, 440, 350, 31))
+        self.horizontalLayoutWidget_15.setGeometry(QRect(589, 460, 191, 31))
         self.Page02_CaptureLayout3 = QHBoxLayout(self.horizontalLayoutWidget_15)
         self.Page02_CaptureLayout3.setObjectName(u"Page02_CaptureLayout3")
         self.Page02_CaptureLayout3.setContentsMargins(0, 0, 0, 0)
@@ -444,16 +486,6 @@ class Ui_MainWindow(object):
         self.Page02_CaptureLabel3.setObjectName(u"Page02_CaptureLabel3")
 
         self.Page02_CaptureLayout3.addWidget(self.Page02_CaptureLabel3)
-
-        self.Page02_CaptureSetButton3 = QPushButton(self.horizontalLayoutWidget_15)
-        self.Page02_CaptureSetButton3.setObjectName(u"Page02_CaptureSetButton3")
-
-        self.Page02_CaptureLayout3.addWidget(self.Page02_CaptureSetButton3)
-
-        self.Page02_CaptureReleaseButton3 = QPushButton(self.horizontalLayoutWidget_15)
-        self.Page02_CaptureReleaseButton3.setObjectName(u"Page02_CaptureReleaseButton3")
-
-        self.Page02_CaptureLayout3.addWidget(self.Page02_CaptureReleaseButton3)
 
         self.Page02_OKImageSaveButton3 = QPushButton(self.horizontalLayoutWidget_15)
         self.Page02_OKImageSaveButton3.setObjectName(u"Page02_OKImageSaveButton3")
@@ -471,6 +503,37 @@ class Ui_MainWindow(object):
         self.Page02_CameraImage3 = QHBoxLayout(self.horizontalLayoutWidget_16)
         self.Page02_CameraImage3.setObjectName(u"Page02_CameraImage3")
         self.Page02_CameraImage3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayoutWidget_31 = QWidget(self.tab_3)
+        self.horizontalLayoutWidget_31.setObjectName(u"horizontalLayoutWidget_31")
+        self.horizontalLayoutWidget_31.setGeometry(QRect(430, 430, 351, 31))
+        self.Page02_VideoLayout3 = QHBoxLayout(self.horizontalLayoutWidget_31)
+        self.Page02_VideoLayout3.setObjectName(u"Page02_VideoLayout3")
+        self.Page02_VideoLayout3.setContentsMargins(0, 0, 0, 0)
+        self.Page02_Videolabel3 = QLabel(self.horizontalLayoutWidget_31)
+        self.Page02_Videolabel3.setObjectName(u"Page02_Videolabel3")
+
+        self.Page02_VideoLayout3.addWidget(self.Page02_Videolabel3)
+
+        self.Page02_VideoStopButton3 = QPushButton(self.horizontalLayoutWidget_31)
+        self.Page02_VideoStopButton3.setObjectName(u"Page02_VideoStopButton3")
+
+        self.Page02_VideoLayout3.addWidget(self.Page02_VideoStopButton3)
+
+        self.Page02_VideoPlayButton3 = QPushButton(self.horizontalLayoutWidget_31)
+        self.Page02_VideoPlayButton3.setObjectName(u"Page02_VideoPlayButton3")
+
+        self.Page02_VideoLayout3.addWidget(self.Page02_VideoPlayButton3)
+
+        self.Page02_CaptureSetButton3 = QPushButton(self.horizontalLayoutWidget_31)
+        self.Page02_CaptureSetButton3.setObjectName(u"Page02_CaptureSetButton3")
+
+        self.Page02_VideoLayout3.addWidget(self.Page02_CaptureSetButton3)
+
+        self.Page02_CaptureReleaseButton3 = QPushButton(self.horizontalLayoutWidget_31)
+        self.Page02_CaptureReleaseButton3.setObjectName(u"Page02_CaptureReleaseButton3")
+
+        self.Page02_VideoLayout3.addWidget(self.Page02_CaptureReleaseButton3)
+
         self.CameratabWidget.addTab(self.tab_3, "")
         self.tab_4 = QWidget()
         self.tab_4.setObjectName(u"tab_4")
@@ -518,7 +581,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_19 = QWidget(self.tab_4)
         self.horizontalLayoutWidget_19.setObjectName(u"horizontalLayoutWidget_19")
-        self.horizontalLayoutWidget_19.setGeometry(QRect(430, 440, 350, 31))
+        self.horizontalLayoutWidget_19.setGeometry(QRect(589, 460, 191, 31))
         self.Page02_CaptureLayout4 = QHBoxLayout(self.horizontalLayoutWidget_19)
         self.Page02_CaptureLayout4.setObjectName(u"Page02_CaptureLayout4")
         self.Page02_CaptureLayout4.setContentsMargins(0, 0, 0, 0)
@@ -526,16 +589,6 @@ class Ui_MainWindow(object):
         self.Page02_CaptureLabel4.setObjectName(u"Page02_CaptureLabel4")
 
         self.Page02_CaptureLayout4.addWidget(self.Page02_CaptureLabel4)
-
-        self.Page02_CaptureSetButton4 = QPushButton(self.horizontalLayoutWidget_19)
-        self.Page02_CaptureSetButton4.setObjectName(u"Page02_CaptureSetButton4")
-
-        self.Page02_CaptureLayout4.addWidget(self.Page02_CaptureSetButton4)
-
-        self.Page02_CaptureReleaseButton4 = QPushButton(self.horizontalLayoutWidget_19)
-        self.Page02_CaptureReleaseButton4.setObjectName(u"Page02_CaptureReleaseButton4")
-
-        self.Page02_CaptureLayout4.addWidget(self.Page02_CaptureReleaseButton4)
 
         self.Page02_OKImageSaveButton4 = QPushButton(self.horizontalLayoutWidget_19)
         self.Page02_OKImageSaveButton4.setObjectName(u"Page02_OKImageSaveButton4")
@@ -553,6 +606,37 @@ class Ui_MainWindow(object):
         self.Page02_CameraImage4 = QHBoxLayout(self.horizontalLayoutWidget_20)
         self.Page02_CameraImage4.setObjectName(u"Page02_CameraImage4")
         self.Page02_CameraImage4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayoutWidget_30 = QWidget(self.tab_4)
+        self.horizontalLayoutWidget_30.setObjectName(u"horizontalLayoutWidget_30")
+        self.horizontalLayoutWidget_30.setGeometry(QRect(430, 430, 351, 31))
+        self.Page02_VideoLayout4 = QHBoxLayout(self.horizontalLayoutWidget_30)
+        self.Page02_VideoLayout4.setObjectName(u"Page02_VideoLayout4")
+        self.Page02_VideoLayout4.setContentsMargins(0, 0, 0, 0)
+        self.Page02_Videolabel4 = QLabel(self.horizontalLayoutWidget_30)
+        self.Page02_Videolabel4.setObjectName(u"Page02_Videolabel4")
+
+        self.Page02_VideoLayout4.addWidget(self.Page02_Videolabel4)
+
+        self.Page02_VideoStopButton4 = QPushButton(self.horizontalLayoutWidget_30)
+        self.Page02_VideoStopButton4.setObjectName(u"Page02_VideoStopButton4")
+
+        self.Page02_VideoLayout4.addWidget(self.Page02_VideoStopButton4)
+
+        self.Page02_VideoPlayButton4 = QPushButton(self.horizontalLayoutWidget_30)
+        self.Page02_VideoPlayButton4.setObjectName(u"Page02_VideoPlayButton4")
+
+        self.Page02_VideoLayout4.addWidget(self.Page02_VideoPlayButton4)
+
+        self.Page02_CaptureSetButton4 = QPushButton(self.horizontalLayoutWidget_30)
+        self.Page02_CaptureSetButton4.setObjectName(u"Page02_CaptureSetButton4")
+
+        self.Page02_VideoLayout4.addWidget(self.Page02_CaptureSetButton4)
+
+        self.Page02_CaptureReleaseButton4 = QPushButton(self.horizontalLayoutWidget_30)
+        self.Page02_CaptureReleaseButton4.setObjectName(u"Page02_CaptureReleaseButton4")
+
+        self.Page02_VideoLayout4.addWidget(self.Page02_CaptureReleaseButton4)
+
         self.CameratabWidget.addTab(self.tab_4, "")
         self.stackedWidget.addWidget(self.Page02)
         self.Page03 = QWidget()
@@ -626,7 +710,7 @@ class Ui_MainWindow(object):
         self.Page03_groupBox1.setPalette(palette2)
         self.horizontalLayoutWidget_22 = QWidget(self.Page03_groupBox1)
         self.horizontalLayoutWidget_22.setObjectName(u"horizontalLayoutWidget_22")
-        self.horizontalLayoutWidget_22.setGeometry(QRect(390, 10, 401, 31))
+        self.horizontalLayoutWidget_22.setGeometry(QRect(390, 10, 391, 31))
         self.Page03_RecordLayout1 = QHBoxLayout(self.horizontalLayoutWidget_22)
         self.Page03_RecordLayout1.setObjectName(u"Page03_RecordLayout1")
         self.Page03_RecordLayout1.setContentsMargins(0, 0, 0, 0)
@@ -768,7 +852,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_21 = QWidget(self.Page03_groupBox1)
         self.horizontalLayoutWidget_21.setObjectName(u"horizontalLayoutWidget_21")
-        self.horizontalLayoutWidget_21.setGeometry(QRect(660, 40, 131, 21))
+        self.horizontalLayoutWidget_21.setGeometry(QRect(650, 40, 131, 21))
         self.Page03_RecordStatusLayout1 = QHBoxLayout(self.horizontalLayoutWidget_21)
         self.Page03_RecordStatusLayout1.setObjectName(u"Page03_RecordStatusLayout1")
         self.Page03_RecordStatusLayout1.setContentsMargins(0, 0, 0, 0)
@@ -787,7 +871,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_23 = QWidget(self.Page03_groupBox1)
         self.horizontalLayoutWidget_23.setObjectName(u"horizontalLayoutWidget_23")
-        self.horizontalLayoutWidget_23.setGeometry(QRect(0, 10, 381, 31))
+        self.horizontalLayoutWidget_23.setGeometry(QRect(10, 10, 371, 31))
         self.Page03_setVideoDirLayout1 = QHBoxLayout(self.horizontalLayoutWidget_23)
         self.Page03_setVideoDirLayout1.setObjectName(u"Page03_setVideoDirLayout1")
         self.Page03_setVideoDirLayout1.setContentsMargins(0, 0, 0, 0)
@@ -923,7 +1007,7 @@ class Ui_MainWindow(object):
         self.Page03_groupBox2.setPalette(palette6)
         self.horizontalLayoutWidget_24 = QWidget(self.Page03_groupBox2)
         self.horizontalLayoutWidget_24.setObjectName(u"horizontalLayoutWidget_24")
-        self.horizontalLayoutWidget_24.setGeometry(QRect(390, 10, 401, 31))
+        self.horizontalLayoutWidget_24.setGeometry(QRect(390, 10, 391, 31))
         self.Page03_RecordLayout2 = QHBoxLayout(self.horizontalLayoutWidget_24)
         self.Page03_RecordLayout2.setObjectName(u"Page03_RecordLayout2")
         self.Page03_RecordLayout2.setContentsMargins(0, 0, 0, 0)
@@ -1065,7 +1149,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_25 = QWidget(self.Page03_groupBox2)
         self.horizontalLayoutWidget_25.setObjectName(u"horizontalLayoutWidget_25")
-        self.horizontalLayoutWidget_25.setGeometry(QRect(660, 40, 131, 21))
+        self.horizontalLayoutWidget_25.setGeometry(QRect(650, 40, 131, 21))
         self.Page03_RecordStatusLayout2 = QHBoxLayout(self.horizontalLayoutWidget_25)
         self.Page03_RecordStatusLayout2.setObjectName(u"Page03_RecordStatusLayout2")
         self.Page03_RecordStatusLayout2.setContentsMargins(0, 0, 0, 0)
@@ -1084,7 +1168,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_26 = QWidget(self.Page03_groupBox2)
         self.horizontalLayoutWidget_26.setObjectName(u"horizontalLayoutWidget_26")
-        self.horizontalLayoutWidget_26.setGeometry(QRect(0, 10, 381, 31))
+        self.horizontalLayoutWidget_26.setGeometry(QRect(10, 10, 371, 31))
         self.Page03_setVideoDirLayout2 = QHBoxLayout(self.horizontalLayoutWidget_26)
         self.Page03_setVideoDirLayout2.setObjectName(u"Page03_setVideoDirLayout2")
         self.Page03_setVideoDirLayout2.setContentsMargins(0, 0, 0, 0)
@@ -1220,7 +1304,7 @@ class Ui_MainWindow(object):
         self.Page03_groupBox3.setPalette(palette10)
         self.horizontalLayoutWidget_27 = QWidget(self.Page03_groupBox3)
         self.horizontalLayoutWidget_27.setObjectName(u"horizontalLayoutWidget_27")
-        self.horizontalLayoutWidget_27.setGeometry(QRect(390, 10, 401, 31))
+        self.horizontalLayoutWidget_27.setGeometry(QRect(390, 10, 391, 31))
         self.Page03_RecordLayout3 = QHBoxLayout(self.horizontalLayoutWidget_27)
         self.Page03_RecordLayout3.setObjectName(u"Page03_RecordLayout3")
         self.Page03_RecordLayout3.setContentsMargins(0, 0, 0, 0)
@@ -1362,7 +1446,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_28 = QWidget(self.Page03_groupBox3)
         self.horizontalLayoutWidget_28.setObjectName(u"horizontalLayoutWidget_28")
-        self.horizontalLayoutWidget_28.setGeometry(QRect(660, 40, 131, 21))
+        self.horizontalLayoutWidget_28.setGeometry(QRect(650, 40, 131, 21))
         self.Page03_RecordStatusLayout3 = QHBoxLayout(self.horizontalLayoutWidget_28)
         self.Page03_RecordStatusLayout3.setObjectName(u"Page03_RecordStatusLayout3")
         self.Page03_RecordStatusLayout3.setContentsMargins(0, 0, 0, 0)
@@ -1381,7 +1465,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_29 = QWidget(self.Page03_groupBox3)
         self.horizontalLayoutWidget_29.setObjectName(u"horizontalLayoutWidget_29")
-        self.horizontalLayoutWidget_29.setGeometry(QRect(0, 10, 381, 31))
+        self.horizontalLayoutWidget_29.setGeometry(QRect(10, 10, 371, 31))
         self.Page03_setVideoDirLayout3 = QHBoxLayout(self.horizontalLayoutWidget_29)
         self.Page03_setVideoDirLayout3.setObjectName(u"Page03_setVideoDirLayout3")
         self.Page03_setVideoDirLayout3.setContentsMargins(0, 0, 0, 0)
@@ -1517,7 +1601,7 @@ class Ui_MainWindow(object):
         self.Page03_groupBox4.setPalette(palette14)
         self.horizontalLayoutWidget_62 = QWidget(self.Page03_groupBox4)
         self.horizontalLayoutWidget_62.setObjectName(u"horizontalLayoutWidget_62")
-        self.horizontalLayoutWidget_62.setGeometry(QRect(390, 10, 401, 31))
+        self.horizontalLayoutWidget_62.setGeometry(QRect(390, 10, 391, 31))
         self.Page03_RecordLayout4 = QHBoxLayout(self.horizontalLayoutWidget_62)
         self.Page03_RecordLayout4.setObjectName(u"Page03_RecordLayout4")
         self.Page03_RecordLayout4.setContentsMargins(0, 0, 0, 0)
@@ -1659,7 +1743,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_63 = QWidget(self.Page03_groupBox4)
         self.horizontalLayoutWidget_63.setObjectName(u"horizontalLayoutWidget_63")
-        self.horizontalLayoutWidget_63.setGeometry(QRect(660, 40, 131, 21))
+        self.horizontalLayoutWidget_63.setGeometry(QRect(650, 40, 131, 21))
         self.Page03_RecordStatusLayout4 = QHBoxLayout(self.horizontalLayoutWidget_63)
         self.Page03_RecordStatusLayout4.setObjectName(u"Page03_RecordStatusLayout4")
         self.Page03_RecordStatusLayout4.setContentsMargins(0, 0, 0, 0)
@@ -1678,7 +1762,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_64 = QWidget(self.Page03_groupBox4)
         self.horizontalLayoutWidget_64.setObjectName(u"horizontalLayoutWidget_64")
-        self.horizontalLayoutWidget_64.setGeometry(QRect(0, 10, 381, 31))
+        self.horizontalLayoutWidget_64.setGeometry(QRect(10, 10, 371, 31))
         self.Page03_setVideoDirLayout4 = QHBoxLayout(self.horizontalLayoutWidget_64)
         self.Page03_setVideoDirLayout4.setObjectName(u"Page03_setVideoDirLayout4")
         self.Page03_setVideoDirLayout4.setContentsMargins(0, 0, 0, 0)
@@ -2156,42 +2240,54 @@ class Ui_MainWindow(object):
         self.Page02_setNGImageLabel1.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
         self.Page02_setNGImagebutton1.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page02_CaptureLabel1.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
-        self.Page02_CaptureSetButton1.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
-        self.Page02_CaptureReleaseButton1.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
         self.Page02_OKImageSaveButton1.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
         self.Page02_NGImageSaveButton1.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
         self.Page02_setOKImageLabel1.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
         self.Page02_setOKImagebutton1.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page02_Videolabel1.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1", None))
+        self.Page02_VideoStopButton1.setText(QCoreApplication.translate("MainWindow", u"\uc815\uc9c0", None))
+        self.Page02_VideoPlayButton1.setText(QCoreApplication.translate("MainWindow", u"\uc7ac\uc0dd", None))
+        self.Page02_CaptureSetButton1.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
+        self.Page02_CaptureReleaseButton1.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
         self.CameratabWidget.setTabText(self.CameratabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"CAM1", None))
         self.Page02_setOKImageLabel2.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
         self.Page02_setOKImagebutton2.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page02_CaptureLabel2.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
-        self.Page02_CaptureSetButton2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
-        self.Page02_CaptureReleaseButton2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
         self.Page02_OKImageSaveButton2.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
         self.Page02_NGImageSaveButton2.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
         self.Page02_setNGImageLabel2.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
         self.Page02_setNGImagebutton2.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page02_Videolabel2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1", None))
+        self.Page02_VideoStopButton2.setText(QCoreApplication.translate("MainWindow", u"\uc815\uc9c0", None))
+        self.Page02_VideoPlayButton2.setText(QCoreApplication.translate("MainWindow", u"\uc7ac\uc0dd", None))
+        self.Page02_CaptureSetButton2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
+        self.Page02_CaptureReleaseButton2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
         self.CameratabWidget.setTabText(self.CameratabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"CAM2", None))
         self.Page02_setNGImageLabel3.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
         self.Page02_setNGImagebutton3.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page02_setOKImageLabel3.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
         self.Page02_setOKImagebutton3.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page02_CaptureLabel3.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
-        self.Page02_CaptureSetButton3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
-        self.Page02_CaptureReleaseButton3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
         self.Page02_OKImageSaveButton3.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
         self.Page02_NGImageSaveButton3.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
+        self.Page02_Videolabel3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1", None))
+        self.Page02_VideoStopButton3.setText(QCoreApplication.translate("MainWindow", u"\uc815\uc9c0", None))
+        self.Page02_VideoPlayButton3.setText(QCoreApplication.translate("MainWindow", u"\uc7ac\uc0dd", None))
+        self.Page02_CaptureSetButton3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
+        self.Page02_CaptureReleaseButton3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
         self.CameratabWidget.setTabText(self.CameratabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"CAM3", None))
         self.Page02_setNGImageLabel4.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
         self.Page02_setNGImagebutton4.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page02_setOKImageLabel4.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
         self.Page02_setOKImagebutton4.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page02_CaptureLabel4.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
-        self.Page02_CaptureSetButton4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
-        self.Page02_CaptureReleaseButton4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
         self.Page02_OKImageSaveButton4.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
         self.Page02_NGImageSaveButton4.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
+        self.Page02_Videolabel4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1", None))
+        self.Page02_VideoStopButton4.setText(QCoreApplication.translate("MainWindow", u"\uc815\uc9c0", None))
+        self.Page02_VideoPlayButton4.setText(QCoreApplication.translate("MainWindow", u"\uc7ac\uc0dd", None))
+        self.Page02_CaptureSetButton4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
+        self.Page02_CaptureReleaseButton4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
         self.CameratabWidget.setTabText(self.CameratabWidget.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"CAM4", None))
         self.Page03_groupBox1.setTitle(QCoreApplication.translate("MainWindow", u"CAM1", None))
         self.Page03_RecordCapLabel1.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc6a9\ub7c9(MB)", None))
