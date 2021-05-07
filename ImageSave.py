@@ -17,6 +17,7 @@ from moviepy.editor import *
 import sys
 import cv2
 import os
+import numpy as np
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -2393,6 +2394,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         liveImage1 = liveImage.scaled(self.Page01_CameraImage1.geometry().width(), self.Page01_CameraImage1.geometry().height())
         self.Page01_LiveImagelabel.setPixmap(QPixmap.fromImage(liveImage1))
 
+        frame = self.captureFrame(frame)
         frame, x, y, width, height = self.drawRectangleRegion(frame)
         capImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
         captureImage1 = capImage.scaled(self.Page02_CameraImage1.geometry().width(), self.Page02_CameraImage1.geometry().height())
@@ -2491,6 +2493,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.isStPosOnImage = False
         self.capImgStartX, self.capImgStartY, self.capImgEndX, self.capImgEndY = 212, 30, 962, 450  ### Note: Image Mouse Postion
 
+        self.isStopClicked, self.isPlayClicked, self.isStopFrameCaptured = False, False, False
+        self.stopFrame = np.zeros((self.cameraWindowHeight, self.cameraWindowWidth, 3), np.uint8)
+        self.originalStopFrame = np.zeros((self.cameraWindowHeight, self.cameraWindowWidth, 3), np.uint8)
+
         self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(0))
         self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1))
         self.Page02_CaptureSetButton1.clicked.connect(lambda: self.drawRectangleStatus(True))
@@ -2498,6 +2504,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page03_setVideoDirbutton1.clicked.connect(lambda: self.setDirectory(0))
         self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(1))
         self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(2))
+        self.Page02_VideoStopButton1.clicked.connect(self.captureFrameStop)
+        self.Page02_VideoPlayButton1.clicked.connect(self.captureFramePlay)
+
+    def captureFrameStop(self):
+        self.isStopClicked = True
+        self.isPlayClicked = False
+
+    def captureFramePlay(self):
+        self.isPlayClicked = True
+        self.isStopClicked = False
+
+    def captureFrame(self, frame):
+        if self.isStopClicked and not self.isStopFrameCaptured:
+            self.isStopFrameCaptured = True
+            self.isPlayClicked = False
+            self.stopFrame = frame
+            self.originalStopFrame = frame.copy()
+
+        if self.isPlayClicked:
+            self.isStopFrameCaptured = False
+            self.isStopClicked = False
+
+        if self.isStopFrameCaptured:
+            if not self.isDrawRectangleStatus or not self.isDrawingEnded:
+                self.stopFrame = self.originalStopFrame.copy()
+            return self.stopFrame
+        else:
+            return frame
 
     def setDirectory(self, id): ## 0 Video, 1: OK Image, 2: NG Image
         dirName = QFileDialog.getExistingDirectory(self, self.tr("저장 경로 설정"), "./", QFileDialog.ShowDirsOnly)
@@ -2538,7 +2572,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.startX, self.startY = QMouseEvent.x(), QMouseEvent.y()
 
     def mouseReleaseEvent(self, QMouseEvent):
-        if not self.isStPosOnImage:
+        if not self.isStPosOnImage or not self.isDrawRectangleStatus:
             return
 
         self.isDrawingEnded = True
@@ -2561,6 +2595,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def drawRectangleStatus(self, isBoolState):
         self.isDrawRectangleStatus = isBoolState
+        if self.isDrawRectangleStatus: self.startX, self.startY, self.endX, self.endY = 0, 0, self.cameraWindowWidth, self.cameraWindowHeight
         print("isDrawRectangleStatus: {}".format(self.isDrawRectangleStatus))
 
     def saveCaptureImage(self, id): # id - 0:OK, 1: NG
