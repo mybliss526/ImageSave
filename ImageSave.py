@@ -883,6 +883,7 @@ class Ui_MainWindow(object):
 
         self.Page03_setVideoDirlineEdit1 = QLineEdit(self.horizontalLayoutWidget_23)
         self.Page03_setVideoDirlineEdit1.setObjectName(u"Page03_setVideoDirlineEdit1")
+        self.Page03_setVideoDirlineEdit1.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page03_setVideoDirLayout1.addWidget(self.Page03_setVideoDirlineEdit1)
 
@@ -1180,6 +1181,7 @@ class Ui_MainWindow(object):
 
         self.Page03_setVideoDirlineEdit2 = QLineEdit(self.horizontalLayoutWidget_26)
         self.Page03_setVideoDirlineEdit2.setObjectName(u"Page03_setVideoDirlineEdit2")
+        self.Page03_setVideoDirlineEdit2.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page03_setVideoDirLayout2.addWidget(self.Page03_setVideoDirlineEdit2)
 
@@ -1477,6 +1479,7 @@ class Ui_MainWindow(object):
 
         self.Page03_setVideoDirlineEdit3 = QLineEdit(self.horizontalLayoutWidget_29)
         self.Page03_setVideoDirlineEdit3.setObjectName(u"Page03_setVideoDirlineEdit3")
+        self.Page03_setVideoDirlineEdit3.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page03_setVideoDirLayout3.addWidget(self.Page03_setVideoDirlineEdit3)
 
@@ -1774,6 +1777,7 @@ class Ui_MainWindow(object):
 
         self.Page03_setVideoDirlineEdit4 = QLineEdit(self.horizontalLayoutWidget_64)
         self.Page03_setVideoDirlineEdit4.setObjectName(u"Page03_setVideoDirlineEdit4")
+        self.Page03_setVideoDirlineEdit4.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page03_setVideoDirLayout4.addWidget(self.Page03_setVideoDirlineEdit4)
 
