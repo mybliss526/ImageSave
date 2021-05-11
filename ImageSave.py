@@ -2703,6 +2703,8 @@ class Ui_MainWindow(object):
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        self.capture = []
+
         self.isRecordStatus = False
         self.isCreateFile = False
         self.isOversizeStatus = False
@@ -2746,9 +2748,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         self.cameraWindowWidth, self.cameraWindowHeight = self.CameraWindowSize(0)
 
-        self.capture = cv2.VideoCapture(0)
-        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.cameraWindowWidth)
-        self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.cameraWindowHeight)
+        self.capture.insert(0, cv2.VideoCapture(0))
+        self.capture[0].set(cv2.CAP_PROP_FRAME_WIDTH, self.cameraWindowWidth)
+        self.capture[0].set(cv2.CAP_PROP_FRAME_HEIGHT, self.cameraWindowHeight)
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.displayVideoStream)
@@ -2757,7 +2759,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def displayVideoStream(self):
         """Read frame from camera and repaint QLabel widget.
         """
-        _, frame = self.capture.read()
+        success, frame = self.capture[0].read()
+        if not success:
+            frame = np.zeros((self.cameraWindowHeight, self.cameraWindowWidth, 3), np.uint8)
         frame = cv2.flip(frame, 1)
         self.frameRecording(frame)
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
