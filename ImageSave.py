@@ -123,10 +123,10 @@ class Ui_MainWindow(object):
         self.Page01_CameraImage1 = QHBoxLayout(self.horizontalLayoutWidget_5)
         self.Page01_CameraImage1.setObjectName(u"Page01_CameraImage1")
         self.Page01_CameraImage1.setContentsMargins(0, 0, 0, 0)
-        self.Page01_LiveImagelabel = QLabel(self.horizontalLayoutWidget_5)
-        self.Page01_LiveImagelabel.setObjectName(u"Page01_LiveImagelabel")
+        self.Page01_LiveImagelabel1 = QLabel(self.horizontalLayoutWidget_5)
+        self.Page01_LiveImagelabel1.setObjectName(u"Page01_LiveImagelabel1")
 
-        self.Page01_CameraImage1.addWidget(self.Page01_LiveImagelabel)
+        self.Page01_CameraImage1.addWidget(self.Page01_LiveImagelabel1)
 
         self.horizontalLayoutWidget_6 = QWidget(self.Page01)
         self.horizontalLayoutWidget_6.setObjectName(u"horizontalLayoutWidget_6")
@@ -134,18 +134,33 @@ class Ui_MainWindow(object):
         self.Page01_CameraImage3 = QHBoxLayout(self.horizontalLayoutWidget_6)
         self.Page01_CameraImage3.setObjectName(u"Page01_CameraImage3")
         self.Page01_CameraImage3.setContentsMargins(0, 0, 0, 0)
+        self.Page01_LiveImagelabel3 = QLabel(self.horizontalLayoutWidget_6)
+        self.Page01_LiveImagelabel3.setObjectName(u"Page01_LiveImagelabel3")
+
+        self.Page01_CameraImage3.addWidget(self.Page01_LiveImagelabel3)
+
         self.horizontalLayoutWidget_10 = QWidget(self.Page01)
         self.horizontalLayoutWidget_10.setObjectName(u"horizontalLayoutWidget_10")
         self.horizontalLayoutWidget_10.setGeometry(QRect(400, 20, 391, 241))
         self.Page01_CameraImage2 = QHBoxLayout(self.horizontalLayoutWidget_10)
         self.Page01_CameraImage2.setObjectName(u"Page01_CameraImage2")
         self.Page01_CameraImage2.setContentsMargins(0, 0, 0, 0)
+        self.Page01_LiveImagelabel2 = QLabel(self.horizontalLayoutWidget_10)
+        self.Page01_LiveImagelabel2.setObjectName(u"Page01_LiveImagelabel2")
+
+        self.Page01_CameraImage2.addWidget(self.Page01_LiveImagelabel2)
+
         self.horizontalLayoutWidget_11 = QWidget(self.Page01)
         self.horizontalLayoutWidget_11.setObjectName(u"horizontalLayoutWidget_11")
         self.horizontalLayoutWidget_11.setGeometry(QRect(400, 280, 391, 241))
         self.Page01_CameraImage4 = QHBoxLayout(self.horizontalLayoutWidget_11)
         self.Page01_CameraImage4.setObjectName(u"Page01_CameraImage4")
         self.Page01_CameraImage4.setContentsMargins(0, 0, 0, 0)
+        self.Page01_LiveImagelabel4 = QLabel(self.horizontalLayoutWidget_11)
+        self.Page01_LiveImagelabel4.setObjectName(u"Page01_LiveImagelabel4")
+
+        self.Page01_CameraImage4.addWidget(self.Page01_LiveImagelabel4)
+
         self.stackedWidget.addWidget(self.Page01)
         self.Page02 = QWidget()
         self.Page02.setObjectName(u"Page02")
@@ -421,6 +436,11 @@ class Ui_MainWindow(object):
         self.Page02_CameraImage2 = QHBoxLayout(self.horizontalLayoutWidget_2)
         self.Page02_CameraImage2.setObjectName(u"Page02_CameraImage2")
         self.Page02_CameraImage2.setContentsMargins(0, 0, 0, 0)
+        self.Page02_ImageLabel2 = QLabel(self.horizontalLayoutWidget_2)
+        self.Page02_ImageLabel2.setObjectName(u"Page02_ImageLabel2")
+
+        self.Page02_CameraImage2.addWidget(self.Page02_ImageLabel2)
+
         self.horizontalLayoutWidget_4 = QWidget(self.tab_2)
         self.horizontalLayoutWidget_4.setObjectName(u"horizontalLayoutWidget_4")
         self.horizontalLayoutWidget_4.setGeometry(QRect(570, 470, 201, 31))
@@ -628,6 +648,11 @@ class Ui_MainWindow(object):
         self.Page02_CameraImage3 = QHBoxLayout(self.horizontalLayoutWidget_16)
         self.Page02_CameraImage3.setObjectName(u"Page02_CameraImage3")
         self.Page02_CameraImage3.setContentsMargins(0, 0, 0, 0)
+        self.Page02_ImageLabel3 = QLabel(self.horizontalLayoutWidget_16)
+        self.Page02_ImageLabel3.setObjectName(u"Page02_ImageLabel3")
+
+        self.Page02_CameraImage3.addWidget(self.Page02_ImageLabel3)
+
         self.horizontalLayoutWidget_31 = QWidget(self.tab_3)
         self.horizontalLayoutWidget_31.setObjectName(u"horizontalLayoutWidget_31")
         self.horizontalLayoutWidget_31.setGeometry(QRect(570, 440, 201, 31))
@@ -814,6 +839,11 @@ class Ui_MainWindow(object):
         self.Page02_CameraImage4 = QHBoxLayout(self.horizontalLayoutWidget_20)
         self.Page02_CameraImage4.setObjectName(u"Page02_CameraImage4")
         self.Page02_CameraImage4.setContentsMargins(0, 0, 0, 0)
+        self.Page02_ImageLabel4 = QLabel(self.horizontalLayoutWidget_20)
+        self.Page02_ImageLabel4.setObjectName(u"Page02_ImageLabel4")
+
+        self.Page02_CameraImage4.addWidget(self.Page02_ImageLabel4)
+
         self.horizontalLayoutWidget_30 = QWidget(self.tab_4)
         self.horizontalLayoutWidget_30.setObjectName(u"horizontalLayoutWidget_30")
         self.horizontalLayoutWidget_30.setGeometry(QRect(570, 440, 201, 31))
@@ -2177,7 +2207,7 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.Page03)
         self.verticalLayoutWidget = QWidget(self.centralwidget)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(11, 10, 171, 521))
+        self.verticalLayoutWidget.setGeometry(QRect(11, 10, 171, 531))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -2572,7 +2602,10 @@ class Ui_MainWindow(object):
         self.Page01_Livelabel2.setText(QCoreApplication.translate("MainWindow", u"CAM 2", None))
         self.Page01_Livelabel3.setText(QCoreApplication.translate("MainWindow", u"CAM 3", None))
         self.Page01_Livelabel4.setText(QCoreApplication.translate("MainWindow", u"CAM 4", None))
-        self.Page01_LiveImagelabel.setText("")
+        self.Page01_LiveImagelabel1.setText("")
+        self.Page01_LiveImagelabel3.setText("")
+        self.Page01_LiveImagelabel2.setText("")
+        self.Page01_LiveImagelabel4.setText("")
         self.Page02_ImageLabel1.setText("")
         self.Page02_CaptureLabel1.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
         self.Page02_CaptureSetButton1.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
@@ -2596,6 +2629,7 @@ class Ui_MainWindow(object):
         self.Page02_setCImagebutton1.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page02_CImageSaveButton1.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0\uc800\uc7a5", None))
         self.CameratabWidget.setTabText(self.CameratabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"CAM1", None))
+        self.Page02_ImageLabel2.setText("")
         self.Page02_CaptureLabel2.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
         self.Page02_CaptureSetButton2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
         self.Page02_CaptureReleaseButton2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
@@ -2621,6 +2655,7 @@ class Ui_MainWindow(object):
         self.Page02_CaptureLabel3.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
         self.Page02_CaptureSetButton3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
         self.Page02_CaptureReleaseButton3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
+        self.Page02_ImageLabel3.setText("")
         self.Page02_Videolabel3.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1", None))
         self.Page02_VideoStopButton3.setText(QCoreApplication.translate("MainWindow", u"\uc815\uc9c0", None))
         self.Page02_VideoPlayButton3.setText(QCoreApplication.translate("MainWindow", u"\uc7ac\uc0dd", None))
@@ -2643,6 +2678,7 @@ class Ui_MainWindow(object):
         self.Page02_CaptureLabel4.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
         self.Page02_CaptureSetButton4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
         self.Page02_CaptureReleaseButton4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
+        self.Page02_ImageLabel4.setText("")
         self.Page02_Videolabel4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1", None))
         self.Page02_VideoStopButton4.setText(QCoreApplication.translate("MainWindow", u"\uc815\uc9c0", None))
         self.Page02_VideoPlayButton4.setText(QCoreApplication.translate("MainWindow", u"\uc7ac\uc0dd", None))
@@ -2768,7 +2804,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
         liveImage1 = liveImage.scaled(self.Page01_CameraImage1.geometry().width(), self.Page01_CameraImage1.geometry().height())
-        self.Page01_LiveImagelabel.setPixmap(QPixmap.fromImage(liveImage1))
+        self.Page01_LiveImagelabel1.setPixmap(QPixmap.fromImage(liveImage1))
 
         frame = self.captureFrame(frame)
         frame, x, y, width, height = self.drawRectangleRegion(frame)
