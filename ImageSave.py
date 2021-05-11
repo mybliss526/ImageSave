@@ -2871,11 +2871,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(0))
         self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1))
+        self.Page02_AImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(2))
+        self.Page02_BImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(3))
+        self.Page02_CImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(4))
         self.Page02_CaptureSetButton1.clicked.connect(lambda: self.drawRectangleStatus(True))
         self.Page02_CaptureReleaseButton1.clicked.connect(lambda: self.drawRectangleStatus(False))
         self.Page03_setVideoDirbutton1.clicked.connect(lambda: self.setDirectory(0))
         self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(1))
         self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(2))
+        self.Page02_setAImagebutton1.clicked.connect(lambda: self.setDirectory(3))
+        self.Page02_setBImagebutton1.clicked.connect(lambda: self.setDirectory(4))
+        self.Page02_setCImagebutton1.clicked.connect(lambda: self.setDirectory(5))
         self.Page02_VideoStopButton1.clicked.connect(self.captureFrameStop)
         self.Page02_VideoPlayButton1.clicked.connect(self.captureFramePlay)
 
@@ -2905,10 +2911,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             return frame
 
-    def setDirectory(self, id): ## 0 Video, 1: OK Image, 2: NG Image
+    def setDirectory(self, id): ## 0 Video, 1: OK Image, 2: NG Image, 3: A Image, 4: B Image, 5: C Image
         dirName = QFileDialog.getExistingDirectory(self, self.tr("저장 경로 설정"), "./", QFileDialog.ShowDirsOnly)
         print(dirName)
-        if id == 0:
+        if id == 0:     # 0 Video
             self.Page03_setVideoDirlineEdit1.setText(dirName)
             self.strVideoFile = dirName + "/Video.mp4"  # original video
             print(self.strVideoFile)
@@ -2916,6 +2922,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Page02_setOKImagelineEdit1.setText(dirName)
         elif id == 2:
             self.Page02_setNGImagelineEdit1.setText(dirName)
+        elif id == 3:
+            self.Page02_setAImagelineEdit1.setText(dirName)
+        elif id == 4:
+            self.Page02_setBImagelineEdit1.setText(dirName)
+        elif id == 5:
+            self.Page02_setCImagelineEdit1.setText(dirName)
 
     def drawRectangleRegion(self, frame):
         if self.isDrawRectangleStatus and self.isDrawingEnded:
@@ -2970,13 +2982,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.isDrawRectangleStatus: self.startX, self.startY, self.endX, self.endY = 0, 0, self.cameraWindowWidth, self.cameraWindowHeight
         print("isDrawRectangleStatus: {}".format(self.isDrawRectangleStatus))
 
-    def saveCaptureImage(self, id): # id - 0:OK, 1: NG
+    def saveCaptureImage(self, id): # id - 0:OK, 1: NG, 2: A, 3: B, 4: C
         imageNumber = 1
         tempCurPwd = os.getcwd()
         if id == 0 and (len(self.Page02_setOKImagelineEdit1.text()) > 0):
             os.chdir(self.Page02_setOKImagelineEdit1.text()) # Move TO Save PWD
         elif id == 1 and (len(self.Page02_setNGImagelineEdit1.text()) > 0):
             os.chdir(self.Page02_setNGImagelineEdit1.text()) # Move TO Save PWD
+        elif id == 2 and (len(self.Page02_setAImagelineEdit1.text()) > 0):
+            os.chdir(self.Page02_setAImagelineEdit1.text())
+        elif id == 3 and (len(self.Page02_setBImagelineEdit1.text()) > 0):
+            os.chdir(self.Page02_setBImagelineEdit1.text())
+        elif id == 4 and (len(self.Page02_setCImagelineEdit1.text()) > 0):
+            os.chdir(self.Page02_setCImagelineEdit1.text())
 
         while True:
             if cv2.imread("image.jpg") is None:
