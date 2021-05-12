@@ -2740,6 +2740,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.capture = []
+        self.capImage = []
 
         self.isRecordStatus = False
         self.isCreateFile = False
@@ -2784,9 +2785,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         self.cameraWindowWidth, self.cameraWindowHeight = self.CameraWindowSize(0)
 
-        self.capture.insert(0, cv2.VideoCapture(0))
-        self.capture[0].set(cv2.CAP_PROP_FRAME_WIDTH, self.cameraWindowWidth)
-        self.capture[0].set(cv2.CAP_PROP_FRAME_HEIGHT, self.cameraWindowHeight)
+        for capIndex in range(0, 1): ### tempRange!!
+            self.capture.insert(capIndex, cv2.VideoCapture(capIndex))  #cv2.VideoCapture(capIndex) temp ==> change for settingValue
+            self.capture[capIndex].set(cv2.CAP_PROP_FRAME_WIDTH, self.cameraWindowWidth)
+            self.capture[capIndex].set(cv2.CAP_PROP_FRAME_HEIGHT, self.cameraWindowHeight)
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.displayVideoStream)
@@ -2795,23 +2797,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def displayVideoStream(self):
         """Read frame from camera and repaint QLabel widget.
         """
-        success, frame = self.capture[0].read()
-        if not success:
-            frame = np.zeros((self.cameraWindowHeight, self.cameraWindowWidth, 3), np.uint8)
-        frame = cv2.flip(frame, 1)
-        self.frameRecording(frame)
-        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        Page01_LiveImagelabelList = [self.Page01_LiveImagelabel1, self.Page01_LiveImagelabel2, self.Page01_LiveImagelabel3, self.Page01_LiveImagelabel4]
+        Page02_ImageLabelList = [self.Page02_ImageLabel1, self.Page02_ImageLabel2, self.Page02_ImageLabel3, self.Page02_ImageLabel4]
 
-        liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
-        liveImage1 = liveImage.scaled(self.Page01_CameraImage1.geometry().width(), self.Page01_CameraImage1.geometry().height())
-        self.Page01_LiveImagelabel1.setPixmap(QPixmap.fromImage(liveImage1))
+        for capIndex in range(0, 1): ### tempRange!! must change thread
+            success, frame = self.capture[capIndex].read()
+            if not success:
+                frame = np.zeros((self.cameraWindowHeight, self.cameraWindowWidth, 3), np.uint8)
+            frame = cv2.flip(frame, 1)
+            self.frameRecording(frame)
+            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-        frame = self.captureFrame(frame)
-        frame, x, y, width, height = self.drawRectangleRegion(frame)
-        capImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
-        captureImage1 = capImage.scaled(self.Page02_CameraImage1.geometry().width(), self.Page02_CameraImage1.geometry().height())
-        self.Page02_ImageLabel1.setPixmap(QPixmap.fromImage(captureImage1))
-        self.capImage = capImage.copy(x, y, width, height)
+            liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
+            liveImage1 = liveImage.scaled(self.Page01_CameraImage1.geometry().width(), self.Page01_CameraImage1.geometry().height())
+            Page01_LiveImagelabelList[capIndex].setPixmap(QPixmap.fromImage(liveImage1))
+
+            frame = self.captureFrame(frame)
+            frame, x, y, width, height = self.drawRectangleRegion(frame)
+            capImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
+            captureImage1 = capImage.scaled(self.Page02_CameraImage1.geometry().width(), self.Page02_CameraImage1.geometry().height())
+            Page02_ImageLabelList[capIndex].setPixmap(QPixmap.fromImage(captureImage1))
+            try:
+                self.capImage[capIndex] = capImage.copy(x, y, width, height)
+            except IndexError:
+                self.capImage.insert(capIndex, capImage.copy(x, y, width, height))
 ## WebCam Image(ENDED)
 
 ## Record(START)
@@ -3038,12 +3047,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         while True:
             if cv2.imread("image.jpg") is None:
-                self.capImage.save("image.jpg")
+                self.capImage[id-1].save("image.jpg")
                 break
 
             fileName = "image(" + str(imageNumber) + ").jpg"
             if cv2.imread(fileName) is None:
-                self.capImage.save(fileName)
+                self.capImage[id-1].save(fileName)
                 break
             else:
                 imageNumber = imageNumber + 1
