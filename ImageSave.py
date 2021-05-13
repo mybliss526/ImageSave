@@ -2802,25 +2802,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         for capIndex in range(0, 1): ### tempRange!! must change thread
             success, frame = self.capture[capIndex].read()
-            if not success:
-                frame = np.zeros((self.cameraWindowHeight, self.cameraWindowWidth, 3), np.uint8)
-            frame = cv2.flip(frame, 1)
-            self.frameRecording(frame)
-            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-            liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
-            liveImage1 = liveImage.scaled(self.Page01_CameraImage1.geometry().width(), self.Page01_CameraImage1.geometry().height())
+            if success:
+                frame = cv2.flip(frame, 1)
+                self.frameRecording(frame)
+                frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+                liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
+                liveImage1 = liveImage.copy().scaled(self.Page01_CameraImage1.geometry().width(), self.Page01_CameraImage1.geometry().height())
+
+                frame = self.captureFrame(frame)
+                frame, x, y, width, height = self.drawRectangleRegion(frame)
+                capImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
+                captureImage1 = capImage.scaled(self.Page02_CameraImage1.geometry().width(), self.Page02_CameraImage1.geometry().height())
+                try:
+                    self.capImage[capIndex] = capImage.copy(x, y, width, height)
+                except IndexError:
+                    self.capImage.insert(capIndex, capImage.copy(x, y, width, height))
+            else:
+                noVideoImage = QImage(860, 480, QImage.Format_RGB888)
+                noVideoImage.fill(qRgb(50, 50, 50))
+                liveImage1 = noVideoImage.copy()
+                captureImage1 = noVideoImage.copy()
+
             Page01_LiveImagelabelList[capIndex].setPixmap(QPixmap.fromImage(liveImage1))
-
-            frame = self.captureFrame(frame)
-            frame, x, y, width, height = self.drawRectangleRegion(frame)
-            capImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
-            captureImage1 = capImage.scaled(self.Page02_CameraImage1.geometry().width(), self.Page02_CameraImage1.geometry().height())
             Page02_ImageLabelList[capIndex].setPixmap(QPixmap.fromImage(captureImage1))
-            try:
-                self.capImage[capIndex] = capImage.copy(x, y, width, height)
-            except IndexError:
-                self.capImage.insert(capIndex, capImage.copy(x, y, width, height))
 ## WebCam Image(ENDED)
 
 ## Record(START)
