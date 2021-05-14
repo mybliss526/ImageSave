@@ -2740,7 +2740,7 @@ class Ui_MainWindow(object):
 
 ## Cam Thread (BEGIN) - Live(Page01, Page02), Recording, Capture
 semaphore = threading.Semaphore(4)
-g_isRecordStatus = False  # temp 추후 Index화 해야함.
+g_isRecordStatus = [False, False, False, False]
 
 class camThread(threading.Thread):
     def __init__(self, camID, width, height, captureImage, liveLabel, captureLabel, videoDir, maxStorageSpinBox):
@@ -2794,10 +2794,10 @@ class camThread(threading.Thread):
 
     def frameRecording(self, frame):
         global g_isRecordStatus
-        strVideoFile = "CAM{}_Video.mp4".format(self.camID)  # original video
+        strVideoFile = "CAM{}_Video.mp4".format(self.camID + 1)  # original video
         if len(self.strVideoFileDir.text()) > 0: strVideoFile = self.strVideoFileDir.text() + "/" + strVideoFile
 
-        if g_isRecordStatus:
+        if g_isRecordStatus[self.camID]:
             frame = cv2.resize(frame, (self.width, self.height))
 
             ### Create Video File from Frame (START) - (NOTE: 'Codec: mp4v, 확장자:mp4'를 사용해야 VideoWriter 및 VideoFileClip 클래스가 정상적으로 동작함.)
@@ -2918,15 +2918,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 ## Record(START)
     def setupRecord(self):
-        self.Page03_RecordStartButton1.clicked.connect(lambda: self.recordStatus(True))
-        self.Page03_RecordEndButton1.clicked.connect(lambda: self.recordStatus(False))
+        self.Page03_setVideoDirbutton1.clicked.connect(lambda: self.setDirectory(0))
+        self.Page03_setVideoDirbutton2.clicked.connect(lambda: self.setDirectory(1))
+        self.Page03_setVideoDirbutton3.clicked.connect(lambda: self.setDirectory(2))
+        self.Page03_setVideoDirbutton4.clicked.connect(lambda: self.setDirectory(3))
 
-    def recordStatus(self, isBoolState):
+        self.Page03_RecordStartButton1.clicked.connect(lambda: self.recordStatus(True, 0))
+        self.Page03_RecordEndButton1.clicked.connect(lambda: self.recordStatus(False, 0))
+        self.Page03_RecordStartButton2.clicked.connect(lambda: self.recordStatus(True, 1))
+        self.Page03_RecordEndButton2.clicked.connect(lambda: self.recordStatus(False, 1))
+        self.Page03_RecordStartButton3.clicked.connect(lambda: self.recordStatus(True, 2))
+        self.Page03_RecordEndButton3.clicked.connect(lambda: self.recordStatus(False, 2))
+        self.Page03_RecordStartButton4.clicked.connect(lambda: self.recordStatus(True, 3))
+        self.Page03_RecordEndButton4.clicked.connect(lambda: self.recordStatus(False, 3))
+
+    def recordStatus(self, isBoolState, index):
         global g_isRecordStatus
-        g_isRecordStatus = isBoolState
+        Page03_RecordStatuslabelList = [self.Page03_RecordStatuslabel1, self.Page03_RecordStatuslabel2, self.Page03_RecordStatuslabel3, self.Page03_RecordStatuslabel4]
+        Page03_RecordCapSpinBoxList = [self.Page03_RecordCapSpinBox1, self.Page03_RecordCapSpinBox2, self.Page03_RecordCapSpinBox3, self.Page03_RecordCapSpinBox4]
+
+        g_isRecordStatus[index] = isBoolState
         strRecordStatus = "(녹화중)" if isBoolState else "(녹화해제)"
-        self.Page03_RecordStatuslabel1.setText(strRecordStatus)
-        self.Page03_RecordCapSpinBox1.setDisabled(isBoolState)
+        Page03_RecordStatuslabelList[index].setText(strRecordStatus)
+        Page03_RecordCapSpinBoxList[index].setDisabled(isBoolState)
 ## Record(ENDED)
 
 ## Capture(BEGIN)
@@ -2945,12 +2959,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page02_CImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(4))
         self.Page02_CaptureSetButton1.clicked.connect(lambda: self.drawRectangleStatus(True))
         self.Page02_CaptureReleaseButton1.clicked.connect(lambda: self.drawRectangleStatus(False))
-        self.Page03_setVideoDirbutton1.clicked.connect(lambda: self.setDirectory(0))
-        self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(1))
-        self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(2))
-        self.Page02_setAImagebutton1.clicked.connect(lambda: self.setDirectory(3))
-        self.Page02_setBImagebutton1.clicked.connect(lambda: self.setDirectory(4))
-        self.Page02_setCImagebutton1.clicked.connect(lambda: self.setDirectory(5))
+        self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(100))
+        self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(101))
+        self.Page02_setAImagebutton1.clicked.connect(lambda: self.setDirectory(102))
+        self.Page02_setBImagebutton1.clicked.connect(lambda: self.setDirectory(103))
+        self.Page02_setCImagebutton1.clicked.connect(lambda: self.setDirectory(104))
         self.Page02_VideoStopButton1.clicked.connect(self.captureFrameStop)
         self.Page02_VideoPlayButton1.clicked.connect(self.captureFramePlay)
 
@@ -2980,20 +2993,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             return frame
 
-    def setDirectory(self, id):  ## 0 Video, 1: OK Image, 2: NG Image, 3: A Image, 4: B Image, 5: C Image
+    def setDirectory(self, id):
+        """ setDirectory ID
+        VIDEO ID   - 0: CAM1 Video, 1: CAM2 Video, 2: CAM3 Video, 3: CAM4 Video
+        CAPTURE ID - 100: OK Image, 101: NG Image, 102: A Image, 103: B Image, 104: C Image
+        """
         dirName = QFileDialog.getExistingDirectory(self, self.tr("저장 경로 설정"), "./", QFileDialog.ShowDirsOnly)
         print(dirName)
-        if id == 0:  # 0 Video
+        if id == 0:    # 0 Video1
             self.Page03_setVideoDirlineEdit1.setText(dirName)
-        elif id == 1:
+        elif id == 1:  # 1 Video2
+            self.Page03_setVideoDirlineEdit2.setText(dirName)
+        elif id == 2:  # 2 Video3
+            self.Page03_setVideoDirlineEdit3.setText(dirName)
+        elif id == 3:  # 3 Video4
+            self.Page03_setVideoDirlineEdit4.setText(dirName)
+        elif id == 100:
             self.Page02_setOKImagelineEdit1.setText(dirName)
-        elif id == 2:
+        elif id == 101:
             self.Page02_setNGImagelineEdit1.setText(dirName)
-        elif id == 3:
+        elif id == 102:
             self.Page02_setAImagelineEdit1.setText(dirName)
-        elif id == 4:
+        elif id == 103:
             self.Page02_setBImagelineEdit1.setText(dirName)
-        elif id == 5:
+        elif id == 104:
             self.Page02_setCImagelineEdit1.setText(dirName)
 
     def drawRectangleRegion(self, frame):
