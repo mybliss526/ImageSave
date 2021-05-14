@@ -18,6 +18,8 @@ import sys
 import cv2
 import os
 import numpy as np
+import threading
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -2736,16 +2738,130 @@ class Ui_MainWindow(object):
         self.MenubarLabel.setText("")
     # retranslateUi
 
+## Cam Thread (BEGIN) - Live(Page01, Page02), Recording, Capture
+semaphore = threading.Semaphore(4)
+g_isRecordStatus = False  # temp 추후 Index화 해야함.
+
+class camThread(threading.Thread):
+    def __init__(self, camID, width, height, captureImage, liveLabel, captureLabel, videoDir, maxStorageSpinBox):
+        super().__init__()
+        self.width = width
+        self.height = height
+        self.captureImage = captureImage
+        self.liveLabel = liveLabel
+        self.captureLabel = captureLabel
+        self.camID = camID
+
+        self.strVideoFileDir = videoDir
+        self.maxRecordStorageSpinBox = maxStorageSpinBox
+        self.tempVideoFileForMERGE = "tempMergeVideo.mp4"  # temp for Merge original
+        self.isOversizeStatus = False
+        self.isCreateFile = False
+        self.isCreateOversizeFile = False
+
+    def run(self):
+        semaphore.acquire()
+        while True:
+            self.displayVideoStream()
+        semaphore.release()
+
+    def displayVideoStream(self):
+        success, frame = self.captureImage.read()
+
+        if success:
+            frame = cv2.flip(frame, 1)
+            self.frameRecording(frame)
+            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+            liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
+            liveImage1 = liveImage.copy().scaled(self.width, self.height)
+
+            # frame = self.captureFrame(frame)
+            # frame, x, y, width, height = self.drawRectangleRegion(frame)
+            capImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
+            captureImage1 = capImage.scaled(self.width, self.height)
+            # try:
+            #     self.capImage[capIndex] = capImage.copy(x, y, width, height)
+            # except IndexError:
+            #     self.capImage.insert(capIndex, capImage.copy(x, y, width, height))
+        else:
+            noVideoImage = QImage(860, 480, QImage.Format_RGB888)
+            noVideoImage.fill(qRgb(50, 50, 50))
+            liveImage1 = noVideoImage.copy()
+            captureImage1 = noVideoImage.copy()
+
+        self.liveLabel.setPixmap(QPixmap.fromImage(liveImage1))
+        self.captureLabel.setPixmap(QPixmap.fromImage(captureImage1))
+
+    def frameRecording(self, frame):
+        global g_isRecordStatus
+        strVideoFile = "CAM{}_Video.mp4".format(self.camID)  # original video
+        if len(self.strVideoFileDir.text()) > 0: strVideoFile = self.strVideoFileDir.text() + "/" + strVideoFile
+
+        if g_isRecordStatus:
+            frame = cv2.resize(frame, (self.width, self.height))
+
+            ### Create Video File from Frame (START) - (NOTE: 'Codec: mp4v, 확장자:mp4'를 사용해야 VideoWriter 및 VideoFileClip 클래스가 정상적으로 동작함.)
+            if not self.isOversizeStatus:
+                if not self.isCreateFile:
+                    self.videoWriterOriginal = cv2.VideoWriter(strVideoFile, cv2.VideoWriter_fourcc(*'mp4v'), 30.0, (self.width, self.height))
+                    self.isCreateFile = True
+                self.videoWriterOriginal.write(frame)
+                fileSize = os.path.getsize(strVideoFile)
+            else:
+                if not self.isCreateOversizeFile:
+                    self.videoWriterMergeFile = cv2.VideoWriter(self.tempVideoFileForMERGE, cv2.VideoWriter_fourcc(*'mp4v'), 30.0, (self.width, self.height))
+                    self.isCreateOversizeFile = True
+                self.videoWriterMergeFile.write(frame)
+                fileSize = os.path.getsize(strVideoFile) + os.path.getsize(self.tempVideoFileForMERGE)
+            ### Create Video File from Frame (ENDED)
+
+            if self.maxRecordStorageSpinBox.value() * 1024 * 1024 < fileSize:  # 1MB = 1048576
+                if not self.isOversizeStatus:
+                    self.videoWriterOriginal.release()  # Orignal Video File을 release해주어 앞부분 cut할 수 있도록 해줌.
+                else:
+                    self.videoWriterMergeFile.release()
+                    self.mergeVideoFile(strVideoFile, self.tempVideoFileForMERGE, strVideoFile)
+                    self.isCreateOversizeFile = False
+
+                self.cutVideoFile(10, strVideoFile)     # cut Video prev 10sec.
+                self.isOversizeStatus = True
+        else:
+            if not self.isOversizeStatus:
+                if self.isCreateFile:
+                    self.videoWriterOriginal.release()
+                    self.isCreateFile = False
+            else:
+                if self.isCreateOversizeFile:
+                    self.videoWriterMergeFile.release()
+                    self.mergeVideoFile(strVideoFile, self.tempVideoFileForMERGE, strVideoFile)
+                    self.isCreateOversizeFile = False
+
+    def cutVideoFile(self, second, fileName):
+        tempVideoFileforCUT = 'tempCutVideo.mp4'        # temp for cut original
+        with VideoFileClip(fileName) as video:
+            new = video.subclip(second, video.duration) # cut prev 'second'
+            new.write_videofile(tempVideoFileforCUT, audio_codec='aac')  # 앞의 영상을 자르는 동작을 정상적으로 해주기 위해 audio_codec에 대해 설정해 줌.
+        os.remove(fileName)
+        os.rename(tempVideoFileforCUT, fileName)        # tempVideoFileforCUT을 Orignal Video File Name으로 변경해주어 저장.
+
+    def mergeVideoFile(self, clip1, clip2, finalName):
+        tempMergedFileName = "tempMergedFile.mp4"
+        mergeClip1 = VideoFileClip(clip1)
+        mergeClip2 = VideoFileClip(clip2)
+        mergeResultClip = concatenate_videoclips([mergeClip1, mergeClip2])
+        mergeResultClip.write_videofile(tempMergedFileName)
+        os.remove(clip1)
+        os.remove(clip2)
+        os.rename(tempMergedFileName, finalName)
+        print("merge success!!!!!!!!!!")
+## Cam Thread (ENDED)
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.capture = []
         self.capImage = []
-
-        self.isRecordStatus = False
-        self.isCreateFile = False
-        self.isOversizeStatus = False
-        self.isCreateOversizeFile = False
+        self.listThread = []
 
         self.cameraWindowWidth, self.cameraWindowHeight = 0, 0
         self.isDrawRectangleStatus, self.isDrawingEnded = False, False
@@ -2769,7 +2885,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.stackedWidget.setCurrentWidget(PageIdList[id])
         self.capturePageOn = (id == 1)
-
 ## MenuBar(ENDED)
 
 ## WebCam Image(BEGIN)
@@ -2785,133 +2900,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         self.cameraWindowWidth, self.cameraWindowHeight = self.CameraWindowSize(0)
 
-        for capIndex in range(0, 1): ### tempRange!!
-            self.capture.insert(capIndex, cv2.VideoCapture(capIndex))  #cv2.VideoCapture(capIndex) temp ==> change for settingValue
+        Page01_LiveImagelabelList       = [self.Page01_LiveImagelabel1, self.Page01_LiveImagelabel2, self.Page01_LiveImagelabel3, self.Page01_LiveImagelabel4]
+        Page02_ImageLabelList           = [self.Page02_ImageLabel1, self.Page02_ImageLabel2, self.Page02_ImageLabel3, self.Page02_ImageLabel4]
+        Page03_setVideoDirlineEditList  = [self.Page03_setVideoDirlineEdit1, self.Page03_setVideoDirlineEdit2, self.Page03_setVideoDirlineEdit3, self.Page03_setVideoDirlineEdit4]
+        Page03_RecordCapSpinBoxList     = [self.Page03_RecordCapSpinBox1, self.Page03_RecordCapSpinBox2, self.Page03_RecordCapSpinBox3, self.Page03_RecordCapSpinBox4]
+
+        for capIndex in range(0, 2):  ### tempRange!!
+            self.capture.insert(capIndex, cv2.VideoCapture(capIndex))          # cv2.VideoCapture(capIndex) temp ==> change for settingValue
             self.capture[capIndex].set(cv2.CAP_PROP_FRAME_WIDTH, self.cameraWindowWidth)
             self.capture[capIndex].set(cv2.CAP_PROP_FRAME_HEIGHT, self.cameraWindowHeight)
 
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.displayVideoStream)
-        self.timer.start(30)
-
-    def displayVideoStream(self):
-        """Read frame from camera and repaint QLabel widget.
-        """
-        Page01_LiveImagelabelList = [self.Page01_LiveImagelabel1, self.Page01_LiveImagelabel2, self.Page01_LiveImagelabel3, self.Page01_LiveImagelabel4]
-        Page02_ImageLabelList = [self.Page02_ImageLabel1, self.Page02_ImageLabel2, self.Page02_ImageLabel3, self.Page02_ImageLabel4]
-
-        for capIndex in range(0, 1): ### tempRange!! must change thread
-            success, frame = self.capture[capIndex].read()
-
-            if success:
-                frame = cv2.flip(frame, 1)
-                self.frameRecording(frame)
-                frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-                liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
-                liveImage1 = liveImage.copy().scaled(self.Page01_CameraImage1.geometry().width(), self.Page01_CameraImage1.geometry().height())
-
-                frame = self.captureFrame(frame)
-                frame, x, y, width, height = self.drawRectangleRegion(frame)
-                capImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
-                captureImage1 = capImage.scaled(self.Page02_CameraImage1.geometry().width(), self.Page02_CameraImage1.geometry().height())
-                try:
-                    self.capImage[capIndex] = capImage.copy(x, y, width, height)
-                except IndexError:
-                    self.capImage.insert(capIndex, capImage.copy(x, y, width, height))
-            else:
-                noVideoImage = QImage(860, 480, QImage.Format_RGB888)
-                noVideoImage.fill(qRgb(50, 50, 50))
-                liveImage1 = noVideoImage.copy()
-                captureImage1 = noVideoImage.copy()
-
-            Page01_LiveImagelabelList[capIndex].setPixmap(QPixmap.fromImage(liveImage1))
-            Page02_ImageLabelList[capIndex].setPixmap(QPixmap.fromImage(captureImage1))
+            self.listThread.append(camThread(capIndex, self.cameraWindowWidth, self.cameraWindowHeight, self.capture[capIndex],
+                                             Page01_LiveImagelabelList[capIndex], Page02_ImageLabelList[capIndex],
+                                             Page03_setVideoDirlineEditList[capIndex], Page03_RecordCapSpinBoxList[capIndex]))
+            self.listThread[-1].start()
 ## WebCam Image(ENDED)
 
 ## Record(START)
     def setupRecord(self):
-        self.strVideoFile = self.Page03_setVideoDirlineEdit1.text() + "Video.mp4"  # original video
-        self.tempVideoFileForMERGE = "tempMergeVideo.mp4"  # temp for Merge original
-
         self.Page03_RecordStartButton1.clicked.connect(lambda: self.recordStatus(True))
         self.Page03_RecordEndButton1.clicked.connect(lambda: self.recordStatus(False))
 
     def recordStatus(self, isBoolState):
-        self.isRecordStatus = isBoolState
+        global g_isRecordStatus
+        g_isRecordStatus = isBoolState
         strRecordStatus = "(녹화중)" if isBoolState else "(녹화해제)"
         self.Page03_RecordStatuslabel1.setText(strRecordStatus)
-        self.maxRecordStorage = self.Page03_RecordCapSpinBox1.value()
         self.Page03_RecordCapSpinBox1.setDisabled(isBoolState)
-
-        print("{} maxRecordStorage: {}(MB)".format(strRecordStatus, self.maxRecordStorage))
-
-    def frameRecording(self, frame):
-        if self.isRecordStatus:
-            frame = cv2.resize(frame, (self.cameraWindowWidth, self.cameraWindowHeight))
-
-            ### Create Video File from Frame (START) - (NOTE: 'Codec: mp4v, 확장자:mp4'를 사용해야 VideoWriter 및 VideoFileClip 클래스가 정상적으로 동작함.)
-            if not self.isOversizeStatus:
-                if not self.isCreateFile:
-                    self.videoCodec = cv2.VideoWriter_fourcc(*'mp4v')
-                    self.videoWriterOriginal = cv2.VideoWriter(self.strVideoFile, self.videoCodec, 30.0,
-                                                               (self.cameraWindowWidth, self.cameraWindowHeight))
-                    self.isCreateFile = True
-                    print("isCreateFile: {}".format(self.isCreateFile))
-
-                self.videoWriterOriginal.write(frame)
-                fileSize = os.path.getsize(self.strVideoFile)
-            else:
-                if not self.isCreateOversizeFile:
-                    self.videoCodec = cv2.VideoWriter_fourcc(*'mp4v')
-                    self.videoWriterMergeFile = cv2.VideoWriter(self.tempVideoFileForMERGE, self.videoCodec, 30.0,
-                                                                (self.cameraWindowWidth, self.cameraWindowHeight))
-                    self.isCreateOversizeFile = True
-                    print("isCreateFile: {}".format(self.isCreateFile))
-                self.videoWriterMergeFile.write(frame)
-                fileSize = os.path.getsize(self.strVideoFile) + os.path.getsize(self.tempVideoFileForMERGE)
-            ### Create Video File from Frame (ENDED)
-
-            if self.maxRecordStorage * 1024 * 1024 < fileSize:  # 1MB = 1048576
-                if not self.isOversizeStatus:
-                    self.videoWriterOriginal.release()          #Orignal Video File을 release해주어 앞부분 cut할 수 있도록 해줌.
-                else:
-                    self.videoWriterMergeFile.release()
-                    self.mergeVideoFile(self.strVideoFile, self.tempVideoFileForMERGE, self.strVideoFile)
-                    self.isCreateOversizeFile = False
-
-                self.cutVideoFile(10, self.strVideoFile)             #cut Video prev 10sec.
-                self.isOversizeStatus = True
-        else:
-            if not self.isOversizeStatus:
-                if self.isCreateFile:
-                    self.videoWriterOriginal.release()
-                    self.isCreateFile = False
-                    print("isCreateFile: {}".format(self.isCreateFile))
-            else:
-                if self.isCreateOversizeFile:
-                    self.videoWriterMergeFile.release()
-                    self.mergeVideoFile(self.strVideoFile, self.tempVideoFileForMERGE, self.strVideoFile)
-                    self.isCreateOversizeFile = False
-                    print("isCreateFile: {}".format(self.isCreateFile))
-
-    def cutVideoFile(self, second, fileName):
-        tempVideoFileforCUT = 'tempCutVideo.mp4'                            # temp for cut original
-        with VideoFileClip(fileName) as video:
-            new = video.subclip(second, video.duration)                     # cut prev 'second'
-            new.write_videofile(tempVideoFileforCUT, audio_codec='aac')     # 앞의 영상을 자르는 동작을 정상적으로 해주기 위해 audio_codec에 대해 설정해 줌.
-        os.remove(fileName)
-        os.rename(tempVideoFileforCUT, fileName)                            # tempVideoFileforCUT을 Orignal Video File Name으로 변경해주어 저장.
-
-    def mergeVideoFile(self, clip1, clip2, finalName):
-        tempMergedFileName = "tempMergedFile.mp4"
-        mergeClip1 = VideoFileClip(clip1)
-        mergeClip2 = VideoFileClip(clip2)
-        mergeResultClip = concatenate_videoclips([mergeClip1, mergeClip2])
-        mergeResultClip.write_videofile(tempMergedFileName)
-        os.remove(clip1)
-        os.remove(clip2)
-        os.rename(tempMergedFileName, finalName)
-        print("merge success!!!!!!!!!!")
 ## Record(ENDED)
 
 ## Capture(BEGIN)
@@ -2965,13 +2980,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             return frame
 
-    def setDirectory(self, id): ## 0 Video, 1: OK Image, 2: NG Image, 3: A Image, 4: B Image, 5: C Image
+    def setDirectory(self, id):  ## 0 Video, 1: OK Image, 2: NG Image, 3: A Image, 4: B Image, 5: C Image
         dirName = QFileDialog.getExistingDirectory(self, self.tr("저장 경로 설정"), "./", QFileDialog.ShowDirsOnly)
         print(dirName)
-        if id == 0:     # 0 Video
+        if id == 0:  # 0 Video
             self.Page03_setVideoDirlineEdit1.setText(dirName)
-            self.strVideoFile = dirName + "/Video.mp4"  # original video
-            print(self.strVideoFile)
         elif id == 1:
             self.Page02_setOKImagelineEdit1.setText(dirName)
         elif id == 2:
@@ -2991,10 +3004,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ratioY = frameHeight / self.cameraWindowHeight
             drawMargin = 2  # 이미지캡쳐에서 rectangle이 포함되지 않도록 drawMargin 추가
 
-            stPosX, stPosY, endPosX, endPosY= int(self.startX * ratioX), int(self.startY * ratioY), int(self.endX * ratioX), int(self.endY * ratioY)
+            stPosX, stPosY, endPosX, endPosY = int(self.startX * ratioX), int(self.startY * ratioY), int(self.endX * ratioX), int(self.endY * ratioY)
 
-            frame = cv2.rectangle(frame, (stPosX - drawMargin, stPosY - drawMargin),
-                                   (endPosX + drawMargin, endPosY + drawMargin), (0, 0, 255), 2)
+            frame = cv2.rectangle(frame, (stPosX - drawMargin, stPosY - drawMargin), (endPosX + drawMargin, endPosY + drawMargin), (0, 0, 255), 2)
             return frame, stPosX, stPosY, endPosX - stPosX, endPosY - stPosY
         else:
             return frame, 0, 0, frame.shape[1], frame.shape[0]
@@ -3052,12 +3064,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         while True:
             if cv2.imread("image.jpg") is None:
-                self.capImage[id-1].save("image.jpg")
+                self.capImage[id - 1].save("image.jpg")
                 break
 
             fileName = "image(" + str(imageNumber) + ").jpg"
             if cv2.imread(fileName) is None:
-                self.capImage[id-1].save(fileName)
+                self.capImage[id - 1].save(fileName)
                 break
             else:
                 imageNumber = imageNumber + 1
