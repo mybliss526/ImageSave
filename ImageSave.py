@@ -2745,8 +2745,8 @@ g_isRecordStatus = [False, False, False, False]
 g_isStopClicked = [False, False, False, False]
 g_isPlayClicked = [False, False, False, False]
 g_isDrawRectangleStatus = [False, False, False, False]
-g_isDrawingEnded = False
-g_startX, g_startY, g_endX, g_endY = 0, 0, 0, 0
+g_isDrawingEnded = [False, False, False, False]
+g_startX, g_startY, g_endX, g_endY = [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]
 g_capImage = []
 
 class camThread(threading.Thread):
@@ -2887,7 +2887,7 @@ class camThread(threading.Thread):
 
         if self.isStopFrameCaptured:
             global g_isDrawRectangleStatus, g_isDrawingEnded
-            if not g_isDrawRectangleStatus[self.camID] or not g_isDrawingEnded:
+            if not g_isDrawRectangleStatus[self.camID] or not g_isDrawingEnded[self.camID]:
                 self.stopFrame = self.originalStopFrame.copy()
             return self.stopFrame
         else:
@@ -2897,14 +2897,14 @@ class camThread(threading.Thread):
         global g_isDrawRectangleStatus, g_isDrawingEnded
         global g_startX, g_startY, g_endX, g_endY
 
-        if g_isDrawRectangleStatus[self.camID] and g_isDrawingEnded:
+        if g_isDrawRectangleStatus[self.camID] and g_isDrawingEnded[self.camID]:
             frameHeight, frameWidth = frame.shape[:2]
 
             ratioX = frameWidth / self.width
             ratioY = frameHeight / self.height
             drawMargin = 2  # 이미지캡쳐에서 rectangle이 포함되지 않도록 drawMargin 추가
 
-            stPosX, stPosY, endPosX, endPosY = int(g_startX * ratioX), int(g_startY * ratioY), int(g_endX * ratioX), int(g_endY * ratioY)
+            stPosX, stPosY, endPosX, endPosY = int(g_startX[self.camID] * ratioX), int(g_startY[self.camID] * ratioY), int(g_endX[self.camID] * ratioX), int(g_endY[self.camID] * ratioY)
 
             frame = cv2.rectangle(frame, (stPosX - drawMargin, stPosY - drawMargin), (endPosX + drawMargin, endPosY + drawMargin), (0, 0, 255), 2)
             return frame, stPosX, stPosY, endPosX - stPosX, endPosY - stPosY
@@ -3127,47 +3127,51 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         global g_isDrawingEnded
         global g_startX, g_startY
 
+        tabIndex = self.CameratabWidget.currentIndex()
+
         if self.capturePageOn and self.capImgStartX < QMouseEvent.x() <= self.capImgEndX and self.capImgStartY < QMouseEvent.y() <= self.capImgEndY:
             self.isStPosOnImage = True
         else:
             self.isStPosOnImage = False
             return
 
-        g_isDrawingEnded = False
-        g_startX, g_startY = QMouseEvent.x(), QMouseEvent.y()
+        g_isDrawingEnded[tabIndex] = False
+        g_startX[tabIndex], g_startY[tabIndex] = QMouseEvent.x(), QMouseEvent.y()
 
     def mouseReleaseEvent(self, QMouseEvent):
         global g_isDrawRectangleStatus, g_isDrawingEnded
         global g_startX, g_startY, g_endX, g_endY
+        tabIndex = self.CameratabWidget.currentIndex()
 
-        if not self.isStPosOnImage or not g_isDrawRectangleStatus[self.CameratabWidget.currentIndex()]:
+        if not self.isStPosOnImage or not g_isDrawRectangleStatus[tabIndex]:
             return
 
-        g_isDrawingEnded = True
-        g_endX, g_endY = QMouseEvent.x(), QMouseEvent.y()
+        g_isDrawingEnded[tabIndex] = True
+        g_endX[tabIndex], g_endY[tabIndex] = QMouseEvent.x(), QMouseEvent.y()
 
-        if g_endX < g_startX:
-            g_startX, g_endX = g_endX, g_startX
-        if g_endY < g_startY:
-            g_startY, g_endY = g_endY, g_startY
+        if g_endX[tabIndex] < g_startX[tabIndex]:
+            g_startX[tabIndex], g_endX[tabIndex] = g_endX[tabIndex], g_startX[tabIndex]
+        if g_endY[tabIndex] < g_startY[tabIndex]:
+            g_startY[tabIndex], g_endY[tabIndex] = g_endY[tabIndex], g_startY[tabIndex]
 
-        if g_startX < self.capImgStartX : g_startX = self.capImgStartX
-        if g_startY < self.capImgStartY : g_startY = self.capImgStartY
-        if g_endX >= self.capImgEndX    : g_endX = self.capImgEndX
-        if g_endY >= self.capImgEndY    : g_endY = self.capImgEndY
+        if g_startX[tabIndex] < self.capImgStartX : g_startX[tabIndex] = self.capImgStartX
+        if g_startY[tabIndex] < self.capImgStartY : g_startY[tabIndex] = self.capImgStartY
+        if g_endX[tabIndex] >= self.capImgEndX    : g_endX[tabIndex] = self.capImgEndX
+        if g_endY[tabIndex] >= self.capImgEndY    : g_endY[tabIndex] = self.capImgEndY
 
-        g_startX -= self.capImgStartX
-        g_startY -= self.capImgStartY
-        g_endX -= self.capImgStartX
-        g_endY -= self.capImgStartY
+        g_startX[tabIndex] -= self.capImgStartX
+        g_startY[tabIndex] -= self.capImgStartY
+        g_endX[tabIndex] -= self.capImgStartX
+        g_endY[tabIndex] -= self.capImgStartY
 
     def drawRectangleStatus(self, isBoolState, camID):
         global g_isDrawRectangleStatus
         global g_startX, g_startY, g_endX, g_endY
+        tabIndex = self.CameratabWidget.currentIndex()
 
         g_isDrawRectangleStatus[camID] = isBoolState
         if g_isDrawRectangleStatus[camID]:
-            g_startX, g_startY, g_endX, g_endY = 0, 0, self.cameraWindowWidth, self.cameraWindowHeight
+            g_startX[tabIndex], g_startY[tabIndex], g_endX[tabIndex], g_endY[tabIndex] = 0, 0, self.cameraWindowWidth, self.cameraWindowHeight
 
     def saveCaptureImage(self, id, camID): # id - 0:OK, 1: NG, 2: A, 3: B, 4: C
         global g_capImage
