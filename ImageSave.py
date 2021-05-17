@@ -3000,18 +3000,68 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.isStPosOnImage = False
         self.capImgStartX, self.capImgStartY, self.capImgEndX, self.capImgEndY = 212, 30, 962, 450  ### Note: Image Mouse Postion
 
+        self.Page02_setOKImagelineEditList = [self.Page02_setOKImagelineEdit1, self.Page02_setOKImagelineEdit2,
+                                              self.Page02_setOKImagelineEdit3, self.Page02_setOKImagelineEdit4]
+        self.Page02_setNGImagelineEditList = [self.Page02_setNGImagelineEdit1, self.Page02_setNGImagelineEdit2,
+                                              self.Page02_setNGImagelineEdit3, self.Page02_setNGImagelineEdit4]
+        self.Page02_setAImagelineEditList = [self.Page02_setAImagelineEdit1, self.Page02_setAImagelineEdit2,
+                                             self.Page02_setAImagelineEdit3, self.Page02_setAImagelineEdit4]
+        self.Page02_setBImagelineEditList = [self.Page02_setBImagelineEdit1, self.Page02_setBImagelineEdit2,
+                                             self.Page02_setBImagelineEdit3, self.Page02_setBImagelineEdit4]
+        self.Page02_setCImagelineEditList = [self.Page02_setCImagelineEdit1, self.Page02_setCImagelineEdit2,
+                                             self.Page02_setCImagelineEdit3, self.Page02_setCImagelineEdit4]
+
         self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(0, 0))
         self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1, 0))
         self.Page02_AImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(2, 0))
         self.Page02_BImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(3, 0))
         self.Page02_CImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(4, 0))
+
+        self.Page02_OKImageSaveButton2.clicked.connect(lambda: self.saveCaptureImage(0, 1))
+        self.Page02_NGImageSaveButton2.clicked.connect(lambda: self.saveCaptureImage(1, 1))
+        self.Page02_AImageSaveButton2.clicked.connect(lambda: self.saveCaptureImage(2, 1))
+        self.Page02_BImageSaveButton2.clicked.connect(lambda: self.saveCaptureImage(3, 1))
+        self.Page02_CImageSaveButton2.clicked.connect(lambda: self.saveCaptureImage(4, 1))
+
+        self.Page02_OKImageSaveButton3.clicked.connect(lambda: self.saveCaptureImage(0, 2))
+        self.Page02_NGImageSaveButton3.clicked.connect(lambda: self.saveCaptureImage(1, 2))
+        self.Page02_AImageSaveButton3.clicked.connect(lambda: self.saveCaptureImage(2, 2))
+        self.Page02_BImageSaveButton3.clicked.connect(lambda: self.saveCaptureImage(3, 2))
+        self.Page02_CImageSaveButton3.clicked.connect(lambda: self.saveCaptureImage(4, 2))
+
+        self.Page02_OKImageSaveButton4.clicked.connect(lambda: self.saveCaptureImage(0, 3))
+        self.Page02_NGImageSaveButton4.clicked.connect(lambda: self.saveCaptureImage(1, 3))
+        self.Page02_AImageSaveButton4.clicked.connect(lambda: self.saveCaptureImage(2, 3))
+        self.Page02_BImageSaveButton4.clicked.connect(lambda: self.saveCaptureImage(3, 3))
+        self.Page02_CImageSaveButton4.clicked.connect(lambda: self.saveCaptureImage(4, 3))
+
         self.Page02_CaptureSetButton1.clicked.connect(lambda: self.drawRectangleStatus(True))
         self.Page02_CaptureReleaseButton1.clicked.connect(lambda: self.drawRectangleStatus(False))
-        self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(100))
-        self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(101))
-        self.Page02_setAImagebutton1.clicked.connect(lambda: self.setDirectory(102))
-        self.Page02_setBImagebutton1.clicked.connect(lambda: self.setDirectory(103))
-        self.Page02_setCImagebutton1.clicked.connect(lambda: self.setDirectory(104))
+
+        self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(100, 0))
+        self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(101, 0))
+        self.Page02_setAImagebutton1.clicked.connect(lambda: self.setDirectory(102, 0))
+        self.Page02_setBImagebutton1.clicked.connect(lambda: self.setDirectory(103, 0))
+        self.Page02_setCImagebutton1.clicked.connect(lambda: self.setDirectory(104, 0))
+
+        self.Page02_setOKImagebutton2.clicked.connect(lambda: self.setDirectory(100, 1))
+        self.Page02_setNGImagebutton2.clicked.connect(lambda: self.setDirectory(101, 1))
+        self.Page02_setAImagebutton2.clicked.connect(lambda: self.setDirectory(102, 1))
+        self.Page02_setBImagebutton2.clicked.connect(lambda: self.setDirectory(103, 1))
+        self.Page02_setCImagebutton2.clicked.connect(lambda: self.setDirectory(104, 1))
+
+        self.Page02_setOKImagebutton3.clicked.connect(lambda: self.setDirectory(100, 2))
+        self.Page02_setNGImagebutton3.clicked.connect(lambda: self.setDirectory(101, 2))
+        self.Page02_setAImagebutton3.clicked.connect(lambda: self.setDirectory(102, 2))
+        self.Page02_setBImagebutton3.clicked.connect(lambda: self.setDirectory(103, 2))
+        self.Page02_setCImagebutton3.clicked.connect(lambda: self.setDirectory(104, 2))
+
+        self.Page02_setOKImagebutton4.clicked.connect(lambda: self.setDirectory(100, 3))
+        self.Page02_setNGImagebutton4.clicked.connect(lambda: self.setDirectory(101, 3))
+        self.Page02_setAImagebutton4.clicked.connect(lambda: self.setDirectory(102, 3))
+        self.Page02_setBImagebutton4.clicked.connect(lambda: self.setDirectory(103, 3))
+        self.Page02_setCImagebutton4.clicked.connect(lambda: self.setDirectory(104, 3))
+
         self.Page02_VideoStopButton1.clicked.connect(self.captureFrameStop)
         self.Page02_VideoPlayButton1.clicked.connect(self.captureFramePlay)
 
@@ -3027,13 +3077,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         g_isPlayClicked = True
         g_isStopClicked = False
 
-    def setDirectory(self, id):
+    def setDirectory(self, id, camID):
         """ setDirectory ID
         VIDEO ID   - 0: CAM1 Video, 1: CAM2 Video, 2: CAM3 Video, 3: CAM4 Video
         CAPTURE ID - 100: OK Image, 101: NG Image, 102: A Image, 103: B Image, 104: C Image
         """
         dirName = QFileDialog.getExistingDirectory(self, self.tr("저장 경로 설정"), "./", QFileDialog.ShowDirsOnly)
-        print(dirName)
+
         if id == 0:    # 0 Video1
             self.Page03_setVideoDirlineEdit1.setText(dirName)
         elif id == 1:  # 1 Video2
@@ -3043,15 +3093,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif id == 3:  # 3 Video4
             self.Page03_setVideoDirlineEdit4.setText(dirName)
         elif id == 100:
-            self.Page02_setOKImagelineEdit1.setText(dirName)
+            self.Page02_setOKImagelineEditList[camID].setText(dirName)
         elif id == 101:
-            self.Page02_setNGImagelineEdit1.setText(dirName)
+            self.Page02_setNGImagelineEditList[camID].setText(dirName)
         elif id == 102:
-            self.Page02_setAImagelineEdit1.setText(dirName)
+            self.Page02_setAImagelineEditList[camID].setText(dirName)
         elif id == 103:
-            self.Page02_setBImagelineEdit1.setText(dirName)
+            self.Page02_setBImagelineEditList[camID].setText(dirName)
         elif id == 104:
-            self.Page02_setCImagelineEdit1.setText(dirName)
+            self.Page02_setCImagelineEditList[camID].setText(dirName)
 
     def mousePressEvent(self, QMouseEvent):
         global g_isDrawingEnded
@@ -3104,16 +3154,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         imageNumber = 1
         tempCurPwd = os.getcwd()
-        if id == 0 and (len(self.Page02_setOKImagelineEdit1.text()) > 0):
-            os.chdir(self.Page02_setOKImagelineEdit1.text()) # Move TO Save PWD
-        elif id == 1 and (len(self.Page02_setNGImagelineEdit1.text()) > 0):
-            os.chdir(self.Page02_setNGImagelineEdit1.text()) # Move TO Save PWD
-        elif id == 2 and (len(self.Page02_setAImagelineEdit1.text()) > 0):
-            os.chdir(self.Page02_setAImagelineEdit1.text())
-        elif id == 3 and (len(self.Page02_setBImagelineEdit1.text()) > 0):
-            os.chdir(self.Page02_setBImagelineEdit1.text())
-        elif id == 4 and (len(self.Page02_setCImagelineEdit1.text()) > 0):
-            os.chdir(self.Page02_setCImagelineEdit1.text())
+        if id == 0 and (len(self.Page02_setOKImagelineEditList[camID].text()) > 0):
+            os.chdir(self.Page02_setOKImagelineEditList[camID].text()) # Move TO Save PWD
+        elif id == 1 and (len(self.Page02_setNGImagelineEditList[camID].text()) > 0):
+            os.chdir(self.Page02_setNGImagelineEditList[camID].text()) # Move TO Save PWD
+        elif id == 2 and (len(self.Page02_setAImagelineEditList[camID].text()) > 0):
+            os.chdir(self.Page02_setAImagelineEditList[camID].text())
+        elif id == 3 and (len(self.Page02_setBImagelineEditList[camID].text()) > 0):
+            os.chdir(self.Page02_setBImagelineEditList[camID].text())
+        elif id == 4 and (len(self.Page02_setCImagelineEditList[camID].text()) > 0):
+            os.chdir(self.Page02_setCImagelineEditList[camID].text())
 
         while True:
             if cv2.imread("image.jpg") is None:
