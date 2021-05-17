@@ -2742,9 +2742,9 @@ class Ui_MainWindow(object):
 semaphore = threading.Semaphore(4)
 g_isRecordStatus = [False, False, False, False]
 
-g_isStopClicked = False
-g_isPlayClicked = False
-g_isDrawRectangleStatus = False
+g_isStopClicked = [False, False, False, False]
+g_isPlayClicked = [False, False, False, False]
+g_isDrawRectangleStatus = [False, False, False, False]
 g_isDrawingEnded = False
 g_startX, g_startY, g_endX, g_endY = 0, 0, 0, 0
 g_capImage = []
@@ -2875,19 +2875,19 @@ class camThread(threading.Thread):
     def captureFrame(self, frame):
         global g_isStopClicked, g_isPlayClicked
 
-        if g_isStopClicked and not self.isStopFrameCaptured:
+        if g_isStopClicked[self.camID] and not self.isStopFrameCaptured:
             self.isStopFrameCaptured = True
-            g_isPlayClicked = False
+            g_isPlayClicked[self.camID] = False
             self.stopFrame = frame
             self.originalStopFrame = frame.copy()
 
-        if g_isPlayClicked:
+        if g_isPlayClicked[self.camID]:
             self.isStopFrameCaptured = False
-            g_isStopClicked = False
+            g_isStopClicked[self.camID] = False
 
         if self.isStopFrameCaptured:
             global g_isDrawRectangleStatus, g_isDrawingEnded
-            if not g_isDrawRectangleStatus or not g_isDrawingEnded:
+            if not g_isDrawRectangleStatus[self.camID] or not g_isDrawingEnded:
                 self.stopFrame = self.originalStopFrame.copy()
             return self.stopFrame
         else:
@@ -2897,7 +2897,7 @@ class camThread(threading.Thread):
         global g_isDrawRectangleStatus, g_isDrawingEnded
         global g_startX, g_startY, g_endX, g_endY
 
-        if g_isDrawRectangleStatus and g_isDrawingEnded:
+        if g_isDrawRectangleStatus[self.camID] and g_isDrawingEnded:
             frameHeight, frameWidth = frame.shape[:2]
 
             ratioX = frameWidth / self.width
@@ -3039,9 +3039,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page02_BImageSaveButton4.clicked.connect(lambda: self.saveCaptureImage(3, 3))
         self.Page02_CImageSaveButton4.clicked.connect(lambda: self.saveCaptureImage(4, 3))
 
-        self.Page02_CaptureSetButton1.clicked.connect(lambda: self.drawRectangleStatus(True))
-        self.Page02_CaptureReleaseButton1.clicked.connect(lambda: self.drawRectangleStatus(False))
-
         self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(100, 0))
         self.Page02_setNGImagebutton1.clicked.connect(lambda: self.setDirectory(101, 0))
         self.Page02_setAImagebutton1.clicked.connect(lambda: self.setDirectory(102, 0))
@@ -3066,20 +3063,39 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page02_setBImagebutton4.clicked.connect(lambda: self.setDirectory(103, 3))
         self.Page02_setCImagebutton4.clicked.connect(lambda: self.setDirectory(104, 3))
 
-        self.Page02_VideoStopButton1.clicked.connect(self.captureFrameStop)
-        self.Page02_VideoPlayButton1.clicked.connect(self.captureFramePlay)
+        self.Page02_VideoStopButton1.clicked.connect(lambda: self.captureFrameStop(0))
+        self.Page02_VideoPlayButton1.clicked.connect(lambda: self.captureFramePlay(0))
+        self.Page02_CaptureSetButton1.clicked.connect(lambda: self.drawRectangleStatus(True, 0))
+        self.Page02_CaptureReleaseButton1.clicked.connect(lambda: self.drawRectangleStatus(False, 0))
 
-    def captureFrameStop(self):
+        self.Page02_VideoStopButton2.clicked.connect(lambda: self.captureFrameStop(1))
+        self.Page02_VideoPlayButton2.clicked.connect(lambda: self.captureFramePlay(1))
+        self.Page02_CaptureSetButton2.clicked.connect(lambda: self.drawRectangleStatus(True, 1))
+        self.Page02_CaptureReleaseButton2.clicked.connect(lambda: self.drawRectangleStatus(False, 1))
+
+        self.Page02_VideoStopButton3.clicked.connect(lambda: self.captureFrameStop(2))
+        self.Page02_VideoPlayButton3.clicked.connect(lambda: self.captureFramePlay(2))
+        self.Page02_CaptureSetButton3.clicked.connect(lambda: self.drawRectangleStatus(True, 2))
+        self.Page02_CaptureReleaseButton3.clicked.connect(lambda: self.drawRectangleStatus(False, 2))
+
+        self.Page02_VideoStopButton4.clicked.connect(lambda: self.captureFrameStop(3))
+        self.Page02_VideoPlayButton4.clicked.connect(lambda: self.captureFramePlay(3))
+        self.Page02_CaptureSetButton4.clicked.connect(lambda: self.drawRectangleStatus(True, 3))
+        self.Page02_CaptureReleaseButton4.clicked.connect(lambda: self.drawRectangleStatus(False, 3))
+
+
+
+    def captureFrameStop(self, camID):
         global g_isStopClicked, g_isPlayClicked
 
-        g_isStopClicked = True
-        g_isPlayClicked = False
+        g_isStopClicked[camID] = True
+        g_isPlayClicked[camID] = False
 
-    def captureFramePlay(self):
+    def captureFramePlay(self, camID):
         global g_isStopClicked, g_isPlayClicked
 
-        g_isPlayClicked = True
-        g_isStopClicked = False
+        g_isPlayClicked[camID] = True
+        g_isStopClicked[camID] = False
 
     def setDirectory(self, id, camID=0):
         """ setDirectory ID
@@ -3124,7 +3140,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         global g_isDrawRectangleStatus, g_isDrawingEnded
         global g_startX, g_startY, g_endX, g_endY
 
-        if not self.isStPosOnImage or not g_isDrawRectangleStatus:
+        if not self.isStPosOnImage or not g_isDrawRectangleStatus[self.CameratabWidget.currentIndex()]:
             return
 
         g_isDrawingEnded = True
@@ -3145,12 +3161,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         g_endX -= self.capImgStartX
         g_endY -= self.capImgStartY
 
-    def drawRectangleStatus(self, isBoolState):
+    def drawRectangleStatus(self, isBoolState, camID):
         global g_isDrawRectangleStatus
         global g_startX, g_startY, g_endX, g_endY
 
-        g_isDrawRectangleStatus = isBoolState
-        if g_isDrawRectangleStatus:
+        g_isDrawRectangleStatus[camID] = isBoolState
+        if g_isDrawRectangleStatus[camID]:
             g_startX, g_startY, g_endX, g_endY = 0, 0, self.cameraWindowWidth, self.cameraWindowHeight
 
     def saveCaptureImage(self, id, camID): # id - 0:OK, 1: NG, 2: A, 3: B, 4: C
