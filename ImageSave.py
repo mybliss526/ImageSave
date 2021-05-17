@@ -2742,6 +2742,13 @@ class Ui_MainWindow(object):
 semaphore = threading.Semaphore(4)
 g_isRecordStatus = [False, False, False, False]
 
+g_isStopClicked = False
+g_isPlayClicked = False
+g_isDrawRectangleStatus = False
+g_isDrawingEnded = False
+g_startX, g_startY, g_endX, g_endY = 0, 0, 0, 0
+g_capImage = []
+
 class camThread(threading.Thread):
     def __init__(self, camID, width, height, captureImage, liveLabel, captureLabel, videoDir, maxStorageSpinBox):
         super().__init__()
@@ -2750,7 +2757,7 @@ class camThread(threading.Thread):
         self.captureImage = captureImage
         self.liveLabel = liveLabel
         self.captureLabel = captureLabel
-        self.camID = camID
+        self.camID = camID # Zero base
 
         self.strVideoFileDir = videoDir
         self.maxRecordStorageSpinBox = maxStorageSpinBox
@@ -2758,6 +2765,10 @@ class camThread(threading.Thread):
         self.isOversizeStatus = False
         self.isCreateFile = False
         self.isCreateOversizeFile = False
+
+        self.isStopFrameCaptured = False
+        self.stopFrame = np.zeros((self.width, self.height, 3), np.uint8)
+        self.originalStopFrame = np.zeros((self.width, self.height, 3), np.uint8)
 
     def run(self):
         semaphore.acquire()
@@ -2767,6 +2778,7 @@ class camThread(threading.Thread):
 
     def displayVideoStream(self):
         success, frame = self.captureImage.read()
+        global g_capImage
 
         if success:
             frame = cv2.flip(frame, 1)
@@ -2775,14 +2787,14 @@ class camThread(threading.Thread):
             liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
             liveImage1 = liveImage.copy().scaled(self.width, self.height)
 
-            # frame = self.captureFrame(frame)
-            # frame, x, y, width, height = self.drawRectangleRegion(frame)
+            frame = self.captureFrame(frame)
+            frame, x, y, width, height = self.drawRectangleRegion(frame)
             capImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
             captureImage1 = capImage.scaled(self.width, self.height)
-            # try:
-            #     self.capImage[capIndex] = capImage.copy(x, y, width, height)
-            # except IndexError:
-            #     self.capImage.insert(capIndex, capImage.copy(x, y, width, height))
+            try:
+                g_capImage[self.camID] = capImage.copy(x, y, width, height)
+            except IndexError:
+                g_capImage.insert(self.camID, capImage.copy(x, y, width, height))
         else:
             noVideoImage = QImage(860, 480, QImage.Format_RGB888)
             noVideoImage.fill(qRgb(50, 50, 50))
@@ -2792,6 +2804,7 @@ class camThread(threading.Thread):
         self.liveLabel.setPixmap(QPixmap.fromImage(liveImage1))
         self.captureLabel.setPixmap(QPixmap.fromImage(captureImage1))
 
+    ## Record in Thread(START)
     def frameRecording(self, frame):
         global g_isRecordStatus
         strVideoFile = "CAM{}_Video.mp4".format(self.camID + 1)  # original video
@@ -2854,18 +2867,57 @@ class camThread(threading.Thread):
         os.remove(clip2)
         os.rename(tempMergedFileName, finalName)
         print("merge success!!!!!!!!!!")
+    ## Record in Thread(ENDED)
+
+    ## Capture in Thread(BEGIN)
+    def captureFrame(self, frame):
+        global g_isStopClicked, g_isPlayClicked
+
+        if g_isStopClicked and not self.isStopFrameCaptured:
+            self.isStopFrameCaptured = True
+            g_isPlayClicked = False
+            self.stopFrame = frame
+            self.originalStopFrame = frame.copy()
+
+        if g_isPlayClicked:
+            self.isStopFrameCaptured = False
+            g_isStopClicked = False
+
+        if self.isStopFrameCaptured:
+            global g_isDrawRectangleStatus, g_isDrawingEnded
+            if not g_isDrawRectangleStatus or not g_isDrawingEnded:
+                self.stopFrame = self.originalStopFrame.copy()
+            return self.stopFrame
+        else:
+            return frame
+
+    def drawRectangleRegion(self, frame):
+        global g_isDrawRectangleStatus, g_isDrawingEnded
+        global g_startX, g_startY, g_endX, g_endY
+
+        if g_isDrawRectangleStatus and g_isDrawingEnded:
+            frameHeight, frameWidth = frame.shape[:2]
+
+            ratioX = frameWidth / self.width
+            ratioY = frameHeight / self.height
+            drawMargin = 2  # 이미지캡쳐에서 rectangle이 포함되지 않도록 drawMargin 추가
+
+            stPosX, stPosY, endPosX, endPosY = int(g_startX * ratioX), int(g_startY * ratioY), int(g_endX * ratioX), int(g_endY * ratioY)
+
+            frame = cv2.rectangle(frame, (stPosX - drawMargin, stPosY - drawMargin), (endPosX + drawMargin, endPosY + drawMargin), (0, 0, 255), 2)
+            return frame, stPosX, stPosY, endPosX - stPosX, endPosY - stPosY
+        else:
+            return frame, 0, 0, frame.shape[1], frame.shape[0]
+    ## Capture in Thread(ENDED)
 ## Cam Thread (ENDED)
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.capture = []
-        self.capImage = []
         self.listThread = []
 
         self.cameraWindowWidth, self.cameraWindowHeight = 0, 0
-        self.isDrawRectangleStatus, self.isDrawingEnded = False, False
-        self.startX, self.startY, self.endX, self.endY = 0, 0, 0, 0
 
         self.setupUi(self)
         self.setupCamra()
@@ -2948,15 +3000,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.isStPosOnImage = False
         self.capImgStartX, self.capImgStartY, self.capImgEndX, self.capImgEndY = 212, 30, 962, 450  ### Note: Image Mouse Postion
 
-        self.isStopClicked, self.isPlayClicked, self.isStopFrameCaptured = False, False, False
-        self.stopFrame = np.zeros((self.cameraWindowHeight, self.cameraWindowWidth, 3), np.uint8)
-        self.originalStopFrame = np.zeros((self.cameraWindowHeight, self.cameraWindowWidth, 3), np.uint8)
-
-        self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(0))
-        self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1))
-        self.Page02_AImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(2))
-        self.Page02_BImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(3))
-        self.Page02_CImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(4))
+        self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(0, 0))
+        self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1, 0))
+        self.Page02_AImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(2, 0))
+        self.Page02_BImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(3, 0))
+        self.Page02_CImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(4, 0))
         self.Page02_CaptureSetButton1.clicked.connect(lambda: self.drawRectangleStatus(True))
         self.Page02_CaptureReleaseButton1.clicked.connect(lambda: self.drawRectangleStatus(False))
         self.Page02_setOKImagebutton1.clicked.connect(lambda: self.setDirectory(100))
@@ -2968,30 +3016,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page02_VideoPlayButton1.clicked.connect(self.captureFramePlay)
 
     def captureFrameStop(self):
-        self.isStopClicked = True
-        self.isPlayClicked = False
+        global g_isStopClicked, g_isPlayClicked
+
+        g_isStopClicked = True
+        g_isPlayClicked = False
 
     def captureFramePlay(self):
-        self.isPlayClicked = True
-        self.isStopClicked = False
+        global g_isStopClicked, g_isPlayClicked
 
-    def captureFrame(self, frame):
-        if self.isStopClicked and not self.isStopFrameCaptured:
-            self.isStopFrameCaptured = True
-            self.isPlayClicked = False
-            self.stopFrame = frame
-            self.originalStopFrame = frame.copy()
-
-        if self.isPlayClicked:
-            self.isStopFrameCaptured = False
-            self.isStopClicked = False
-
-        if self.isStopFrameCaptured:
-            if not self.isDrawRectangleStatus or not self.isDrawingEnded:
-                self.stopFrame = self.originalStopFrame.copy()
-            return self.stopFrame
-        else:
-            return frame
+        g_isPlayClicked = True
+        g_isStopClicked = False
 
     def setDirectory(self, id):
         """ setDirectory ID
@@ -3019,59 +3053,55 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif id == 104:
             self.Page02_setCImagelineEdit1.setText(dirName)
 
-    def drawRectangleRegion(self, frame):
-        if self.isDrawRectangleStatus and self.isDrawingEnded:
-            frameHeight, frameWidth = frame.shape[:2]
-
-            ratioX = frameWidth / self.cameraWindowWidth
-            ratioY = frameHeight / self.cameraWindowHeight
-            drawMargin = 2  # 이미지캡쳐에서 rectangle이 포함되지 않도록 drawMargin 추가
-
-            stPosX, stPosY, endPosX, endPosY = int(self.startX * ratioX), int(self.startY * ratioY), int(self.endX * ratioX), int(self.endY * ratioY)
-
-            frame = cv2.rectangle(frame, (stPosX - drawMargin, stPosY - drawMargin), (endPosX + drawMargin, endPosY + drawMargin), (0, 0, 255), 2)
-            return frame, stPosX, stPosY, endPosX - stPosX, endPosY - stPosY
-        else:
-            return frame, 0, 0, frame.shape[1], frame.shape[0]
-
     def mousePressEvent(self, QMouseEvent):
+        global g_isDrawingEnded
+        global g_startX, g_startY
+
         if self.capturePageOn and self.capImgStartX < QMouseEvent.x() <= self.capImgEndX and self.capImgStartY < QMouseEvent.y() <= self.capImgEndY:
             self.isStPosOnImage = True
         else:
             self.isStPosOnImage = False
             return
 
-        self.isDrawingEnded = False
-        self.startX, self.startY = QMouseEvent.x(), QMouseEvent.y()
+        g_isDrawingEnded = False
+        g_startX, g_startY = QMouseEvent.x(), QMouseEvent.y()
 
     def mouseReleaseEvent(self, QMouseEvent):
-        if not self.isStPosOnImage or not self.isDrawRectangleStatus:
+        global g_isDrawRectangleStatus, g_isDrawingEnded
+        global g_startX, g_startY, g_endX, g_endY
+
+        if not self.isStPosOnImage or not g_isDrawRectangleStatus:
             return
 
-        self.isDrawingEnded = True
-        self.endX, self.endY = QMouseEvent.x(), QMouseEvent.y()
+        g_isDrawingEnded = True
+        g_endX, g_endY = QMouseEvent.x(), QMouseEvent.y()
 
-        if self.endX < self.startX:
-            self.startX, self.endX = self.endX, self.startX
-        if self.endY < self.startY:
-            self.startY, self.endY = self.endY, self.startY
+        if g_endX < g_startX:
+            g_startX, g_endX = g_endX, g_startX
+        if g_endY < g_startY:
+            g_startY, g_endY = g_endY, g_startY
 
-        if self.startX < self.capImgStartX : self.startX = self.capImgStartX
-        if self.startY < self.capImgStartY : self.startY = self.capImgStartY
-        if self.endX >= self.capImgEndX    : self.endX = self.capImgEndX
-        if self.endY >= self.capImgEndY    : self.endY = self.capImgEndY
+        if g_startX < self.capImgStartX : g_startX = self.capImgStartX
+        if g_startY < self.capImgStartY : g_startY = self.capImgStartY
+        if g_endX >= self.capImgEndX    : g_endX = self.capImgEndX
+        if g_endY >= self.capImgEndY    : g_endY = self.capImgEndY
 
-        self.startX -= self.capImgStartX
-        self.startY -= self.capImgStartY
-        self.endX -= self.capImgStartX
-        self.endY -= self.capImgStartY
+        g_startX -= self.capImgStartX
+        g_startY -= self.capImgStartY
+        g_endX -= self.capImgStartX
+        g_endY -= self.capImgStartY
 
     def drawRectangleStatus(self, isBoolState):
-        self.isDrawRectangleStatus = isBoolState
-        if self.isDrawRectangleStatus: self.startX, self.startY, self.endX, self.endY = 0, 0, self.cameraWindowWidth, self.cameraWindowHeight
-        print("isDrawRectangleStatus: {}".format(self.isDrawRectangleStatus))
+        global g_isDrawRectangleStatus
+        global g_startX, g_startY, g_endX, g_endY
 
-    def saveCaptureImage(self, id): # id - 0:OK, 1: NG, 2: A, 3: B, 4: C
+        g_isDrawRectangleStatus = isBoolState
+        if g_isDrawRectangleStatus:
+            g_startX, g_startY, g_endX, g_endY = 0, 0, self.cameraWindowWidth, self.cameraWindowHeight
+
+    def saveCaptureImage(self, id, camID): # id - 0:OK, 1: NG, 2: A, 3: B, 4: C
+        global g_capImage
+
         imageNumber = 1
         tempCurPwd = os.getcwd()
         if id == 0 and (len(self.Page02_setOKImagelineEdit1.text()) > 0):
@@ -3087,12 +3117,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         while True:
             if cv2.imread("image.jpg") is None:
-                self.capImage[id - 1].save("image.jpg")
+                g_capImage[camID].save("image.jpg")
                 break
 
             fileName = "image(" + str(imageNumber) + ").jpg"
             if cv2.imread(fileName) is None:
-                self.capImage[id - 1].save(fileName)
+                g_capImage[camID].save(fileName)
                 break
             else:
                 imageNumber = imageNumber + 1
