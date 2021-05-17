@@ -2750,11 +2750,13 @@ g_startX, g_startY, g_endX, g_endY = 0, 0, 0, 0
 g_capImage = []
 
 class camThread(threading.Thread):
-    def __init__(self, camID, width, height, captureImage, liveLabel, captureLabel, videoDir, maxStorageSpinBox):
+    def __init__(self, camID, width, height, captureImage, liveW, liveH, liveLabel, captureLabel, videoDir, maxStorageSpinBox):
         super().__init__()
         self.width = width
         self.height = height
         self.captureImage = captureImage
+        self.liveW = liveW
+        self.liveH = liveH
         self.liveLabel = liveLabel
         self.captureLabel = captureLabel
         self.camID = camID # Zero base
@@ -2785,7 +2787,7 @@ class camThread(threading.Thread):
             self.frameRecording(frame)
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
             liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
-            liveImage1 = liveImage.copy().scaled(self.width, self.height)
+            liveImage1 = liveImage.copy().scaled(self.liveW, self.liveH)
 
             frame = self.captureFrame(frame)
             frame, x, y, width, height = self.drawRectangleRegion(frame)
@@ -2957,12 +2959,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Page03_setVideoDirlineEditList  = [self.Page03_setVideoDirlineEdit1, self.Page03_setVideoDirlineEdit2, self.Page03_setVideoDirlineEdit3, self.Page03_setVideoDirlineEdit4]
         Page03_RecordCapSpinBoxList     = [self.Page03_RecordCapSpinBox1, self.Page03_RecordCapSpinBox2, self.Page03_RecordCapSpinBox3, self.Page03_RecordCapSpinBox4]
 
+        liveWidth, liveHeight = self.horizontalLayoutWidget_5.geometry().width(), self.horizontalLayoutWidget_5.geometry().height()
+
         for capIndex in range(0, 2):  ### tempRange!!
             self.capture.insert(capIndex, cv2.VideoCapture(capIndex))          # cv2.VideoCapture(capIndex) temp ==> change for settingValue
             self.capture[capIndex].set(cv2.CAP_PROP_FRAME_WIDTH, self.cameraWindowWidth)
             self.capture[capIndex].set(cv2.CAP_PROP_FRAME_HEIGHT, self.cameraWindowHeight)
 
-            self.listThread.append(camThread(capIndex, self.cameraWindowWidth, self.cameraWindowHeight, self.capture[capIndex],
+            self.listThread.append(camThread(capIndex, self.cameraWindowWidth, self.cameraWindowHeight, self.capture[capIndex], liveWidth, liveHeight,
                                              Page01_LiveImagelabelList[capIndex], Page02_ImageLabelList[capIndex],
                                              Page03_setVideoDirlineEditList[capIndex], Page03_RecordCapSpinBoxList[capIndex]))
             self.listThread[-1].start()
@@ -3077,7 +3081,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         g_isPlayClicked = True
         g_isStopClicked = False
 
-    def setDirectory(self, id, camID):
+    def setDirectory(self, id, camID=0):
         """ setDirectory ID
         VIDEO ID   - 0: CAM1 Video, 1: CAM2 Video, 2: CAM3 Video, 3: CAM4 Video
         CAPTURE ID - 100: OK Image, 101: NG Image, 102: A Image, 103: B Image, 104: C Image
