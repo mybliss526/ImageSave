@@ -300,7 +300,7 @@ class Ui_MainWindow(object):
         self.Page02_scrollArea1.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, -98, 512, 167))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 512, 167))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.Page02_setOKImageLayout1 = QHBoxLayout()
@@ -491,7 +491,7 @@ class Ui_MainWindow(object):
         self.Page02_scrollArea2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, -98, 512, 167))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 512, 167))
         self.verticalLayout_4 = QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.Page02_setOKImageLayout2 = QHBoxLayout()
@@ -682,7 +682,7 @@ class Ui_MainWindow(object):
         self.Page02_scrollArea3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
-        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, -98, 512, 167))
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 512, 167))
         self.verticalLayout_5 = QVBoxLayout(self.scrollAreaWidgetContents_5)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.Page02_setOKImageLayout3 = QHBoxLayout()
@@ -873,7 +873,7 @@ class Ui_MainWindow(object):
         self.Page02_scrollArea4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_6 = QWidget()
         self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
-        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, -29, 512, 167))
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 512, 167))
         self.verticalLayout_6 = QVBoxLayout(self.scrollAreaWidgetContents_6)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.Page02_setOKImageLayout4 = QHBoxLayout()
@@ -2207,6 +2207,256 @@ class Ui_MainWindow(object):
         self.Page03_setVideoDirLayout4.addWidget(self.Page03_setVideoDirbutton4)
 
         self.stackedWidget.addWidget(self.Page03)
+        self.Page04 = QWidget()
+        self.Page04.setObjectName(u"Page04")
+        self.horizontalLayoutWidget_7 = QWidget(self.Page04)
+        self.horizontalLayoutWidget_7.setObjectName(u"horizontalLayoutWidget_7")
+        self.horizontalLayoutWidget_7.setGeometry(QRect(20, 0, 751, 421))
+        self.Page04_VideoImage = QHBoxLayout(self.horizontalLayoutWidget_7)
+        self.Page04_VideoImage.setObjectName(u"Page04_VideoImage")
+        self.Page04_VideoImage.setContentsMargins(0, 0, 0, 0)
+        self.Page04_ImageLabel = QLabel(self.horizontalLayoutWidget_7)
+        self.Page04_ImageLabel.setObjectName(u"Page04_ImageLabel")
+        self.Page04_ImageLabel.setStyleSheet(u"background-color: rgb(200, 200, 200);")
+
+        self.Page04_VideoImage.addWidget(self.Page04_ImageLabel)
+
+        self.Page04_scrollArea = QScrollArea(self.Page04)
+        self.Page04_scrollArea.setObjectName(u"Page04_scrollArea")
+        self.Page04_scrollArea.setGeometry(QRect(400, 460, 391, 71))
+        self.Page04_scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_3 = QWidget()
+        self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 372, 167))
+        self.verticalLayout_3 = QVBoxLayout(self.scrollAreaWidgetContents_3)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.Page04_setOKImageLayout = QHBoxLayout()
+        self.Page04_setOKImageLayout.setObjectName(u"Page04_setOKImageLayout")
+        self.Page04_setOKImageLabel = QLabel(self.scrollAreaWidgetContents_3)
+        self.Page04_setOKImageLabel.setObjectName(u"Page04_setOKImageLabel")
+
+        self.Page04_setOKImageLayout.addWidget(self.Page04_setOKImageLabel)
+
+        self.Page04_setOKImagelineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
+        self.Page04_setOKImagelineEdit.setObjectName(u"Page04_setOKImagelineEdit")
+
+        self.Page04_setOKImageLayout.addWidget(self.Page04_setOKImagelineEdit)
+
+        self.Page04_setOKImagebutton = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Page04_setOKImagebutton.setObjectName(u"Page04_setOKImagebutton")
+        self.Page04_setOKImagebutton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_setOKImageLayout.addWidget(self.Page04_setOKImagebutton)
+
+        self.Page04_OKImageSaveButton = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Page04_OKImageSaveButton.setObjectName(u"Page04_OKImageSaveButton")
+        self.Page04_OKImageSaveButton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_setOKImageLayout.addWidget(self.Page04_OKImageSaveButton)
+
+
+        self.verticalLayout_3.addLayout(self.Page04_setOKImageLayout)
+
+        self.Page04_setNGImageLayout = QHBoxLayout()
+        self.Page04_setNGImageLayout.setObjectName(u"Page04_setNGImageLayout")
+        self.Page04_setNGImageLabel = QLabel(self.scrollAreaWidgetContents_3)
+        self.Page04_setNGImageLabel.setObjectName(u"Page04_setNGImageLabel")
+
+        self.Page04_setNGImageLayout.addWidget(self.Page04_setNGImageLabel)
+
+        self.Page04_setNGImagelineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
+        self.Page04_setNGImagelineEdit.setObjectName(u"Page04_setNGImagelineEdit")
+
+        self.Page04_setNGImageLayout.addWidget(self.Page04_setNGImagelineEdit)
+
+        self.Page04_setNGImagebutton = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Page04_setNGImagebutton.setObjectName(u"Page04_setNGImagebutton")
+        self.Page04_setNGImagebutton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_setNGImageLayout.addWidget(self.Page04_setNGImagebutton)
+
+        self.Page04_NGImageSaveButton = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Page04_NGImageSaveButton.setObjectName(u"Page04_NGImageSaveButton")
+        self.Page04_NGImageSaveButton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_setNGImageLayout.addWidget(self.Page04_NGImageSaveButton)
+
+
+        self.verticalLayout_3.addLayout(self.Page04_setNGImageLayout)
+
+        self.Page04_setAImageLayout = QHBoxLayout()
+        self.Page04_setAImageLayout.setObjectName(u"Page04_setAImageLayout")
+        self.Page04_setAImageLabel = QLabel(self.scrollAreaWidgetContents_3)
+        self.Page04_setAImageLabel.setObjectName(u"Page04_setAImageLabel")
+
+        self.Page04_setAImageLayout.addWidget(self.Page04_setAImageLabel)
+
+        self.Page04_setAImagelineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
+        self.Page04_setAImagelineEdit.setObjectName(u"Page04_setAImagelineEdit")
+
+        self.Page04_setAImageLayout.addWidget(self.Page04_setAImagelineEdit)
+
+        self.Page04_setAImagebutton = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Page04_setAImagebutton.setObjectName(u"Page04_setAImagebutton")
+        self.Page04_setAImagebutton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_setAImageLayout.addWidget(self.Page04_setAImagebutton)
+
+        self.Page04_AImageSaveButton = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Page04_AImageSaveButton.setObjectName(u"Page04_AImageSaveButton")
+        self.Page04_AImageSaveButton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_setAImageLayout.addWidget(self.Page04_AImageSaveButton)
+
+
+        self.verticalLayout_3.addLayout(self.Page04_setAImageLayout)
+
+        self.Page04_setBImageLayout = QHBoxLayout()
+        self.Page04_setBImageLayout.setObjectName(u"Page04_setBImageLayout")
+        self.Page04_setBImageLabel = QLabel(self.scrollAreaWidgetContents_3)
+        self.Page04_setBImageLabel.setObjectName(u"Page04_setBImageLabel")
+
+        self.Page04_setBImageLayout.addWidget(self.Page04_setBImageLabel)
+
+        self.Page04_setBImagelineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
+        self.Page04_setBImagelineEdit.setObjectName(u"Page04_setBImagelineEdit")
+
+        self.Page04_setBImageLayout.addWidget(self.Page04_setBImagelineEdit)
+
+        self.Page04_setBImagebutton = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Page04_setBImagebutton.setObjectName(u"Page04_setBImagebutton")
+        self.Page04_setBImagebutton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_setBImageLayout.addWidget(self.Page04_setBImagebutton)
+
+        self.Page04_BImageSaveButton = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Page04_BImageSaveButton.setObjectName(u"Page04_BImageSaveButton")
+        self.Page04_BImageSaveButton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_setBImageLayout.addWidget(self.Page04_BImageSaveButton)
+
+
+        self.verticalLayout_3.addLayout(self.Page04_setBImageLayout)
+
+        self.Page04_setCImageLayout = QHBoxLayout()
+        self.Page04_setCImageLayout.setObjectName(u"Page04_setCImageLayout")
+        self.Page04_setCImageLabel = QLabel(self.scrollAreaWidgetContents_3)
+        self.Page04_setCImageLabel.setObjectName(u"Page04_setCImageLabel")
+
+        self.Page04_setCImageLayout.addWidget(self.Page04_setCImageLabel)
+
+        self.Page04_setCImagelineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
+        self.Page04_setCImagelineEdit.setObjectName(u"Page04_setCImagelineEdit")
+
+        self.Page04_setCImageLayout.addWidget(self.Page04_setCImagelineEdit)
+
+        self.Page04_setCImagebutton = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Page04_setCImagebutton.setObjectName(u"Page04_setCImagebutton")
+        self.Page04_setCImagebutton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_setCImageLayout.addWidget(self.Page04_setCImagebutton)
+
+        self.Page04_CImageSaveButton = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Page04_CImageSaveButton.setObjectName(u"Page04_CImageSaveButton")
+        self.Page04_CImageSaveButton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_setCImageLayout.addWidget(self.Page04_CImageSaveButton)
+
+
+        self.verticalLayout_3.addLayout(self.Page04_setCImageLayout)
+
+        self.Page04_scrollArea.setWidget(self.scrollAreaWidgetContents_3)
+        self.verticalLayoutWidget_2 = QWidget(self.Page04)
+        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
+        self.verticalLayoutWidget_2.setGeometry(QRect(0, 430, 391, 101))
+        self.Page04_setClipPlayLayout = QVBoxLayout(self.verticalLayoutWidget_2)
+        self.Page04_setClipPlayLayout.setObjectName(u"Page04_setClipPlayLayout")
+        self.Page04_setClipPlayLayout.setContentsMargins(0, 0, 0, 0)
+        self.Page04_ClipPlayDirLayout = QHBoxLayout()
+        self.Page04_ClipPlayDirLayout.setObjectName(u"Page04_ClipPlayDirLayout")
+        self.Page04_ClipPlayDirLabel = QLabel(self.verticalLayoutWidget_2)
+        self.Page04_ClipPlayDirLabel.setObjectName(u"Page04_ClipPlayDirLabel")
+
+        self.Page04_ClipPlayDirLayout.addWidget(self.Page04_ClipPlayDirLabel)
+
+        self.Page04_ClipPlayDirlineEdit = QLineEdit(self.verticalLayoutWidget_2)
+        self.Page04_ClipPlayDirlineEdit.setObjectName(u"Page04_ClipPlayDirlineEdit")
+
+        self.Page04_ClipPlayDirLayout.addWidget(self.Page04_ClipPlayDirlineEdit)
+
+        self.Page04_ClipPlayDirbutton = QPushButton(self.verticalLayoutWidget_2)
+        self.Page04_ClipPlayDirbutton.setObjectName(u"Page04_ClipPlayDirbutton")
+        self.Page04_ClipPlayDirbutton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_ClipPlayDirLayout.addWidget(self.Page04_ClipPlayDirbutton)
+
+
+        self.Page04_setClipPlayLayout.addLayout(self.Page04_ClipPlayDirLayout)
+
+        self.Page04_ClipPlaySlideLayout = QHBoxLayout()
+        self.Page04_ClipPlaySlideLayout.setObjectName(u"Page04_ClipPlaySlideLayout")
+        self.Page04_ClipPlaySlider = QSlider(self.verticalLayoutWidget_2)
+        self.Page04_ClipPlaySlider.setObjectName(u"Page04_ClipPlaySlider")
+        self.Page04_ClipPlaySlider.setOrientation(Qt.Horizontal)
+
+        self.Page04_ClipPlaySlideLayout.addWidget(self.Page04_ClipPlaySlider)
+
+
+        self.Page04_setClipPlayLayout.addLayout(self.Page04_ClipPlaySlideLayout)
+
+        self.Page04_ClipPlayButtonLayout = QHBoxLayout()
+        self.Page04_ClipPlayButtonLayout.setObjectName(u"Page04_ClipPlayButtonLayout")
+        self.Page04_ClipPlayButtonPlay = QPushButton(self.verticalLayoutWidget_2)
+        self.Page04_ClipPlayButtonPlay.setObjectName(u"Page04_ClipPlayButtonPlay")
+        self.Page04_ClipPlayButtonPlay.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_ClipPlayButtonLayout.addWidget(self.Page04_ClipPlayButtonPlay)
+
+        self.Page04_ClipPlayButtonPause = QPushButton(self.verticalLayoutWidget_2)
+        self.Page04_ClipPlayButtonPause.setObjectName(u"Page04_ClipPlayButtonPause")
+        self.Page04_ClipPlayButtonPause.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_ClipPlayButtonLayout.addWidget(self.Page04_ClipPlayButtonPause)
+
+        self.Page04_ClipPlayButtonBack = QPushButton(self.verticalLayoutWidget_2)
+        self.Page04_ClipPlayButtonBack.setObjectName(u"Page04_ClipPlayButtonBack")
+        self.Page04_ClipPlayButtonBack.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_ClipPlayButtonLayout.addWidget(self.Page04_ClipPlayButtonBack)
+
+        self.Page04_ClipPlayButtonForward = QPushButton(self.verticalLayoutWidget_2)
+        self.Page04_ClipPlayButtonForward.setObjectName(u"Page04_ClipPlayButtonForward")
+        self.Page04_ClipPlayButtonForward.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_ClipPlayButtonLayout.addWidget(self.Page04_ClipPlayButtonForward)
+
+
+        self.Page04_setClipPlayLayout.addLayout(self.Page04_ClipPlayButtonLayout)
+
+        self.horizontalLayoutWidget_8 = QWidget(self.Page04)
+        self.horizontalLayoutWidget_8.setObjectName(u"horizontalLayoutWidget_8")
+        self.horizontalLayoutWidget_8.setGeometry(QRect(580, 430, 191, 31))
+        self.Page04_CaptureLayout = QHBoxLayout(self.horizontalLayoutWidget_8)
+        self.Page04_CaptureLayout.setObjectName(u"Page04_CaptureLayout")
+        self.Page04_CaptureLayout.setContentsMargins(0, 0, 0, 0)
+        self.Page04_CaptureLabel = QLabel(self.horizontalLayoutWidget_8)
+        self.Page04_CaptureLabel.setObjectName(u"Page04_CaptureLabel")
+
+        self.Page04_CaptureLayout.addWidget(self.Page04_CaptureLabel)
+
+        self.Page04_CaptureSetButton = QPushButton(self.horizontalLayoutWidget_8)
+        self.Page04_CaptureSetButton.setObjectName(u"Page04_CaptureSetButton")
+        self.Page04_CaptureSetButton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_CaptureLayout.addWidget(self.Page04_CaptureSetButton)
+
+        self.Page04_CaptureReleaseButton = QPushButton(self.horizontalLayoutWidget_8)
+        self.Page04_CaptureReleaseButton.setObjectName(u"Page04_CaptureReleaseButton")
+        self.Page04_CaptureReleaseButton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_CaptureLayout.addWidget(self.Page04_CaptureReleaseButton)
+
+        self.stackedWidget.addWidget(self.Page04)
         self.verticalLayoutWidget = QWidget(self.centralwidget)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(11, 10, 171, 531))
@@ -2575,6 +2825,123 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.Menu_RecordpushButton)
 
+        self.Menu_ClipPlaypushButton = QPushButton(self.verticalLayoutWidget)
+        self.Menu_ClipPlaypushButton.setObjectName(u"Menu_ClipPlaypushButton")
+        palette21 = QPalette()
+        palette21.setBrush(QPalette.Active, QPalette.WindowText, brush6)
+        gradient27 = QLinearGradient(1, 0.477, 1, 1)
+        gradient27.setSpread(QGradient.ReflectSpread)
+        gradient27.setCoordinateMode(QGradient.ObjectBoundingMode)
+        gradient27.setColorAt(0, QColor(110, 110, 110, 255))
+        gradient27.setColorAt(1, QColor(255, 255, 255, 255))
+        brush47 = QBrush(gradient27)
+        palette21.setBrush(QPalette.Active, QPalette.Button, brush47)
+        palette21.setBrush(QPalette.Active, QPalette.Light, brush10)
+        palette21.setBrush(QPalette.Active, QPalette.Midlight, brush11)
+        palette21.setBrush(QPalette.Active, QPalette.Dark, brush12)
+        palette21.setBrush(QPalette.Active, QPalette.Mid, brush13)
+        palette21.setBrush(QPalette.Active, QPalette.Text, brush6)
+        palette21.setBrush(QPalette.Active, QPalette.BrightText, brush)
+        palette21.setBrush(QPalette.Active, QPalette.ButtonText, brush6)
+        gradient28 = QLinearGradient(1, 0.477, 1, 1)
+        gradient28.setSpread(QGradient.ReflectSpread)
+        gradient28.setCoordinateMode(QGradient.ObjectBoundingMode)
+        gradient28.setColorAt(0, QColor(110, 110, 110, 255))
+        gradient28.setColorAt(1, QColor(255, 255, 255, 255))
+        brush48 = QBrush(gradient28)
+        palette21.setBrush(QPalette.Active, QPalette.Base, brush48)
+        gradient29 = QLinearGradient(1, 0.477, 1, 1)
+        gradient29.setSpread(QGradient.ReflectSpread)
+        gradient29.setCoordinateMode(QGradient.ObjectBoundingMode)
+        gradient29.setColorAt(0, QColor(110, 110, 110, 255))
+        gradient29.setColorAt(1, QColor(255, 255, 255, 255))
+        brush49 = QBrush(gradient29)
+        palette21.setBrush(QPalette.Active, QPalette.Window, brush49)
+        palette21.setBrush(QPalette.Active, QPalette.Shadow, brush6)
+        palette21.setBrush(QPalette.Active, QPalette.AlternateBase, brush14)
+        palette21.setBrush(QPalette.Active, QPalette.ToolTipBase, brush7)
+        palette21.setBrush(QPalette.Active, QPalette.ToolTipText, brush6)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette21.setBrush(QPalette.Active, QPalette.PlaceholderText, brush15)
+#endif
+        palette21.setBrush(QPalette.Inactive, QPalette.WindowText, brush6)
+        gradient30 = QLinearGradient(1, 0.477, 1, 1)
+        gradient30.setSpread(QGradient.ReflectSpread)
+        gradient30.setCoordinateMode(QGradient.ObjectBoundingMode)
+        gradient30.setColorAt(0, QColor(110, 110, 110, 255))
+        gradient30.setColorAt(1, QColor(255, 255, 255, 255))
+        brush50 = QBrush(gradient30)
+        palette21.setBrush(QPalette.Inactive, QPalette.Button, brush50)
+        palette21.setBrush(QPalette.Inactive, QPalette.Light, brush10)
+        palette21.setBrush(QPalette.Inactive, QPalette.Midlight, brush11)
+        palette21.setBrush(QPalette.Inactive, QPalette.Dark, brush12)
+        palette21.setBrush(QPalette.Inactive, QPalette.Mid, brush13)
+        palette21.setBrush(QPalette.Inactive, QPalette.Text, brush6)
+        palette21.setBrush(QPalette.Inactive, QPalette.BrightText, brush)
+        palette21.setBrush(QPalette.Inactive, QPalette.ButtonText, brush6)
+        gradient31 = QLinearGradient(1, 0.477, 1, 1)
+        gradient31.setSpread(QGradient.ReflectSpread)
+        gradient31.setCoordinateMode(QGradient.ObjectBoundingMode)
+        gradient31.setColorAt(0, QColor(110, 110, 110, 255))
+        gradient31.setColorAt(1, QColor(255, 255, 255, 255))
+        brush51 = QBrush(gradient31)
+        palette21.setBrush(QPalette.Inactive, QPalette.Base, brush51)
+        gradient32 = QLinearGradient(1, 0.477, 1, 1)
+        gradient32.setSpread(QGradient.ReflectSpread)
+        gradient32.setCoordinateMode(QGradient.ObjectBoundingMode)
+        gradient32.setColorAt(0, QColor(110, 110, 110, 255))
+        gradient32.setColorAt(1, QColor(255, 255, 255, 255))
+        brush52 = QBrush(gradient32)
+        palette21.setBrush(QPalette.Inactive, QPalette.Window, brush52)
+        palette21.setBrush(QPalette.Inactive, QPalette.Shadow, brush6)
+        palette21.setBrush(QPalette.Inactive, QPalette.AlternateBase, brush14)
+        palette21.setBrush(QPalette.Inactive, QPalette.ToolTipBase, brush7)
+        palette21.setBrush(QPalette.Inactive, QPalette.ToolTipText, brush6)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette21.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush15)
+#endif
+        palette21.setBrush(QPalette.Disabled, QPalette.WindowText, brush12)
+        gradient33 = QLinearGradient(1, 0.477, 1, 1)
+        gradient33.setSpread(QGradient.ReflectSpread)
+        gradient33.setCoordinateMode(QGradient.ObjectBoundingMode)
+        gradient33.setColorAt(0, QColor(110, 110, 110, 255))
+        gradient33.setColorAt(1, QColor(255, 255, 255, 255))
+        brush53 = QBrush(gradient33)
+        palette21.setBrush(QPalette.Disabled, QPalette.Button, brush53)
+        palette21.setBrush(QPalette.Disabled, QPalette.Light, brush10)
+        palette21.setBrush(QPalette.Disabled, QPalette.Midlight, brush11)
+        palette21.setBrush(QPalette.Disabled, QPalette.Dark, brush12)
+        palette21.setBrush(QPalette.Disabled, QPalette.Mid, brush13)
+        palette21.setBrush(QPalette.Disabled, QPalette.Text, brush12)
+        palette21.setBrush(QPalette.Disabled, QPalette.BrightText, brush)
+        palette21.setBrush(QPalette.Disabled, QPalette.ButtonText, brush12)
+        gradient34 = QLinearGradient(1, 0.477, 1, 1)
+        gradient34.setSpread(QGradient.ReflectSpread)
+        gradient34.setCoordinateMode(QGradient.ObjectBoundingMode)
+        gradient34.setColorAt(0, QColor(110, 110, 110, 255))
+        gradient34.setColorAt(1, QColor(255, 255, 255, 255))
+        brush54 = QBrush(gradient34)
+        palette21.setBrush(QPalette.Disabled, QPalette.Base, brush54)
+        gradient35 = QLinearGradient(1, 0.477, 1, 1)
+        gradient35.setSpread(QGradient.ReflectSpread)
+        gradient35.setCoordinateMode(QGradient.ObjectBoundingMode)
+        gradient35.setColorAt(0, QColor(110, 110, 110, 255))
+        gradient35.setColorAt(1, QColor(255, 255, 255, 255))
+        brush55 = QBrush(gradient35)
+        palette21.setBrush(QPalette.Disabled, QPalette.Window, brush55)
+        palette21.setBrush(QPalette.Disabled, QPalette.Shadow, brush6)
+        palette21.setBrush(QPalette.Disabled, QPalette.AlternateBase, brush9)
+        palette21.setBrush(QPalette.Disabled, QPalette.ToolTipBase, brush7)
+        palette21.setBrush(QPalette.Disabled, QPalette.ToolTipText, brush6)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette21.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush15)
+#endif
+        self.Menu_ClipPlaypushButton.setPalette(palette21)
+        self.Menu_ClipPlaypushButton.setFont(font)
+        self.Menu_ClipPlaypushButton.setStyleSheet(u"background-color: qlineargradient(spread:reflect, x1:1, y1:0.477, x2:1, y2:1, stop:0 rgba(110, 110, 110, 255), stop:1 rgba(255, 255, 255, 255));")
+
+        self.verticalLayout.addWidget(self.Menu_ClipPlaypushButton)
+
         self.MenubarLabel = QLabel(self.verticalLayoutWidget)
         self.MenubarLabel.setObjectName(u"MenubarLabel")
 
@@ -2732,9 +3099,35 @@ class Ui_MainWindow(object):
         self.Page03_RecordStatuslabel4.setText(QCoreApplication.translate("MainWindow", u"(\ub179\ud654\ud574\uc81c)", None))
         self.Page03_setVideoDirLabel4.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1 \uc800\uc7a5\uacbd\ub85c:", None))
         self.Page03_setVideoDirbutton4.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_ImageLabel.setText("")
+        self.Page04_setOKImageLabel.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
+        self.Page04_setOKImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_OKImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
+        self.Page04_setNGImageLabel.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
+        self.Page04_setNGImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_NGImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
+        self.Page04_setAImageLabel.setText(QCoreApplication.translate("MainWindow", u"\ubd84\ub958 A:", None))
+        self.Page04_setAImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_AImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0\uc800\uc7a5", None))
+        self.Page04_setBImageLabel.setText(QCoreApplication.translate("MainWindow", u"\ubd84\ub958 B:", None))
+        self.Page04_setBImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_BImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0\uc800\uc7a5", None))
+        self.Page04_setCImageLabel.setText(QCoreApplication.translate("MainWindow", u"\ubd84\ub958 C:", None))
+        self.Page04_setCImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_CImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0\uc800\uc7a5", None))
+        self.Page04_ClipPlayDirLabel.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1\uacbd\ub85c:", None))
+        self.Page04_ClipPlayDirbutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_ClipPlayButtonPlay.setText(QCoreApplication.translate("MainWindow", u"\uc7ac\uc0dd", None))
+        self.Page04_ClipPlayButtonPause.setText(QCoreApplication.translate("MainWindow", u"\uc815\uc9c0", None))
+        self.Page04_ClipPlayButtonBack.setText(QCoreApplication.translate("MainWindow", u"\ub4a4\ub85c", None))
+        self.Page04_ClipPlayButtonForward.setText(QCoreApplication.translate("MainWindow", u"\uc55e\uc73c\ub85c", None))
+        self.Page04_CaptureLabel.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
+        self.Page04_CaptureSetButton.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
+        self.Page04_CaptureReleaseButton.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
         self.Menu_LivepushButton.setText(QCoreApplication.translate("MainWindow", u"Live", None))
         self.Menu_CapturepushButton.setText(QCoreApplication.translate("MainWindow", u"Capture", None))
         self.Menu_RecordpushButton.setText(QCoreApplication.translate("MainWindow", u"Record", None))
+        self.Menu_ClipPlaypushButton.setText(QCoreApplication.translate("MainWindow", u"Clip Play", None))
         self.MenubarLabel.setText("")
     # retranslateUi
 
@@ -2933,9 +3326,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Menu_LivepushButton.clicked.connect(lambda: self.changeStackWidget(0))
         self.Menu_CapturepushButton.clicked.connect(lambda: self.changeStackWidget(1))
         self.Menu_RecordpushButton.clicked.connect(lambda: self.changeStackWidget(2))
+        self.Menu_ClipPlaypushButton.clicked.connect(lambda: self.changeStackWidget(3))
 
     def changeStackWidget(self, id):
-        PageIdList = [self.Page01, self.Page02, self.Page03]
+        PageIdList = [self.Page01, self.Page02, self.Page03, self.Page04]
 
         self.stackedWidget.setCurrentWidget(PageIdList[id])
         self.capturePageOn = (id == 1)
