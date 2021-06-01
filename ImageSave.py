@@ -19,6 +19,7 @@ import cv2
 import os
 import numpy as np
 import threading
+import time
 
 
 class Ui_MainWindow(object):
@@ -2381,6 +2382,7 @@ class Ui_MainWindow(object):
 
         self.Page04_ClipPlayDirlineEdit = QLineEdit(self.verticalLayoutWidget_2)
         self.Page04_ClipPlayDirlineEdit.setObjectName(u"Page04_ClipPlayDirlineEdit")
+        self.Page04_ClipPlayDirlineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_ClipPlayDirLayout.addWidget(self.Page04_ClipPlayDirlineEdit)
 
@@ -3132,7 +3134,7 @@ class Ui_MainWindow(object):
     # retranslateUi
 
 ## Cam Thread (BEGIN) - Live(Page01, Page02), Recording, Capture
-semaphore = threading.Semaphore(4)
+semaphore = threading.Semaphore(5) #Live: 4, ClipPlay: 1
 g_isRecordStatus = [False, False, False, False]
 
 g_isStopClicked = [False, False, False, False]
@@ -3306,6 +3308,49 @@ class camThread(threading.Thread):
     ## Capture in Thread(ENDED)
 ## Cam Thread (ENDED)
 
+## ClipPlay Thread(BEGIN)
+g_isPlayVideo = False
+
+class clipPlayThread(threading.Thread):
+    def __init__(self, clipPlayWidth, clipPlayHeight, clipPlayFilePath, clipImageLabel):
+        super().__init__()
+        self.clipPlayWidth = clipPlayWidth
+        self.clipPlayHeight = clipPlayHeight
+        self.clipPlayFilePath = clipPlayFilePath
+        self.clipImageLabel = clipImageLabel
+
+        self.prevClipPlayFilePath = ""
+        self.curClipPlayFilePath = ""
+
+        self.prev_time = 0
+        self.fps = 30
+
+    def run(self):
+        semaphore.acquire()
+        while True:
+            self.showClipPlay()
+        semaphore.release()
+
+    def showClipPlay(self):
+        while g_isPlayVideo:
+            self.curClipPlayFilePath = self.clipPlayFilePath.text()
+
+            if self.prevClipPlayFilePath != self.curClipPlayFilePath: # Change path
+                self.prevClipPlayFilePath = self.curClipPlayFilePath
+                cap = cv2.VideoCapture(self.curClipPlayFilePath)
+                self.fps = cap.get(cv2.CAP_PROP_FPS)
+
+            current_time = time.time() - self.prev_time
+            if current_time > 1./self.fps:          # 영상의 FPS에 알맞게 영상을 재생하도록 함.
+                self.prev_time = time.time()
+                success, clipFrame = cap.read()     # 받는 매개변수: 성공여부, image 저장장소; read시마다 frame이 1씩 증가되어 받음.
+
+                clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
+                clipImage = QImage(clipFrame, clipFrame.shape[1], clipFrame.shape[0], clipFrame.strides[0], QImage.Format_RGB888)
+                clipImage1 = clipImage.copy().scaled(self.clipPlayWidth, self.clipPlayHeight)
+                self.clipImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
+## ClipPlay Thread(ENDED)
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -3318,7 +3363,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupCamra()
         self.setupRecord()
         self.setupCapture()
+        self.setupClipPlay()
         self.setupMenuBar()
+
+## ClipPlay(BEGIN)
+    def setupClipPlay(self):
+        self.Page04_ClipPlayDirbutton.clicked.connect(lambda: self.setFilePath(1))
+        self.Page04_ClipPlayButtonPlay.clicked.connect(lambda: self.setPlayVideoStatus(True))
+        self.Page04_ClipPlayButtonPause.clicked.connect(lambda: self.setPlayVideoStatus(False))
+
+        clipPlayWidth = self.horizontalLayoutWidget_7.width()
+        clipPlayHeight = self.horizontalLayoutWidget_7.height()
+        clipPlayFilePath = self.Page04_ClipPlayDirlineEdit
+        clipImageLabel = self.Page04_ImageLabel
+
+        self.listThread.append(clipPlayThread(clipPlayWidth, clipPlayHeight, clipPlayFilePath, clipImageLabel))
+        self.listThread[-1].start()
+
+    def setFilePath(self, id):
+        pathName = QFileDialog.getOpenFileName(self, 'Open file', './')
+        if id == 1:
+            self.Page04_ClipPlayDirlineEdit.setText(pathName[0])
+
+    def setPlayVideoStatus(self, isBoolState):
+        global g_isPlayVideo
+        g_isPlayVideo = isBoolState
+        print("setPlayVideoStatus: ", g_isPlayVideo)
+## ClipPlay(ENDED)
 
 ## MenuBar(BEGIN)
     def setupMenuBar(self):
