@@ -3349,10 +3349,8 @@ class clipPlayThread(threading.Thread):
                     cap = cv2.VideoCapture(self.curClipPlayFilePath)
                     self.fps = cap.get(cv2.CAP_PROP_FPS)
                     self.frame_len = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-
                     cap.set(cv2.CAP_PROP_POS_FRAMES, self.frameNumber)
                     self.needResetFrame = False
-
                     print("Frame reset frameNum:{}({})".format(self.frameNumber, self.frame_len))
 
                 current_time = time.time() - self.prev_time
@@ -3364,7 +3362,6 @@ class clipPlayThread(threading.Thread):
                         g_isPlayVideo = False
                         self.frameNumber = 0
                         print("END of Video")
-
                     #print("frameNumber: {}({})".format(self.frameNumber, self.frame_len))
 
                     clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
@@ -3406,8 +3403,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def setFilePath(self, id):
         pathName = QFileDialog.getOpenFileName(self, 'Open file', './')
-        if id == 1:
+        if id == 1:     #이미지 경로 설정 및 Load시 첫번째 frame show
             self.Page04_ClipPlayDirlineEdit.setText(pathName[0])
+            cap = cv2.VideoCapture(self.Page04_ClipPlayDirlineEdit.text())
+            success, clipFrame = cap.read()
+
+            clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
+            clipImage = QImage(clipFrame, clipFrame.shape[1], clipFrame.shape[0], clipFrame.strides[0], QImage.Format_RGB888)
+            clipImage1 = clipImage.copy().scaled(self.horizontalLayoutWidget_7.width(), self.horizontalLayoutWidget_7.height())
+            self.Page04_ImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
 
     def setPlayVideoStatus(self, isBoolState):
         global g_isPlayVideo
