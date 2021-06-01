@@ -3324,6 +3324,9 @@ class clipPlayThread(threading.Thread):
 
         self.prev_time = 0
         self.fps = 30
+        self.frame_len = 0
+        self.frameNumber = 0
+        self.needResetFrame = True
 
     def run(self):
         semaphore.acquire()
@@ -3332,23 +3335,44 @@ class clipPlayThread(threading.Thread):
         semaphore.release()
 
     def showClipPlay(self):
-        while g_isPlayVideo:
-            self.curClipPlayFilePath = self.clipPlayFilePath.text()
+        global g_isPlayVideo
+        while True:
+            if g_isPlayVideo:
+                self.curClipPlayFilePath = self.clipPlayFilePath.text()
+                if self.prevClipPlayFilePath != self.curClipPlayFilePath: # Change path
+                    self.prevClipPlayFilePath = self.curClipPlayFilePath
+                    self.frameNumber = 0
+                    self.needResetFrame = True
+                    print("Change path!!")
 
-            if self.prevClipPlayFilePath != self.curClipPlayFilePath: # Change path
-                self.prevClipPlayFilePath = self.curClipPlayFilePath
-                cap = cv2.VideoCapture(self.curClipPlayFilePath)
-                self.fps = cap.get(cv2.CAP_PROP_FPS)
+                if self.needResetFrame:
+                    cap = cv2.VideoCapture(self.curClipPlayFilePath)
+                    self.fps = cap.get(cv2.CAP_PROP_FPS)
+                    self.frame_len = cap.get(cv2.CAP_PROP_FRAME_COUNT)
 
-            current_time = time.time() - self.prev_time
-            if current_time > 1./self.fps:          # 영상의 FPS에 알맞게 영상을 재생하도록 함.
-                self.prev_time = time.time()
-                success, clipFrame = cap.read()     # 받는 매개변수: 성공여부, image 저장장소; read시마다 frame이 1씩 증가되어 받음.
+                    cap.set(cv2.CAP_PROP_POS_FRAMES, self.frameNumber)
+                    self.needResetFrame = False
 
-                clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
-                clipImage = QImage(clipFrame, clipFrame.shape[1], clipFrame.shape[0], clipFrame.strides[0], QImage.Format_RGB888)
-                clipImage1 = clipImage.copy().scaled(self.clipPlayWidth, self.clipPlayHeight)
-                self.clipImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
+                    print("Frame reset frameNum:{}({})".format(self.frameNumber, self.frame_len))
+
+                current_time = time.time() - self.prev_time
+                if current_time > 1./self.fps:                          # 영상의 FPS에 알맞게 영상을 재생하도록 함.
+                    self.prev_time = time.time()
+                    success, clipFrame = cap.read()                     # 받는 매개변수: 성공여부, image 저장장소; read시마다 frame이 1씩 증가되어 받음.
+                    self.frameNumber = cap.get(cv2.CAP_PROP_POS_FRAMES) # Pause시 해당 framenumber 저장됨
+                    if self.frameNumber == self.frame_len:              # Video 끝에 오는 경우 cv2 error 방지를 위한 방어 코드
+                        g_isPlayVideo = False
+                        self.frameNumber = 0
+                        print("END of Video")
+
+                    #print("frameNumber: {}({})".format(self.frameNumber, self.frame_len))
+
+                    clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
+                    clipImage = QImage(clipFrame, clipFrame.shape[1], clipFrame.shape[0], clipFrame.strides[0], QImage.Format_RGB888)
+                    clipImage1 = clipImage.copy().scaled(self.clipPlayWidth, self.clipPlayHeight)
+                    self.clipImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
+            else:   # not g_isPlayVideo (Pause, no ClipFile ...)
+                self.needResetFrame = True
 ## ClipPlay Thread(ENDED)
 
 class MainWindow(QMainWindow, Ui_MainWindow):
