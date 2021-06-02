@@ -3423,6 +3423,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page04_ClipPlaySlider.sliderPressed.connect(lambda: self.setPlayVideoStatus(False))
         self.Page04_ClipPlaySlider.valueChanged.connect(self.showClipToImageLabel)
 
+        self.Page04_ClipPlayButtonBack.clicked.connect(lambda: self.setMoveVideoFrame(-1))
+        self.Page04_ClipPlayButtonForward.clicked.connect(lambda: self.setMoveVideoFrame(1))
+
         clipPlayWidth = self.horizontalLayoutWidget_7.width()
         clipPlayHeight = self.horizontalLayoutWidget_7.height()
         clipPlayFilePath = self.Page04_ClipPlayDirlineEdit
@@ -3431,6 +3434,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.listThread.append(clipPlayThread(clipPlayWidth, clipPlayHeight, clipPlayFilePath, clipImageLabel, clipPlaySlider))
         self.listThread[-1].start()
+
+    def setMoveVideoFrame(self, value):
+        self.Page04_ClipPlaySlider.setValue(g_clipPlayFrameNum + value)
+        self.setPlayVideoStatus(False)
+        self.showClipToImageLabel()
 
     def showClipToImageLabel(self):
         global g_clipPlayFrameNum, g_isPlayVideo, g_needResetClipPlay
