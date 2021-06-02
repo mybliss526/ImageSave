@@ -3310,14 +3310,17 @@ class camThread(threading.Thread):
 
 ## ClipPlay Thread(BEGIN)
 g_isPlayVideo = False
+g_clipPlayFrameNum = 0
+g_needResetClipPlay = True
 
 class clipPlayThread(threading.Thread):
-    def __init__(self, clipPlayWidth, clipPlayHeight, clipPlayFilePath, clipImageLabel):
+    def __init__(self, clipPlayWidth, clipPlayHeight, clipPlayFilePath, clipImageLabel, clipPlaySlider):
         super().__init__()
         self.clipPlayWidth = clipPlayWidth
         self.clipPlayHeight = clipPlayHeight
         self.clipPlayFilePath = clipPlayFilePath
         self.clipImageLabel = clipImageLabel
+        self.clipPlaySlider = clipPlaySlider
 
         self.prevClipPlayFilePath = ""
         self.curClipPlayFilePath = ""
@@ -3325,8 +3328,6 @@ class clipPlayThread(threading.Thread):
         self.prev_time = 0
         self.fps = 30
         self.frame_len = 0
-        self.frameNumber = 0
-        self.needResetFrame = True
 
     def run(self):
         semaphore.acquire()
@@ -3335,41 +3336,42 @@ class clipPlayThread(threading.Thread):
         semaphore.release()
 
     def showClipPlay(self):
-        global g_isPlayVideo
+        global g_isPlayVideo, g_clipPlayFrameNum, g_needResetClipPlay
         while True:
             if g_isPlayVideo:
                 self.curClipPlayFilePath = self.clipPlayFilePath.text()
                 if self.prevClipPlayFilePath != self.curClipPlayFilePath: # Change path
                     self.prevClipPlayFilePath = self.curClipPlayFilePath
-                    self.frameNumber = 0
-                    self.needResetFrame = True
+                    g_clipPlayFrameNum = 0
+                    g_needResetClipPlay = True
                     print("Change path!!")
 
-                if self.needResetFrame:
+                if g_needResetClipPlay:
                     cap = cv2.VideoCapture(self.curClipPlayFilePath)
                     self.fps = cap.get(cv2.CAP_PROP_FPS)
                     self.frame_len = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-                    cap.set(cv2.CAP_PROP_POS_FRAMES, self.frameNumber)
-                    self.needResetFrame = False
-                    print("Frame reset frameNum:{}({})".format(self.frameNumber, self.frame_len))
+                    cap.set(cv2.CAP_PROP_POS_FRAMES, g_clipPlayFrameNum)
+                    g_needResetClipPlay = False
+                    print("Frame reset frameNum:{}({})".format(g_clipPlayFrameNum, self.frame_len))
 
                 current_time = time.time() - self.prev_time
                 if current_time > 1./self.fps:                          # 영상의 FPS에 알맞게 영상을 재생하도록 함.
                     self.prev_time = time.time()
                     success, clipFrame = cap.read()                     # 받는 매개변수: 성공여부, image 저장장소; read시마다 frame이 1씩 증가되어 받음.
-                    self.frameNumber = cap.get(cv2.CAP_PROP_POS_FRAMES) # Pause시 해당 framenumber 저장됨
-                    if self.frameNumber == self.frame_len:              # Video 끝에 오는 경우 cv2 error 방지를 위한 방어 코드
+                    g_clipPlayFrameNum = cap.get(cv2.CAP_PROP_POS_FRAMES) # Pause시 해당 framenumber 저장됨
+                    if g_clipPlayFrameNum == self.frame_len:              # Video 끝에 오는 경우 cv2 error 방지를 위한 방어 코드
                         g_isPlayVideo = False
-                        self.frameNumber = 0
+                        g_clipPlayFrameNum = 0
                         print("END of Video")
-                    #print("frameNumber: {}({})".format(self.frameNumber, self.frame_len))
+                    print("frameNumber: {}({})".format(g_clipPlayFrameNum, self.frame_len))
 
                     clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
                     clipImage = QImage(clipFrame, clipFrame.shape[1], clipFrame.shape[0], clipFrame.strides[0], QImage.Format_RGB888)
                     clipImage1 = clipImage.copy().scaled(self.clipPlayWidth, self.clipPlayHeight)
                     self.clipImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
+                    self.clipPlaySlider.setValue(g_clipPlayFrameNum)
             else:   # not g_isPlayVideo (Pause, no ClipFile ...)
-                self.needResetFrame = True
+                g_needResetClipPlay = True
 ## ClipPlay Thread(ENDED)
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -3389,23 +3391,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 ## ClipPlay(BEGIN)
     def setupClipPlay(self):
+        self.clipSliderPressed = False
+
         self.Page04_ClipPlayDirbutton.clicked.connect(lambda: self.setFilePath(1))
         self.Page04_ClipPlayButtonPlay.clicked.connect(lambda: self.setPlayVideoStatus(True))
         self.Page04_ClipPlayButtonPause.clicked.connect(lambda: self.setPlayVideoStatus(False))
+
+        self.Page04_ClipPlaySlider.sliderPressed.connect(lambda: self.setPlayVideoStatus(False))
+        self.Page04_ClipPlaySlider.valueChanged.connect(self.showClipToImageLabel)
 
         clipPlayWidth = self.horizontalLayoutWidget_7.width()
         clipPlayHeight = self.horizontalLayoutWidget_7.height()
         clipPlayFilePath = self.Page04_ClipPlayDirlineEdit
         clipImageLabel = self.Page04_ImageLabel
+        clipPlaySlider = self.Page04_ClipPlaySlider
 
-        self.listThread.append(clipPlayThread(clipPlayWidth, clipPlayHeight, clipPlayFilePath, clipImageLabel))
+        self.listThread.append(clipPlayThread(clipPlayWidth, clipPlayHeight, clipPlayFilePath, clipImageLabel, clipPlaySlider))
         self.listThread[-1].start()
 
-    def setFilePath(self, id):
-        pathName = QFileDialog.getOpenFileName(self, 'Open file', './')
-        if id == 1:     #이미지 경로 설정 및 Load시 첫번째 frame show
-            self.Page04_ClipPlayDirlineEdit.setText(pathName[0])
+    def showClipToImageLabel(self):
+        global g_clipPlayFrameNum, g_isPlayVideo, g_needResetClipPlay
+        g_clipPlayFrameNum = self.Page04_ClipPlaySlider.value()
+        print("Slider Value: ", g_clipPlayFrameNum)
+
+
+        if self.clipSliderPressed:
+            g_isPlayVideo = False
+            g_needResetClipPlay = True
+
             cap = cv2.VideoCapture(self.Page04_ClipPlayDirlineEdit.text())
+            cap.set(cv2.CAP_PROP_POS_FRAMES, g_clipPlayFrameNum)
             success, clipFrame = cap.read()
 
             clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
@@ -3413,9 +3428,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             clipImage1 = clipImage.copy().scaled(self.horizontalLayoutWidget_7.width(), self.horizontalLayoutWidget_7.height())
             self.Page04_ImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
 
+    def setFilePath(self, id):
+        pathName = QFileDialog.getOpenFileName(self, 'Open file', './')
+        if id == 1:     #이미지 경로 설정 및 Load시 첫번째 frame show
+            """lineEdit 보여주기"""
+            self.Page04_ClipPlayDirlineEdit.setText(pathName[0])
+
+            """ImageLabel 보여주기"""
+            cap = cv2.VideoCapture(self.Page04_ClipPlayDirlineEdit.text())
+            success, clipFrame = cap.read()
+            clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
+            clipImage = QImage(clipFrame, clipFrame.shape[1], clipFrame.shape[0], clipFrame.strides[0], QImage.Format_RGB888)
+            clipImage1 = clipImage.copy().scaled(self.horizontalLayoutWidget_7.width(), self.horizontalLayoutWidget_7.height())
+            self.Page04_ImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
+
+            """Slider Frame Count로 Max값 설정하기"""
+            frame_len = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+            self.Page04_ClipPlaySlider.setRange(0, frame_len - 1)
+            print("min: ", self.Page04_ClipPlaySlider.minimum(), "max: ", self.Page04_ClipPlaySlider.maximum())
+
     def setPlayVideoStatus(self, isBoolState):
         global g_isPlayVideo
         g_isPlayVideo = isBoolState
+        self.clipSliderPressed = not isBoolState
         print("setPlayVideoStatus: ", g_isPlayVideo)
 ## ClipPlay(ENDED)
 
