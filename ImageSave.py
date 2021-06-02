@@ -2403,6 +2403,27 @@ class Ui_MainWindow(object):
 
         self.Page04_ClipPlaySlideLayout.addWidget(self.Page04_ClipPlaySlider)
 
+        self.Page04_ClipPlayFrameNumLabel = QLabel(self.verticalLayoutWidget_2)
+        self.Page04_ClipPlayFrameNumLabel.setObjectName(u"Page04_ClipPlayFrameNumLabel")
+        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.Page04_ClipPlayFrameNumLabel.sizePolicy().hasHeightForWidth())
+        self.Page04_ClipPlayFrameNumLabel.setSizePolicy(sizePolicy)
+        self.Page04_ClipPlayFrameNumLabel.setMinimumSize(QSize(55, 0))
+        self.Page04_ClipPlayFrameNumLabel.setBaseSize(QSize(0, 0))
+        self.Page04_ClipPlayFrameNumLabel.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.Page04_ClipPlaySlideLayout.addWidget(self.Page04_ClipPlayFrameNumLabel)
+
+        self.Page04_ClipPlayFrameMaxLabel = QLabel(self.verticalLayoutWidget_2)
+        self.Page04_ClipPlayFrameMaxLabel.setObjectName(u"Page04_ClipPlayFrameMaxLabel")
+        sizePolicy.setHeightForWidth(self.Page04_ClipPlayFrameMaxLabel.sizePolicy().hasHeightForWidth())
+        self.Page04_ClipPlayFrameMaxLabel.setSizePolicy(sizePolicy)
+        self.Page04_ClipPlayFrameMaxLabel.setMinimumSize(QSize(55, 0))
+
+        self.Page04_ClipPlaySlideLayout.addWidget(self.Page04_ClipPlayFrameMaxLabel)
+
 
         self.Page04_setClipPlayLayout.addLayout(self.Page04_ClipPlaySlideLayout)
 
@@ -3119,6 +3140,8 @@ class Ui_MainWindow(object):
         self.Page04_CImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0\uc800\uc7a5", None))
         self.Page04_ClipPlayDirLabel.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1\uacbd\ub85c:", None))
         self.Page04_ClipPlayDirbutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_ClipPlayFrameNumLabel.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.Page04_ClipPlayFrameMaxLabel.setText(QCoreApplication.translate("MainWindow", u"/0", None))
         self.Page04_ClipPlayButtonPlay.setText(QCoreApplication.translate("MainWindow", u"\uc7ac\uc0dd", None))
         self.Page04_ClipPlayButtonPause.setText(QCoreApplication.translate("MainWindow", u"\uc815\uc9c0", None))
         self.Page04_ClipPlayButtonBack.setText(QCoreApplication.translate("MainWindow", u"\ub4a4\ub85c", None))
@@ -3412,6 +3435,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def showClipToImageLabel(self):
         global g_clipPlayFrameNum, g_isPlayVideo, g_needResetClipPlay
         g_clipPlayFrameNum = self.Page04_ClipPlaySlider.value()
+        self.Page04_ClipPlayFrameNumLabel.setText(str(int(g_clipPlayFrameNum)))
         print("Slider Value: ", g_clipPlayFrameNum)
 
         if self.clipSliderPressed:
@@ -3447,6 +3471,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Page04_ClipPlaySlider.setRange(0, frame_len - 1)
             self.Page04_ClipPlaySlider.setValue(0)
             g_clipPlayFrameNum = 0
+            self.Page04_ClipPlayFrameMaxLabel.setText("/{}".format(str(int(frame_len - 1))))
             print("min: ", self.Page04_ClipPlaySlider.minimum(), "max: ", self.Page04_ClipPlaySlider.maximum())
 
     def setPlayVideoStatus(self, isBoolState):
