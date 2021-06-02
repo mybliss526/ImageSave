@@ -3414,7 +3414,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         g_clipPlayFrameNum = self.Page04_ClipPlaySlider.value()
         print("Slider Value: ", g_clipPlayFrameNum)
 
-
         if self.clipSliderPressed:
             g_isPlayVideo = False
             g_needResetClipPlay = True
@@ -3429,6 +3428,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Page04_ImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
 
     def setFilePath(self, id):
+        global g_clipPlayFrameNum
         pathName = QFileDialog.getOpenFileName(self, 'Open file', './')
         if id == 1:     #이미지 경로 설정 및 Load시 첫번째 frame show
             """lineEdit 보여주기"""
@@ -3445,6 +3445,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             """Slider Frame Count로 Max값 설정하기"""
             frame_len = cap.get(cv2.CAP_PROP_FRAME_COUNT)
             self.Page04_ClipPlaySlider.setRange(0, frame_len - 1)
+            self.Page04_ClipPlaySlider.setValue(0)
+            g_clipPlayFrameNum = 0
             print("min: ", self.Page04_ClipPlaySlider.minimum(), "max: ", self.Page04_ClipPlaySlider.maximum())
 
     def setPlayVideoStatus(self, isBoolState):
