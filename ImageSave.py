@@ -2240,6 +2240,7 @@ class Ui_MainWindow(object):
 
         self.Page04_setOKImagelineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.Page04_setOKImagelineEdit.setObjectName(u"Page04_setOKImagelineEdit")
+        self.Page04_setOKImagelineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setOKImageLayout.addWidget(self.Page04_setOKImagelineEdit)
 
@@ -2267,6 +2268,7 @@ class Ui_MainWindow(object):
 
         self.Page04_setNGImagelineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.Page04_setNGImagelineEdit.setObjectName(u"Page04_setNGImagelineEdit")
+        self.Page04_setNGImagelineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setNGImageLayout.addWidget(self.Page04_setNGImagelineEdit)
 
@@ -2294,6 +2296,7 @@ class Ui_MainWindow(object):
 
         self.Page04_setAImagelineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.Page04_setAImagelineEdit.setObjectName(u"Page04_setAImagelineEdit")
+        self.Page04_setAImagelineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setAImageLayout.addWidget(self.Page04_setAImagelineEdit)
 
@@ -2321,6 +2324,7 @@ class Ui_MainWindow(object):
 
         self.Page04_setBImagelineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.Page04_setBImagelineEdit.setObjectName(u"Page04_setBImagelineEdit")
+        self.Page04_setBImagelineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setBImageLayout.addWidget(self.Page04_setBImagelineEdit)
 
@@ -2348,6 +2352,7 @@ class Ui_MainWindow(object):
 
         self.Page04_setCImagelineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.Page04_setCImagelineEdit.setObjectName(u"Page04_setCImagelineEdit")
+        self.Page04_setCImagelineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setCImageLayout.addWidget(self.Page04_setCImagelineEdit)
 
@@ -3105,6 +3110,7 @@ class Ui_MainWindow(object):
         self.Page03_RecordStatusTitle2.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc0c1\ud0dc:", None))
         self.Page03_RecordStatuslabel2.setText(QCoreApplication.translate("MainWindow", u"(\ub179\ud654\ud574\uc81c)", None))
         self.Page03_setVideoDirLabel2.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1 \uc800\uc7a5\uacbd\ub85c:", None))
+        self.Page03_setVideoDirlineEdit2.setText("")
         self.Page03_setVideoDirbutton2.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page03_groupBox3.setTitle(QCoreApplication.translate("MainWindow", u"CAM3", None))
         self.Page03_RecordCapLabel3.setText(QCoreApplication.translate("MainWindow", u"\ub179\ud654\uc6a9\ub7c9(MB)", None))
@@ -3124,6 +3130,7 @@ class Ui_MainWindow(object):
         self.Page03_setVideoDirbutton4.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page04_ImageLabel.setText("")
         self.Page04_setOKImageLabel.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
+        self.Page04_setOKImagelineEdit.setText("")
         self.Page04_setOKImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page04_OKImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
         self.Page04_setNGImageLabel.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
@@ -3139,6 +3146,7 @@ class Ui_MainWindow(object):
         self.Page04_setCImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page04_CImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0\uc800\uc7a5", None))
         self.Page04_ClipPlayDirLabel.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1\uacbd\ub85c:", None))
+        self.Page04_ClipPlayDirlineEdit.setText("")
         self.Page04_ClipPlayDirbutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page04_ClipPlayFrameNumLabel.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.Page04_ClipPlayFrameMaxLabel.setText(QCoreApplication.translate("MainWindow", u"/0", None))
