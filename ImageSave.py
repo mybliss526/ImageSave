@@ -3476,6 +3476,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page04_CaptureSetButton.clicked.connect(lambda: self.drawRectangleStatusToClip(True))
         self.Page04_CaptureReleaseButton.clicked.connect(lambda: self.drawRectangleStatusToClip(False))
 
+        self.Page04_setOKImagebutton.clicked.connect(lambda: self.setDirectory(200))
+        self.Page04_setNGImagebutton.clicked.connect(lambda: self.setDirectory(201))
+        self.Page04_setAImagebutton.clicked.connect(lambda: self.setDirectory(202))
+        self.Page04_setBImagebutton.clicked.connect(lambda: self.setDirectory(203))
+        self.Page04_setCImagebutton.clicked.connect(lambda: self.setDirectory(204))
+
+        self.Page04_OKImageSaveButton.clicked.connect(lambda: self.saveCaptureImageOnClip(0))
+        self.Page04_NGImageSaveButton.clicked.connect(lambda: self.saveCaptureImageOnClip(1))
+        self.Page04_AImageSaveButton.clicked.connect(lambda: self.saveCaptureImageOnClip(2))
+        self.Page04_BImageSaveButton.clicked.connect(lambda: self.saveCaptureImageOnClip(3))
+        self.Page04_CImageSaveButton.clicked.connect(lambda: self.saveCaptureImageOnClip(4))
+
         clipPlayWidth = self.horizontalLayoutWidget_7.width()
         clipPlayHeight = self.horizontalLayoutWidget_7.height()
         clipPlayFilePath = self.Page04_ClipPlayDirlineEdit
@@ -3549,6 +3561,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         g_isPlayVideo = isBoolState
         self.clipSliderPressed = not isBoolState
         print("setPlayVideoStatus: ", g_isPlayVideo)
+
+    def saveCaptureImageOnClip(self, id): # id - 0:OK, 1: NG, 2: A, 3: B, 4: C
+        global g_clipCapImage
+
+        imageNumber = 1
+        tempCurPwd = os.getcwd()
+        if id == 0 and (len(self.Page04_setOKImagelineEdit.text()) > 0):
+            os.chdir(self.Page04_setOKImagelineEdit.text()) # Move TO Save PWD
+        elif id == 1 and (len(self.Page04_setNGImagelineEdit.text()) > 0):
+            os.chdir(self.Page04_setNGImagelineEdit.text()) # Move TO Save PWD
+        elif id == 2 and (len(self.Page04_setAImagelineEdit.text()) > 0):
+            os.chdir(self.Page04_setAImagelineEdit.text())
+        elif id == 3 and (len(self.Page04_setBImagelineEdit.text()) > 0):
+            os.chdir(self.Page04_setBImagelineEdit.text())
+        elif id == 4 and (len(self.Page04_setCImagelineEdit.text()) > 0):
+            os.chdir(self.Page04_setCImagelineEdit.text())
+
+        while True:
+            if cv2.imread("image.jpg") is None:
+                g_clipCapImage.save("image.jpg")
+                break
+
+            fileName = "image(" + str(imageNumber) + ").jpg"
+            if cv2.imread(fileName) is None:
+                g_clipCapImage.save(fileName)
+                break
+            else:
+                imageNumber = imageNumber + 1
+        os.chdir(tempCurPwd)
 ## ClipPlay(ENDED)
 
 ## MenuBar(BEGIN)
@@ -3726,8 +3767,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def setDirectory(self, id, camID=0):
         """ setDirectory ID
-        VIDEO ID   - 0: CAM1 Video, 1: CAM2 Video, 2: CAM3 Video, 3: CAM4 Video
-        CAPTURE ID - 100: OK Image, 101: NG Image, 102: A Image, 103: B Image, 104: C Image
+        VIDEO ID    - 0: CAM1 Video, 1: CAM2 Video, 2: CAM3 Video, 3: CAM4 Video
+        CAPTURE ID  - 100: OK Image, 101: NG Image, 102: A Image, 103: B Image, 104: C Image
+        CLIPPLAY ID - 200: OK Image, 201: NG Image, 202: A Image, 203: B Image, 204: C Image
         """
         dirName = QFileDialog.getExistingDirectory(self, self.tr("저장 경로 설정"), "./", QFileDialog.ShowDirsOnly)
 
@@ -3749,6 +3791,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Page02_setBImagelineEditList[camID].setText(dirName)
         elif id == 104:
             self.Page02_setCImagelineEditList[camID].setText(dirName)
+        elif id == 200:
+            self.Page04_setOKImagelineEdit.setText(dirName)
+        elif id == 201:
+            self.Page04_setNGImagelineEdit.setText(dirName)
+        elif id == 202:
+            self.Page04_setAImagelineEdit.setText(dirName)
+        elif id == 203:
+            self.Page04_setBImagelineEdit.setText(dirName)
+        elif id == 204:
+            self.Page04_setCImagelineEdit.setText(dirName)
 
     def mousePressEvent(self, QMouseEvent):
         if self.clipPlayPageOn: #ClipPlay의 Mouse 이벤트
