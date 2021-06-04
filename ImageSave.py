@@ -3335,6 +3335,29 @@ class camThread(threading.Thread):
 g_isPlayVideo = False
 g_clipPlayFrameNum = 0
 g_needResetClipPlay = True
+g_isDrawRectangleStatusOnClip = False
+g_isDrawingEndedOnClip = False
+g_refreshRectangleOnStopClip = False
+g_startXOnClip, g_startYOnClip, g_endXOnClip, g_endYOnClip = 0, 0, 0, 0
+g_clipCapImage = None
+
+def gDrawRectangleRegionOnClip(clipFrame, ImglabelWidth, ImglabelHeight):
+    global g_isDrawRectangleStatusOnClip, g_isDrawingEndedOnClip
+    global g_startXOnClip, g_startYOnClip, g_endXOnClip, g_endYOnClip
+
+    if g_isDrawRectangleStatusOnClip and g_isDrawingEndedOnClip:
+        frameHeight, frameWidth = clipFrame.shape[:2]
+
+        ratioX = frameWidth / ImglabelWidth
+        ratioY = frameHeight / ImglabelHeight
+        drawMargin = 2  # 이미지캡쳐에서 rectangle이 포함되지 않도록 drawMargin 추가
+
+        stPosX, stPosY, endPosX, endPosY = int(g_startXOnClip * ratioX), int(g_startYOnClip * ratioY), int(g_endXOnClip * ratioX), int(g_endYOnClip * ratioY)
+
+        clipFrame = cv2.rectangle(clipFrame, (stPosX - drawMargin, stPosY - drawMargin), (endPosX + drawMargin, endPosY + drawMargin), (0, 0, 255), 2)
+        return clipFrame, stPosX, stPosY, endPosX - stPosX, endPosY - stPosY
+    else:
+        return clipFrame, 0, 0, clipFrame.shape[1], clipFrame.shape[0]
 
 class clipPlayThread(threading.Thread):
     def __init__(self, clipPlayWidth, clipPlayHeight, clipPlayFilePath, clipImageLabel, clipPlaySlider):
@@ -3360,6 +3383,8 @@ class clipPlayThread(threading.Thread):
 
     def showClipPlay(self):
         global g_isPlayVideo, g_clipPlayFrameNum, g_needResetClipPlay
+        global g_clipCapImage
+
         while True:
             if g_isPlayVideo:
                 self.curClipPlayFilePath = self.clipPlayFilePath.text()
@@ -3389,12 +3414,31 @@ class clipPlayThread(threading.Thread):
                     print("frameNumber: {}({})".format(g_clipPlayFrameNum, self.frame_len))
 
                     clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
+                    clipFrame, x, y, width, height = gDrawRectangleRegionOnClip(clipFrame, self.clipPlayWidth, self.clipPlayHeight)
                     clipImage = QImage(clipFrame, clipFrame.shape[1], clipFrame.shape[0], clipFrame.strides[0], QImage.Format_RGB888)
                     clipImage1 = clipImage.copy().scaled(self.clipPlayWidth, self.clipPlayHeight)
+
+                    g_clipCapImage = clipImage.copy(x, y, width, height)
                     self.clipImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
                     self.clipPlaySlider.setValue(g_clipPlayFrameNum)
             else:   # not g_isPlayVideo (Pause, no ClipFile ...)
+                global g_refreshRectangleOnStopClip
                 g_needResetClipPlay = True
+
+                self.curClipPlayFilePath = self.clipPlayFilePath.text()
+                if (len(self.curClipPlayFilePath)> 0) and g_refreshRectangleOnStopClip: # 정지 영상에 영역 설정 내용 그리기
+                    cap = cv2.VideoCapture(self.curClipPlayFilePath)
+                    cap.set(cv2.CAP_PROP_POS_FRAMES, g_clipPlayFrameNum)
+                    success, clipFrame = cap.read()
+
+                    clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
+                    clipFrame, x, y, width, height = gDrawRectangleRegionOnClip(clipFrame, self.clipPlayWidth, self.clipPlayHeight)
+                    clipImage = QImage(clipFrame, clipFrame.shape[1], clipFrame.shape[0], clipFrame.strides[0], QImage.Format_RGB888)
+                    clipImage1 = clipImage.copy().scaled(self.clipPlayWidth, self.clipPlayHeight)
+
+                    g_clipCapImage = clipImage.copy(x, y, width, height)
+                    self.clipImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
+                    g_refreshRectangleOnStopClip = False
 ## ClipPlay Thread(ENDED)
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -3416,6 +3460,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def setupClipPlay(self):
         self.clipSliderPressed = False
 
+        self.isStPosOnClip = False
+        self.clipImgStartX, self.clipImgStartY, self.clipImgEndX, self.clipImgEndY = 210, 9, 960, 429  ### Note: Image Mouse Postion
+
         self.Page04_ClipPlayDirbutton.clicked.connect(lambda: self.setFilePath(1))
         self.Page04_ClipPlayButtonPlay.clicked.connect(lambda: self.setPlayVideoStatus(True))
         self.Page04_ClipPlayButtonPause.clicked.connect(lambda: self.setPlayVideoStatus(False))
@@ -3426,6 +3473,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page04_ClipPlayButtonBack.clicked.connect(lambda: self.setMoveVideoFrame(-1))
         self.Page04_ClipPlayButtonForward.clicked.connect(lambda: self.setMoveVideoFrame(1))
 
+        self.Page04_CaptureSetButton.clicked.connect(lambda: self.drawRectangleStatusToClip(True))
+        self.Page04_CaptureReleaseButton.clicked.connect(lambda: self.drawRectangleStatusToClip(False))
+
         clipPlayWidth = self.horizontalLayoutWidget_7.width()
         clipPlayHeight = self.horizontalLayoutWidget_7.height()
         clipPlayFilePath = self.Page04_ClipPlayDirlineEdit
@@ -3435,6 +3485,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.listThread.append(clipPlayThread(clipPlayWidth, clipPlayHeight, clipPlayFilePath, clipImageLabel, clipPlaySlider))
         self.listThread[-1].start()
 
+    def drawRectangleStatusToClip(self, isBool):
+        global g_isDrawRectangleStatusOnClip, g_refreshRectangleOnStopClip
+        g_isDrawRectangleStatusOnClip = isBool
+        g_refreshRectangleOnStopClip = True
+
     def setMoveVideoFrame(self, value):
         self.Page04_ClipPlaySlider.setValue(g_clipPlayFrameNum + value)
         self.setPlayVideoStatus(False)
@@ -3442,6 +3497,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def showClipToImageLabel(self):
         global g_clipPlayFrameNum, g_isPlayVideo, g_needResetClipPlay
+        global g_clipCapImage
         g_clipPlayFrameNum = self.Page04_ClipPlaySlider.value()
         self.Page04_ClipPlayFrameNumLabel.setText(str(int(g_clipPlayFrameNum)))
         print("Slider Value: ", g_clipPlayFrameNum)
@@ -3455,12 +3511,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             success, clipFrame = cap.read()
 
             clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
+            clipFrame, x, y, width, height = gDrawRectangleRegionOnClip(clipFrame, self.horizontalLayoutWidget_7.width(), self.horizontalLayoutWidget_7.height())
             clipImage = QImage(clipFrame, clipFrame.shape[1], clipFrame.shape[0], clipFrame.strides[0], QImage.Format_RGB888)
             clipImage1 = clipImage.copy().scaled(self.horizontalLayoutWidget_7.width(), self.horizontalLayoutWidget_7.height())
+
+            g_clipCapImage = clipImage.copy(x, y, width, height)
             self.Page04_ImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
 
     def setFilePath(self, id):
         global g_clipPlayFrameNum
+        global g_clipCapImage
         pathName = QFileDialog.getOpenFileName(self, 'Open file', './')
         if id == 1:     #이미지 경로 설정 및 Load시 첫번째 frame show
             """lineEdit 보여주기"""
@@ -3470,8 +3530,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             cap = cv2.VideoCapture(self.Page04_ClipPlayDirlineEdit.text())
             success, clipFrame = cap.read()
             clipFrame = cv2.cvtColor(clipFrame, cv2.COLOR_RGB2BGR)
+            clipFrame, x, y, width, height = gDrawRectangleRegionOnClip(clipFrame, self.horizontalLayoutWidget_7.width(), self.horizontalLayoutWidget_7.height())
             clipImage = QImage(clipFrame, clipFrame.shape[1], clipFrame.shape[0], clipFrame.strides[0], QImage.Format_RGB888)
             clipImage1 = clipImage.copy().scaled(self.horizontalLayoutWidget_7.width(), self.horizontalLayoutWidget_7.height())
+            g_clipCapImage = clipImage.copy(x, y, width, height)
             self.Page04_ImageLabel.setPixmap(QPixmap.fromImage(clipImage1))
 
             """Slider Frame Count로 Max값 설정하기"""
@@ -3492,6 +3554,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 ## MenuBar(BEGIN)
     def setupMenuBar(self):
         self.capturePageOn = False
+        self.clipPlayPageOn = False
         self.Menu_LivepushButton.clicked.connect(lambda: self.changeStackWidget(0))
         self.Menu_CapturepushButton.clicked.connect(lambda: self.changeStackWidget(1))
         self.Menu_RecordpushButton.clicked.connect(lambda: self.changeStackWidget(2))
@@ -3502,6 +3565,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.stackedWidget.setCurrentWidget(PageIdList[id])
         self.capturePageOn = (id == 1)
+        self.clipPlayPageOn = (id == 3)
 ## MenuBar(ENDED)
 
 ## WebCam Image(BEGIN)
@@ -3687,45 +3751,89 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Page02_setCImagelineEditList[camID].setText(dirName)
 
     def mousePressEvent(self, QMouseEvent):
-        global g_isDrawingEnded
-        global g_startX, g_startY
+        if self.clipPlayPageOn: #ClipPlay의 Mouse 이벤트
+            global g_isDrawingEndedOnClip, g_startXOnClip, g_startYOnClip
+            if self.clipImgStartX < QMouseEvent.x() <= self.clipImgEndX and self.clipImgStartY < QMouseEvent.y() <= self.clipImgEndY:
+                self.isStPosOnClip = True
+            else:
+                self.isStPosOnClip = False
+                return
 
-        tabIndex = self.CameratabWidget.currentIndex()
+            g_isDrawingEndedOnClip = False
+            g_startXOnClip, g_startYOnClip = QMouseEvent.x(), QMouseEvent.y()
+        else: #Capture 페이지의 Mouse 이벤트
+            global g_isDrawingEnded
+            global g_startX, g_startY
 
-        if self.capturePageOn and self.capImgStartX < QMouseEvent.x() <= self.capImgEndX and self.capImgStartY < QMouseEvent.y() <= self.capImgEndY:
-            self.isStPosOnImage = True
-        else:
-            self.isStPosOnImage = False
-            return
+            tabIndex = self.CameratabWidget.currentIndex()
 
-        g_isDrawingEnded[tabIndex] = False
-        g_startX[tabIndex], g_startY[tabIndex] = QMouseEvent.x(), QMouseEvent.y()
+            if self.capturePageOn and self.capImgStartX < QMouseEvent.x() <= self.capImgEndX and self.capImgStartY < QMouseEvent.y() <= self.capImgEndY:
+                self.isStPosOnImage = True
+            else:
+                self.isStPosOnImage = False
+                return
+
+            g_isDrawingEnded[tabIndex] = False
+            g_startX[tabIndex], g_startY[tabIndex] = QMouseEvent.x(), QMouseEvent.y()
 
     def mouseReleaseEvent(self, QMouseEvent):
-        global g_isDrawRectangleStatus, g_isDrawingEnded
-        global g_startX, g_startY, g_endX, g_endY
-        tabIndex = self.CameratabWidget.currentIndex()
+        if self.clipPlayPageOn:  # ClipPlay의 Mouse 이벤트
+            global g_isDrawRectangleStatusOnClip, g_isDrawingEndedOnClip
+            global g_startXOnClip, g_startYOnClip, g_endXOnClip, g_endYOnClip
+            global g_refreshRectangleOnStopClip
 
-        if not self.isStPosOnImage or not g_isDrawRectangleStatus[tabIndex]:
-            return
+            if not self.isStPosOnClip or not g_isDrawRectangleStatusOnClip:
+                return
 
-        g_isDrawingEnded[tabIndex] = True
-        g_endX[tabIndex], g_endY[tabIndex] = QMouseEvent.x(), QMouseEvent.y()
+            g_isDrawingEndedOnClip = True
+            g_refreshRectangleOnStopClip = True
+            g_endXOnClip, g_endYOnClip = QMouseEvent.x(), QMouseEvent.y()
 
-        if g_endX[tabIndex] < g_startX[tabIndex]:
-            g_startX[tabIndex], g_endX[tabIndex] = g_endX[tabIndex], g_startX[tabIndex]
-        if g_endY[tabIndex] < g_startY[tabIndex]:
-            g_startY[tabIndex], g_endY[tabIndex] = g_endY[tabIndex], g_startY[tabIndex]
+            """Start 포인트가 End 포인트 보다 작은경우 포인트 스위칭"""
+            if g_endXOnClip < g_startXOnClip:
+                g_startXOnClip, g_endXOnClip = g_endXOnClip, g_startXOnClip
+            if g_endYOnClip < g_startYOnClip:
+                g_startYOnClip, g_endYOnClip = g_endYOnClip, g_startYOnClip
 
-        if g_startX[tabIndex] < self.capImgStartX : g_startX[tabIndex] = self.capImgStartX
-        if g_startY[tabIndex] < self.capImgStartY : g_startY[tabIndex] = self.capImgStartY
-        if g_endX[tabIndex] >= self.capImgEndX    : g_endX[tabIndex] = self.capImgEndX
-        if g_endY[tabIndex] >= self.capImgEndY    : g_endY[tabIndex] = self.capImgEndY
+            """이미지를 벗어나는 영역에 선택한 경우"""
+            if g_startXOnClip < self.clipImgStartX : g_startXOnClip = self.clipImgStartX
+            if g_startYOnClip < self.clipImgStartY : g_startYOnClip = self.clipImgStartY
+            if g_endXOnClip >= self.clipImgEndX    : g_endXOnClip = self.capImgEndX
+            if g_endYOnClip >= self.clipImgEndY    : g_endYOnClip = self.capImgEndY
 
-        g_startX[tabIndex] -= self.capImgStartX
-        g_startY[tabIndex] -= self.capImgStartY
-        g_endX[tabIndex] -= self.capImgStartX
-        g_endY[tabIndex] -= self.capImgStartY
+            """이미지 좌표계로 보정. 즉, Point를 (0,0)으로 조정"""
+            g_startXOnClip -= self.clipImgStartX
+            g_startYOnClip -= self.clipImgStartY
+            g_endXOnClip -= self.clipImgStartX
+            g_endYOnClip -= self.clipImgStartY
+        else:
+            global g_isDrawRectangleStatus, g_isDrawingEnded
+            global g_startX, g_startY, g_endX, g_endY
+            tabIndex = self.CameratabWidget.currentIndex()
+
+            if not self.isStPosOnImage or not g_isDrawRectangleStatus[tabIndex]:
+                return
+
+            g_isDrawingEnded[tabIndex] = True
+            g_endX[tabIndex], g_endY[tabIndex] = QMouseEvent.x(), QMouseEvent.y()
+
+            """Start 포인트가 End 포인트 보다 작은경우 포인트 스위칭"""
+            if g_endX[tabIndex] < g_startX[tabIndex]:
+                g_startX[tabIndex], g_endX[tabIndex] = g_endX[tabIndex], g_startX[tabIndex]
+            if g_endY[tabIndex] < g_startY[tabIndex]:
+                g_startY[tabIndex], g_endY[tabIndex] = g_endY[tabIndex], g_startY[tabIndex]
+
+            """이미지를 벗어나는 영역에 선택한 경우"""
+            if g_startX[tabIndex] < self.capImgStartX : g_startX[tabIndex] = self.capImgStartX
+            if g_startY[tabIndex] < self.capImgStartY : g_startY[tabIndex] = self.capImgStartY
+            if g_endX[tabIndex] >= self.capImgEndX    : g_endX[tabIndex] = self.capImgEndX
+            if g_endY[tabIndex] >= self.capImgEndY    : g_endY[tabIndex] = self.capImgEndY
+
+            """이미지 좌표계로 보정. 즉, Point를 (0,0)으로 조정"""
+            g_startX[tabIndex] -= self.capImgStartX
+            g_startY[tabIndex] -= self.capImgStartY
+            g_endX[tabIndex] -= self.capImgStartX
+            g_endY[tabIndex] -= self.capImgStartY
 
     def drawRectangleStatus(self, isBoolState, camID):
         global g_isDrawRectangleStatus
