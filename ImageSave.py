@@ -3670,19 +3670,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page04_BImageSaveButton.clicked.connect(lambda: self.saveCaptureImageOnClip(3))
         self.Page04_CImageSaveButton.clicked.connect(lambda: self.saveCaptureImageOnClip(4))
 
-        clipPlayWidth = self.horizontalLayoutWidget_7.width()
-        clipPlayHeight = self.horizontalLayoutWidget_7.height()
+        self.clipPlayWidth = self.horizontalLayoutWidget_7.width()
+        self.clipPlayHeight = self.horizontalLayoutWidget_7.height()
         clipPlayFilePath = self.Page04_ClipPlayDirlineEdit
         clipImageLabel = self.Page04_ImageLabel
         clipPlaySlider = self.Page04_ClipPlaySlider
 
-        self.listThread.append(clipPlayThread(clipPlayWidth, clipPlayHeight, clipPlayFilePath, clipImageLabel, clipPlaySlider))
+        self.listThread.append(clipPlayThread(self.clipPlayWidth, self.clipPlayHeight, clipPlayFilePath, clipImageLabel, clipPlaySlider))
         self.listThread[-1].start()
 
     def drawRectangleStatusToClip(self, isBool):
         global g_isDrawRectangleStatusOnClip, g_refreshRectangleOnStopClip
+        global g_startXOnClip, g_startYOnClip, g_endXOnClip, g_endYOnClip
         g_isDrawRectangleStatusOnClip = isBool
         g_refreshRectangleOnStopClip = True
+
+        if not g_isDrawRectangleStatusOnClip:
+            g_startXOnClip, g_startYOnClip, g_endXOnClip, g_endYOnClip = 0, 0, self.clipPlayWidth, self.clipPlayHeight
+
+        self.Page04_CapturePointStartX.setText(str(g_startXOnClip))
+        self.Page04_CapturePointStartY.setText(str(g_startYOnClip))
+        self.Page04_CapturePointEndX.setText(str(g_endXOnClip))
+        self.Page04_CapturePointEndY.setText(str(g_endYOnClip))
 
     def setMoveVideoFrame(self, value):
         self.Page04_ClipPlaySlider.setValue(g_clipPlayFrameNum + value)
@@ -3934,7 +3943,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page02_CaptureReleaseButton4.clicked.connect(lambda: self.drawRectangleStatus(False, 3))
 
 
-
     def captureFrameStop(self, camID):
         global g_isStopClicked, g_isPlayClicked
 
@@ -4040,6 +4048,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             g_startYOnClip -= self.clipImgStartY
             g_endXOnClip -= self.clipImgStartX
             g_endYOnClip -= self.clipImgStartY
+
+            self.Page04_CapturePointStartX.setText(str(g_startXOnClip))
+            self.Page04_CapturePointStartY.setText(str(g_startYOnClip))
+            self.Page04_CapturePointEndX.setText(str(g_endXOnClip))
+            self.Page04_CapturePointEndY.setText(str(g_endYOnClip))
+
         else:
             global g_isDrawRectangleStatus, g_isDrawingEnded
             global g_startX, g_startY, g_endX, g_endY
