@@ -2546,7 +2546,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_8 = QWidget(self.Page04)
         self.horizontalLayoutWidget_8.setObjectName(u"horizontalLayoutWidget_8")
-        self.horizontalLayoutWidget_8.setGeometry(QRect(400, 430, 161, 31))
+        self.horizontalLayoutWidget_8.setGeometry(QRect(350, 430, 161, 31))
         self.Page04_CaptureLayout = QHBoxLayout(self.horizontalLayoutWidget_8)
         self.Page04_CaptureLayout.setObjectName(u"Page04_CaptureLayout")
         self.Page04_CaptureLayout.setContentsMargins(0, 0, 0, 0)
@@ -2569,63 +2569,78 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_9 = QWidget(self.Page04)
         self.horizontalLayoutWidget_9.setObjectName(u"horizontalLayoutWidget_9")
-        self.horizontalLayoutWidget_9.setGeometry(QRect(570, 430, 211, 31))
-        self.horizontalLayout = QHBoxLayout(self.horizontalLayoutWidget_9)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayoutWidget_9.setGeometry(QRect(520, 430, 211, 31))
+        self.Page04_CapturePointLayout1 = QHBoxLayout(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointLayout1.setObjectName(u"Page04_CapturePointLayout1")
+        self.Page04_CapturePointLayout1.setContentsMargins(0, 0, 0, 0)
         self.Page04_CapturePointLabel = QLabel(self.horizontalLayoutWidget_9)
         self.Page04_CapturePointLabel.setObjectName(u"Page04_CapturePointLabel")
 
-        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel)
+        self.Page04_CapturePointLayout1.addWidget(self.Page04_CapturePointLabel)
 
         self.Page04_CapturePointLabel_2 = QLabel(self.horizontalLayoutWidget_9)
         self.Page04_CapturePointLabel_2.setObjectName(u"Page04_CapturePointLabel_2")
 
-        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel_2)
+        self.Page04_CapturePointLayout1.addWidget(self.Page04_CapturePointLabel_2)
 
         self.Page04_CapturePointStartX = QLineEdit(self.horizontalLayoutWidget_9)
         self.Page04_CapturePointStartX.setObjectName(u"Page04_CapturePointStartX")
         self.Page04_CapturePointStartX.setStyleSheet(u"color: rgb(0, 0, 0);")
 
-        self.horizontalLayout.addWidget(self.Page04_CapturePointStartX)
+        self.Page04_CapturePointLayout1.addWidget(self.Page04_CapturePointStartX)
 
         self.Page04_CapturePointLabel_3 = QLabel(self.horizontalLayoutWidget_9)
         self.Page04_CapturePointLabel_3.setObjectName(u"Page04_CapturePointLabel_3")
 
-        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel_3)
+        self.Page04_CapturePointLayout1.addWidget(self.Page04_CapturePointLabel_3)
 
         self.Page04_CapturePointStartY = QLineEdit(self.horizontalLayoutWidget_9)
         self.Page04_CapturePointStartY.setObjectName(u"Page04_CapturePointStartY")
         self.Page04_CapturePointStartY.setStyleSheet(u"color: rgb(0, 0, 0);")
 
-        self.horizontalLayout.addWidget(self.Page04_CapturePointStartY)
+        self.Page04_CapturePointLayout1.addWidget(self.Page04_CapturePointStartY)
 
         self.Page04_CapturePointLabel_4 = QLabel(self.horizontalLayoutWidget_9)
         self.Page04_CapturePointLabel_4.setObjectName(u"Page04_CapturePointLabel_4")
 
-        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel_4)
+        self.Page04_CapturePointLayout1.addWidget(self.Page04_CapturePointLabel_4)
 
         self.Page04_CapturePointEndX = QLineEdit(self.horizontalLayoutWidget_9)
         self.Page04_CapturePointEndX.setObjectName(u"Page04_CapturePointEndX")
         self.Page04_CapturePointEndX.setStyleSheet(u"color: rgb(0, 0, 0);")
 
-        self.horizontalLayout.addWidget(self.Page04_CapturePointEndX)
+        self.Page04_CapturePointLayout1.addWidget(self.Page04_CapturePointEndX)
 
         self.Page04_CapturePointLabel_5 = QLabel(self.horizontalLayoutWidget_9)
         self.Page04_CapturePointLabel_5.setObjectName(u"Page04_CapturePointLabel_5")
 
-        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel_5)
+        self.Page04_CapturePointLayout1.addWidget(self.Page04_CapturePointLabel_5)
 
         self.Page04_CapturePointEndY = QLineEdit(self.horizontalLayoutWidget_9)
         self.Page04_CapturePointEndY.setObjectName(u"Page04_CapturePointEndY")
         self.Page04_CapturePointEndY.setStyleSheet(u"color: rgb(0, 0, 0);")
 
-        self.horizontalLayout.addWidget(self.Page04_CapturePointEndY)
+        self.Page04_CapturePointLayout1.addWidget(self.Page04_CapturePointEndY)
 
         self.Page04_CapturePointLabel_6 = QLabel(self.horizontalLayoutWidget_9)
         self.Page04_CapturePointLabel_6.setObjectName(u"Page04_CapturePointLabel_6")
 
-        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel_6)
+        self.Page04_CapturePointLayout1.addWidget(self.Page04_CapturePointLabel_6)
+
+        self.horizontalLayoutWidget_12 = QWidget(self.Page04)
+        self.horizontalLayoutWidget_12.setObjectName(u"horizontalLayoutWidget_12")
+        self.horizontalLayoutWidget_12.setGeometry(QRect(730, 430, 61, 31))
+        self.Page04_CapturePointLayout2 = QHBoxLayout(self.horizontalLayoutWidget_12)
+        self.Page04_CapturePointLayout2.setObjectName(u"Page04_CapturePointLayout2")
+        self.Page04_CapturePointLayout2.setContentsMargins(0, 0, 0, 0)
+        self.Page04_setCapturePointButton = QPushButton(self.horizontalLayoutWidget_12)
+        self.Page04_setCapturePointButton.setObjectName(u"Page04_setCapturePointButton")
+        sizePolicy.setHeightForWidth(self.Page04_setCapturePointButton.sizePolicy().hasHeightForWidth())
+        self.Page04_setCapturePointButton.setSizePolicy(sizePolicy)
+        self.Page04_setCapturePointButton.setMinimumSize(QSize(55, 0))
+        self.Page04_setCapturePointButton.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.Page04_CapturePointLayout2.addWidget(self.Page04_setCapturePointButton)
 
         self.stackedWidget.addWidget(self.Page04)
         self.verticalLayoutWidget = QWidget(self.centralwidget)
@@ -3314,7 +3329,8 @@ class Ui_MainWindow(object):
         self.Page04_CapturePointEndX.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.Page04_CapturePointLabel_5.setText(QCoreApplication.translate("MainWindow", u",", None))
         self.Page04_CapturePointEndY.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.Page04_CapturePointLabel_6.setText(QCoreApplication.translate("MainWindow", u")", None))
+        self.Page04_CapturePointLabel_6.setText(QCoreApplication.translate("MainWindow", u") ", None))
+        self.Page04_setCapturePointButton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Menu_LivepushButton.setText(QCoreApplication.translate("MainWindow", u"Live", None))
         self.Menu_CapturepushButton.setText(QCoreApplication.translate("MainWindow", u"Capture", None))
         self.Menu_RecordpushButton.setText(QCoreApplication.translate("MainWindow", u"Record", None))
