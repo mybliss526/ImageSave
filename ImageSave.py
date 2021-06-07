@@ -2224,11 +2224,11 @@ class Ui_MainWindow(object):
 
         self.Page04_scrollArea = QScrollArea(self.Page04)
         self.Page04_scrollArea.setObjectName(u"Page04_scrollArea")
-        self.Page04_scrollArea.setGeometry(QRect(400, 460, 391, 71))
+        self.Page04_scrollArea.setGeometry(QRect(340, 460, 451, 71))
         self.Page04_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 372, 167))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 432, 167))
         self.verticalLayout_3 = QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.Page04_setOKImageLayout = QHBoxLayout()
@@ -2246,12 +2246,31 @@ class Ui_MainWindow(object):
 
         self.Page04_setOKImagebutton = QPushButton(self.scrollAreaWidgetContents_3)
         self.Page04_setOKImagebutton.setObjectName(u"Page04_setOKImagebutton")
+        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.Page04_setOKImagebutton.sizePolicy().hasHeightForWidth())
+        self.Page04_setOKImagebutton.setSizePolicy(sizePolicy)
+        self.Page04_setOKImagebutton.setMinimumSize(QSize(55, 0))
         self.Page04_setOKImagebutton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setOKImageLayout.addWidget(self.Page04_setOKImagebutton)
 
+        self.Page04_setOKFileNameLabel = QLabel(self.scrollAreaWidgetContents_3)
+        self.Page04_setOKFileNameLabel.setObjectName(u"Page04_setOKFileNameLabel")
+
+        self.Page04_setOKImageLayout.addWidget(self.Page04_setOKFileNameLabel)
+
+        self.Page04_setOKFileNameLlineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
+        self.Page04_setOKFileNameLlineEdit.setObjectName(u"Page04_setOKFileNameLlineEdit")
+
+        self.Page04_setOKImageLayout.addWidget(self.Page04_setOKFileNameLlineEdit)
+
         self.Page04_OKImageSaveButton = QPushButton(self.scrollAreaWidgetContents_3)
         self.Page04_OKImageSaveButton.setObjectName(u"Page04_OKImageSaveButton")
+        sizePolicy.setHeightForWidth(self.Page04_OKImageSaveButton.sizePolicy().hasHeightForWidth())
+        self.Page04_OKImageSaveButton.setSizePolicy(sizePolicy)
+        self.Page04_OKImageSaveButton.setMinimumSize(QSize(55, 0))
         self.Page04_OKImageSaveButton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setOKImageLayout.addWidget(self.Page04_OKImageSaveButton)
@@ -2274,12 +2293,28 @@ class Ui_MainWindow(object):
 
         self.Page04_setNGImagebutton = QPushButton(self.scrollAreaWidgetContents_3)
         self.Page04_setNGImagebutton.setObjectName(u"Page04_setNGImagebutton")
+        sizePolicy.setHeightForWidth(self.Page04_setNGImagebutton.sizePolicy().hasHeightForWidth())
+        self.Page04_setNGImagebutton.setSizePolicy(sizePolicy)
+        self.Page04_setNGImagebutton.setMinimumSize(QSize(55, 0))
         self.Page04_setNGImagebutton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setNGImageLayout.addWidget(self.Page04_setNGImagebutton)
 
+        self.Page04_setNGFileNameLabel = QLabel(self.scrollAreaWidgetContents_3)
+        self.Page04_setNGFileNameLabel.setObjectName(u"Page04_setNGFileNameLabel")
+
+        self.Page04_setNGImageLayout.addWidget(self.Page04_setNGFileNameLabel)
+
+        self.Page04_setNGFileNameLlineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
+        self.Page04_setNGFileNameLlineEdit.setObjectName(u"Page04_setNGFileNameLlineEdit")
+
+        self.Page04_setNGImageLayout.addWidget(self.Page04_setNGFileNameLlineEdit)
+
         self.Page04_NGImageSaveButton = QPushButton(self.scrollAreaWidgetContents_3)
         self.Page04_NGImageSaveButton.setObjectName(u"Page04_NGImageSaveButton")
+        sizePolicy.setHeightForWidth(self.Page04_NGImageSaveButton.sizePolicy().hasHeightForWidth())
+        self.Page04_NGImageSaveButton.setSizePolicy(sizePolicy)
+        self.Page04_NGImageSaveButton.setMinimumSize(QSize(55, 0))
         self.Page04_NGImageSaveButton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setNGImageLayout.addWidget(self.Page04_NGImageSaveButton)
@@ -2302,12 +2337,28 @@ class Ui_MainWindow(object):
 
         self.Page04_setAImagebutton = QPushButton(self.scrollAreaWidgetContents_3)
         self.Page04_setAImagebutton.setObjectName(u"Page04_setAImagebutton")
+        sizePolicy.setHeightForWidth(self.Page04_setAImagebutton.sizePolicy().hasHeightForWidth())
+        self.Page04_setAImagebutton.setSizePolicy(sizePolicy)
+        self.Page04_setAImagebutton.setMinimumSize(QSize(55, 0))
         self.Page04_setAImagebutton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setAImageLayout.addWidget(self.Page04_setAImagebutton)
 
+        self.Page04_setAFileNameLabel = QLabel(self.scrollAreaWidgetContents_3)
+        self.Page04_setAFileNameLabel.setObjectName(u"Page04_setAFileNameLabel")
+
+        self.Page04_setAImageLayout.addWidget(self.Page04_setAFileNameLabel)
+
+        self.Page04_setAFileNameLlineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
+        self.Page04_setAFileNameLlineEdit.setObjectName(u"Page04_setAFileNameLlineEdit")
+
+        self.Page04_setAImageLayout.addWidget(self.Page04_setAFileNameLlineEdit)
+
         self.Page04_AImageSaveButton = QPushButton(self.scrollAreaWidgetContents_3)
         self.Page04_AImageSaveButton.setObjectName(u"Page04_AImageSaveButton")
+        sizePolicy.setHeightForWidth(self.Page04_AImageSaveButton.sizePolicy().hasHeightForWidth())
+        self.Page04_AImageSaveButton.setSizePolicy(sizePolicy)
+        self.Page04_AImageSaveButton.setMinimumSize(QSize(55, 0))
         self.Page04_AImageSaveButton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setAImageLayout.addWidget(self.Page04_AImageSaveButton)
@@ -2330,12 +2381,28 @@ class Ui_MainWindow(object):
 
         self.Page04_setBImagebutton = QPushButton(self.scrollAreaWidgetContents_3)
         self.Page04_setBImagebutton.setObjectName(u"Page04_setBImagebutton")
+        sizePolicy.setHeightForWidth(self.Page04_setBImagebutton.sizePolicy().hasHeightForWidth())
+        self.Page04_setBImagebutton.setSizePolicy(sizePolicy)
+        self.Page04_setBImagebutton.setMinimumSize(QSize(55, 0))
         self.Page04_setBImagebutton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setBImageLayout.addWidget(self.Page04_setBImagebutton)
 
+        self.Page04_setBFileNameLabel = QLabel(self.scrollAreaWidgetContents_3)
+        self.Page04_setBFileNameLabel.setObjectName(u"Page04_setBFileNameLabel")
+
+        self.Page04_setBImageLayout.addWidget(self.Page04_setBFileNameLabel)
+
+        self.Page04_setBFileNameLlineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
+        self.Page04_setBFileNameLlineEdit.setObjectName(u"Page04_setBFileNameLlineEdit")
+
+        self.Page04_setBImageLayout.addWidget(self.Page04_setBFileNameLlineEdit)
+
         self.Page04_BImageSaveButton = QPushButton(self.scrollAreaWidgetContents_3)
         self.Page04_BImageSaveButton.setObjectName(u"Page04_BImageSaveButton")
+        sizePolicy.setHeightForWidth(self.Page04_BImageSaveButton.sizePolicy().hasHeightForWidth())
+        self.Page04_BImageSaveButton.setSizePolicy(sizePolicy)
+        self.Page04_BImageSaveButton.setMinimumSize(QSize(55, 0))
         self.Page04_BImageSaveButton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setBImageLayout.addWidget(self.Page04_BImageSaveButton)
@@ -2358,12 +2425,28 @@ class Ui_MainWindow(object):
 
         self.Page04_setCImagebutton = QPushButton(self.scrollAreaWidgetContents_3)
         self.Page04_setCImagebutton.setObjectName(u"Page04_setCImagebutton")
+        sizePolicy.setHeightForWidth(self.Page04_setCImagebutton.sizePolicy().hasHeightForWidth())
+        self.Page04_setCImagebutton.setSizePolicy(sizePolicy)
+        self.Page04_setCImagebutton.setMinimumSize(QSize(55, 0))
         self.Page04_setCImagebutton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setCImageLayout.addWidget(self.Page04_setCImagebutton)
 
+        self.Page04_setCFileNameLabel = QLabel(self.scrollAreaWidgetContents_3)
+        self.Page04_setCFileNameLabel.setObjectName(u"Page04_setCFileNameLabel")
+
+        self.Page04_setCImageLayout.addWidget(self.Page04_setCFileNameLabel)
+
+        self.Page04_setCFileNameLlineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
+        self.Page04_setCFileNameLlineEdit.setObjectName(u"Page04_setCFileNameLlineEdit")
+
+        self.Page04_setCImageLayout.addWidget(self.Page04_setCFileNameLlineEdit)
+
         self.Page04_CImageSaveButton = QPushButton(self.scrollAreaWidgetContents_3)
         self.Page04_CImageSaveButton.setObjectName(u"Page04_CImageSaveButton")
+        sizePolicy.setHeightForWidth(self.Page04_CImageSaveButton.sizePolicy().hasHeightForWidth())
+        self.Page04_CImageSaveButton.setSizePolicy(sizePolicy)
+        self.Page04_CImageSaveButton.setMinimumSize(QSize(55, 0))
         self.Page04_CImageSaveButton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setCImageLayout.addWidget(self.Page04_CImageSaveButton)
@@ -2374,7 +2457,7 @@ class Ui_MainWindow(object):
         self.Page04_scrollArea.setWidget(self.scrollAreaWidgetContents_3)
         self.verticalLayoutWidget_2 = QWidget(self.Page04)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(0, 430, 391, 101))
+        self.verticalLayoutWidget_2.setGeometry(QRect(0, 430, 331, 101))
         self.Page04_setClipPlayLayout = QVBoxLayout(self.verticalLayoutWidget_2)
         self.Page04_setClipPlayLayout.setObjectName(u"Page04_setClipPlayLayout")
         self.Page04_setClipPlayLayout.setContentsMargins(0, 0, 0, 0)
@@ -2410,11 +2493,11 @@ class Ui_MainWindow(object):
 
         self.Page04_ClipPlayFrameNumLabel = QLabel(self.verticalLayoutWidget_2)
         self.Page04_ClipPlayFrameNumLabel.setObjectName(u"Page04_ClipPlayFrameNumLabel")
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.Page04_ClipPlayFrameNumLabel.sizePolicy().hasHeightForWidth())
-        self.Page04_ClipPlayFrameNumLabel.setSizePolicy(sizePolicy)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.Page04_ClipPlayFrameNumLabel.sizePolicy().hasHeightForWidth())
+        self.Page04_ClipPlayFrameNumLabel.setSizePolicy(sizePolicy1)
         self.Page04_ClipPlayFrameNumLabel.setMinimumSize(QSize(55, 0))
         self.Page04_ClipPlayFrameNumLabel.setBaseSize(QSize(0, 0))
         self.Page04_ClipPlayFrameNumLabel.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
@@ -2423,8 +2506,8 @@ class Ui_MainWindow(object):
 
         self.Page04_ClipPlayFrameMaxLabel = QLabel(self.verticalLayoutWidget_2)
         self.Page04_ClipPlayFrameMaxLabel.setObjectName(u"Page04_ClipPlayFrameMaxLabel")
-        sizePolicy.setHeightForWidth(self.Page04_ClipPlayFrameMaxLabel.sizePolicy().hasHeightForWidth())
-        self.Page04_ClipPlayFrameMaxLabel.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.Page04_ClipPlayFrameMaxLabel.sizePolicy().hasHeightForWidth())
+        self.Page04_ClipPlayFrameMaxLabel.setSizePolicy(sizePolicy1)
         self.Page04_ClipPlayFrameMaxLabel.setMinimumSize(QSize(55, 0))
 
         self.Page04_ClipPlaySlideLayout.addWidget(self.Page04_ClipPlayFrameMaxLabel)
@@ -2463,7 +2546,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayoutWidget_8 = QWidget(self.Page04)
         self.horizontalLayoutWidget_8.setObjectName(u"horizontalLayoutWidget_8")
-        self.horizontalLayoutWidget_8.setGeometry(QRect(580, 430, 191, 31))
+        self.horizontalLayoutWidget_8.setGeometry(QRect(400, 430, 161, 31))
         self.Page04_CaptureLayout = QHBoxLayout(self.horizontalLayoutWidget_8)
         self.Page04_CaptureLayout.setObjectName(u"Page04_CaptureLayout")
         self.Page04_CaptureLayout.setContentsMargins(0, 0, 0, 0)
@@ -2483,6 +2566,66 @@ class Ui_MainWindow(object):
         self.Page04_CaptureReleaseButton.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_CaptureLayout.addWidget(self.Page04_CaptureReleaseButton)
+
+        self.horizontalLayoutWidget_9 = QWidget(self.Page04)
+        self.horizontalLayoutWidget_9.setObjectName(u"horizontalLayoutWidget_9")
+        self.horizontalLayoutWidget_9.setGeometry(QRect(570, 430, 211, 31))
+        self.horizontalLayout = QHBoxLayout(self.horizontalLayoutWidget_9)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.Page04_CapturePointLabel = QLabel(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointLabel.setObjectName(u"Page04_CapturePointLabel")
+
+        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel)
+
+        self.Page04_CapturePointLabel_2 = QLabel(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointLabel_2.setObjectName(u"Page04_CapturePointLabel_2")
+
+        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel_2)
+
+        self.Page04_CapturePointStartX = QLineEdit(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointStartX.setObjectName(u"Page04_CapturePointStartX")
+        self.Page04_CapturePointStartX.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.horizontalLayout.addWidget(self.Page04_CapturePointStartX)
+
+        self.Page04_CapturePointLabel_3 = QLabel(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointLabel_3.setObjectName(u"Page04_CapturePointLabel_3")
+
+        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel_3)
+
+        self.Page04_CapturePointStartY = QLineEdit(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointStartY.setObjectName(u"Page04_CapturePointStartY")
+        self.Page04_CapturePointStartY.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.horizontalLayout.addWidget(self.Page04_CapturePointStartY)
+
+        self.Page04_CapturePointLabel_4 = QLabel(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointLabel_4.setObjectName(u"Page04_CapturePointLabel_4")
+
+        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel_4)
+
+        self.Page04_CapturePointEndX = QLineEdit(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointEndX.setObjectName(u"Page04_CapturePointEndX")
+        self.Page04_CapturePointEndX.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.horizontalLayout.addWidget(self.Page04_CapturePointEndX)
+
+        self.Page04_CapturePointLabel_5 = QLabel(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointLabel_5.setObjectName(u"Page04_CapturePointLabel_5")
+
+        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel_5)
+
+        self.Page04_CapturePointEndY = QLineEdit(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointEndY.setObjectName(u"Page04_CapturePointEndY")
+        self.Page04_CapturePointEndY.setStyleSheet(u"color: rgb(0, 0, 0);")
+
+        self.horizontalLayout.addWidget(self.Page04_CapturePointEndY)
+
+        self.Page04_CapturePointLabel_6 = QLabel(self.horizontalLayoutWidget_9)
+        self.Page04_CapturePointLabel_6.setObjectName(u"Page04_CapturePointLabel_6")
+
+        self.horizontalLayout.addWidget(self.Page04_CapturePointLabel_6)
 
         self.stackedWidget.addWidget(self.Page04)
         self.verticalLayoutWidget = QWidget(self.centralwidget)
@@ -3132,18 +3275,23 @@ class Ui_MainWindow(object):
         self.Page04_setOKImageLabel.setText(QCoreApplication.translate("MainWindow", u"OK \uc774\ubbf8\uc9c0:", None))
         self.Page04_setOKImagelineEdit.setText("")
         self.Page04_setOKImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_setOKFileNameLabel.setText(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c\uba85:", None))
         self.Page04_OKImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"OK \uc800\uc7a5", None))
         self.Page04_setNGImageLabel.setText(QCoreApplication.translate("MainWindow", u"NG \uc774\ubbf8\uc9c0:", None))
         self.Page04_setNGImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_setNGFileNameLabel.setText(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c\uba85:", None))
         self.Page04_NGImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"NG \uc800\uc7a5", None))
         self.Page04_setAImageLabel.setText(QCoreApplication.translate("MainWindow", u"\ubd84\ub958 A:", None))
         self.Page04_setAImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_setAFileNameLabel.setText(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c\uba85:", None))
         self.Page04_AImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0\uc800\uc7a5", None))
         self.Page04_setBImageLabel.setText(QCoreApplication.translate("MainWindow", u"\ubd84\ub958 B:", None))
         self.Page04_setBImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_setBFileNameLabel.setText(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c\uba85:", None))
         self.Page04_BImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0\uc800\uc7a5", None))
         self.Page04_setCImageLabel.setText(QCoreApplication.translate("MainWindow", u"\ubd84\ub958 C:", None))
         self.Page04_setCImagebutton.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page04_setCFileNameLabel.setText(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c\uba85:", None))
         self.Page04_CImageSaveButton.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0\uc800\uc7a5", None))
         self.Page04_ClipPlayDirLabel.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc0c1\uacbd\ub85c:", None))
         self.Page04_ClipPlayDirlineEdit.setText("")
@@ -3157,6 +3305,16 @@ class Ui_MainWindow(object):
         self.Page04_CaptureLabel.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0", None))
         self.Page04_CaptureSetButton.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\uc124\uc815", None))
         self.Page04_CaptureReleaseButton.setText(QCoreApplication.translate("MainWindow", u"\uc601\uc5ed\ud574\uc81c", None))
+        self.Page04_CapturePointLabel.setText(QCoreApplication.translate("MainWindow", u"\uc88c\ud45c", None))
+        self.Page04_CapturePointLabel_2.setText(QCoreApplication.translate("MainWindow", u"(", None))
+        self.Page04_CapturePointStartX.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.Page04_CapturePointLabel_3.setText(QCoreApplication.translate("MainWindow", u",", None))
+        self.Page04_CapturePointStartY.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.Page04_CapturePointLabel_4.setText(QCoreApplication.translate("MainWindow", u"), (", None))
+        self.Page04_CapturePointEndX.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.Page04_CapturePointLabel_5.setText(QCoreApplication.translate("MainWindow", u",", None))
+        self.Page04_CapturePointEndY.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.Page04_CapturePointLabel_6.setText(QCoreApplication.translate("MainWindow", u")", None))
         self.Menu_LivepushButton.setText(QCoreApplication.translate("MainWindow", u"Live", None))
         self.Menu_CapturepushButton.setText(QCoreApplication.translate("MainWindow", u"Capture", None))
         self.Menu_RecordpushButton.setText(QCoreApplication.translate("MainWindow", u"Record", None))
