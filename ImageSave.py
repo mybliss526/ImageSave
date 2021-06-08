@@ -3643,7 +3643,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.clipSliderPressed = False
 
         self.isStPosOnClip = False
-        self.clipImgStartX, self.clipImgStartY, self.clipImgEndX, self.clipImgEndY = 210, 9, 960, 429  ### Note: Image Mouse Postion
+        self.clipImgStartX, self.clipImgStartY, self.clipImgEndX, self.clipImgEndY = 210, 9, 961, 430  ### Note: Image Mouse Postion
 
         self.Page04_ClipPlayDirbutton.clicked.connect(lambda: self.setFilePath(1))
         self.Page04_ClipPlayButtonPlay.clicked.connect(lambda: self.setPlayVideoStatus(True))
@@ -3670,6 +3670,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page04_BImageSaveButton.clicked.connect(lambda: self.saveCaptureImageOnClip(3))
         self.Page04_CImageSaveButton.clicked.connect(lambda: self.saveCaptureImageOnClip(4))
 
+        self.Page04_setCapturePointButton.clicked.connect(self.drawRectToPointOnClip)
+
         self.clipPlayWidth = self.horizontalLayoutWidget_7.width()
         self.clipPlayHeight = self.horizontalLayoutWidget_7.height()
         clipPlayFilePath = self.Page04_ClipPlayDirlineEdit
@@ -3678,6 +3680,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.listThread.append(clipPlayThread(self.clipPlayWidth, self.clipPlayHeight, clipPlayFilePath, clipImageLabel, clipPlaySlider))
         self.listThread[-1].start()
+
+    def drawRectToPointOnClip(self):
+        global g_startXOnClip, g_startYOnClip, g_endXOnClip, g_endYOnClip
+        global g_isDrawRectangleStatusOnClip, g_refreshRectangleOnStopClip
+
+        valStartX = int(self.Page04_CapturePointStartX.text())
+        valStartY = int(self.Page04_CapturePointStartY.text())
+        valEndX = int(self.Page04_CapturePointEndX.text())
+        valEndY = int(self.Page04_CapturePointEndY.text())
+        if valStartX < 0 or valStartX > valEndX or valStartX > self.clipPlayWidth:
+            valStartX = 0
+            self.Page04_CapturePointStartX.setText(str(valStartX))
+        if valStartY < 0 or valStartY > valEndY or valStartY > self.clipPlayHeight:
+            valStartY = 0
+            self.Page04_CapturePointStartY.setText(str(valStartY))
+        if valEndX < 0 or valEndX < valStartX or valEndX > self.clipPlayWidth:
+            valEndX = self.clipPlayWidth
+            self.Page04_CapturePointEndX.setText(str(valEndX))
+        if valEndY < 0 or valEndY < valStartY or valEndY > self.clipPlayHeight:
+            valEndY = self.clipPlayHeight
+            self.Page04_CapturePointEndY.setText(str(valEndY))
+
+        g_startXOnClip = valStartX
+        g_startYOnClip = valStartY
+        g_endXOnClip = valEndX
+        g_endYOnClip = valEndY
+
+        g_isDrawRectangleStatusOnClip = True
+        g_refreshRectangleOnStopClip = True
 
     def drawRectangleStatusToClip(self, isBool):
         global g_isDrawRectangleStatusOnClip, g_refreshRectangleOnStopClip
@@ -4040,8 +4071,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             """이미지를 벗어나는 영역에 선택한 경우"""
             if g_startXOnClip < self.clipImgStartX : g_startXOnClip = self.clipImgStartX
             if g_startYOnClip < self.clipImgStartY : g_startYOnClip = self.clipImgStartY
-            if g_endXOnClip >= self.clipImgEndX    : g_endXOnClip = self.capImgEndX
-            if g_endYOnClip >= self.clipImgEndY    : g_endYOnClip = self.capImgEndY
+            if g_endXOnClip > self.clipImgEndX    : g_endXOnClip = self.clipImgEndX
+            if g_endYOnClip > self.clipImgEndY    : g_endYOnClip = self.clipImgEndY
 
             """이미지 좌표계로 보정. 즉, Point를 (0,0)으로 조정"""
             g_startXOnClip -= self.clipImgStartX
