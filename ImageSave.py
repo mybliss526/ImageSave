@@ -3787,30 +3787,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def saveCaptureImageOnClip(self, id): # id - 0:OK, 1: NG, 2: A, 3: B, 4: C
         global g_clipCapImage
 
-        imageNumber = 1
+        imageNumber = 0
         tempCurPwd = os.getcwd()
-        if id == 0 and (len(self.Page04_setOKImagelineEdit.text()) > 0):
-            os.chdir(self.Page04_setOKImagelineEdit.text()) # Move TO Save PWD
-        elif id == 1 and (len(self.Page04_setNGImagelineEdit.text()) > 0):
-            os.chdir(self.Page04_setNGImagelineEdit.text()) # Move TO Save PWD
-        elif id == 2 and (len(self.Page04_setAImagelineEdit.text()) > 0):
-            os.chdir(self.Page04_setAImagelineEdit.text())
-        elif id == 3 and (len(self.Page04_setBImagelineEdit.text()) > 0):
-            os.chdir(self.Page04_setBImagelineEdit.text())
-        elif id == 4 and (len(self.Page04_setCImagelineEdit.text()) > 0):
-            os.chdir(self.Page04_setCImagelineEdit.text())
+        fileStr = "image"
+
+        if id == 0:
+            if len(self.Page04_setOKImagelineEdit.text()) > 0:
+                os.chdir(self.Page04_setOKImagelineEdit.text()) # Move TO Save PWD
+            if len(self.Page04_setOKFileNameLlineEdit.text()) > 0:
+                fileStr = self.Page04_setOKFileNameLlineEdit.text()
+        elif id == 1:
+            if len(self.Page04_setNGImagelineEdit.text()) > 0:
+                os.chdir(self.Page04_setNGImagelineEdit.text()) # Move TO Save PWD
+            if len(self.Page04_setNGFileNameLlineEdit.text()) > 0:
+                fileStr = self.Page04_setNGFileNameLlineEdit.text()
+        elif id == 2:
+            if len(self.Page04_setAImagelineEdit.text()) > 0:
+                os.chdir(self.Page04_setAImagelineEdit.text())
+            if len(self.Page04_setAFileNameLlineEdit.text()) > 0:
+                fileStr = self.Page04_setAFileNameLlineEdit.text()
+        elif id == 3:
+            if len(self.Page04_setBImagelineEdit.text()) > 0:
+                os.chdir(self.Page04_setBImagelineEdit.text())
+            if len(self.Page04_setBFileNameLlineEdit.text()) > 0:
+                fileStr = self.Page04_setBFileNameLlineEdit.text()
+        elif id == 4:
+            if len(self.Page04_setCImagelineEdit.text()) > 0:
+                os.chdir(self.Page04_setCImagelineEdit.text())
+            if len(self.Page04_setCFileNameLlineEdit.text()) > 0:
+                fileStr = self.Page04_setCFileNameLlineEdit.text()
 
         while True:
-            if cv2.imread("image.jpg") is None:
-                g_clipCapImage.save("image.jpg")
-                break
-
-            fileName = "image(" + str(imageNumber) + ").jpg"
-            if cv2.imread(fileName) is None:
-                g_clipCapImage.save(fileName)
-                break
-            else:
+            imageNumberStr = "(" + str(imageNumber) + ")" if imageNumber != 0 else ""
+            if os.path.exists(fileStr + imageNumberStr + ".jpg"):
                 imageNumber = imageNumber + 1
+            else:
+                g_clipCapImage.save(fileStr + imageNumberStr + ".jpg")
+                break
         os.chdir(tempCurPwd)
 ## ClipPlay(ENDED)
 
