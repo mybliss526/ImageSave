@@ -2263,6 +2263,7 @@ class Ui_MainWindow(object):
 
         self.Page04_setOKFileNameLlineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.Page04_setOKFileNameLlineEdit.setObjectName(u"Page04_setOKFileNameLlineEdit")
+        self.Page04_setOKFileNameLlineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setOKImageLayout.addWidget(self.Page04_setOKFileNameLlineEdit)
 
@@ -2307,6 +2308,7 @@ class Ui_MainWindow(object):
 
         self.Page04_setNGFileNameLlineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.Page04_setNGFileNameLlineEdit.setObjectName(u"Page04_setNGFileNameLlineEdit")
+        self.Page04_setNGFileNameLlineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setNGImageLayout.addWidget(self.Page04_setNGFileNameLlineEdit)
 
@@ -2351,6 +2353,7 @@ class Ui_MainWindow(object):
 
         self.Page04_setAFileNameLlineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.Page04_setAFileNameLlineEdit.setObjectName(u"Page04_setAFileNameLlineEdit")
+        self.Page04_setAFileNameLlineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setAImageLayout.addWidget(self.Page04_setAFileNameLlineEdit)
 
@@ -2395,6 +2398,7 @@ class Ui_MainWindow(object):
 
         self.Page04_setBFileNameLlineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.Page04_setBFileNameLlineEdit.setObjectName(u"Page04_setBFileNameLlineEdit")
+        self.Page04_setBFileNameLlineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setBImageLayout.addWidget(self.Page04_setBFileNameLlineEdit)
 
@@ -2439,6 +2443,7 @@ class Ui_MainWindow(object):
 
         self.Page04_setCFileNameLlineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.Page04_setCFileNameLlineEdit.setObjectName(u"Page04_setCFileNameLlineEdit")
+        self.Page04_setCFileNameLlineEdit.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.Page04_setCImageLayout.addWidget(self.Page04_setCFileNameLlineEdit)
 
