@@ -4487,6 +4487,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page02_setCImagelineEditList = [self.Page02_setCImagelineEdit1, self.Page02_setCImagelineEdit2,
                                              self.Page02_setCImagelineEdit3, self.Page02_setCImagelineEdit4]
 
+        self.Page02_setOKImageFileNamelineEditList = [self.Page02_setOKImageFileNamelineEdit1, self.Page02_setOKImageFileNamelineEdit2,
+                                                      self.Page02_setOKImageFileNamelineEdit3, self.Page02_setOKImageFileNamelineEdit4]
+        self.Page02_setNGImageFileNamelineEditList = [self.Page02_setNGImageFileNamelineEdit1, self.Page02_setNGImageFileNamelineEdit2,
+                                                      self.Page02_setNGImageFileNamelineEdit3, self.Page02_setNGImageFileNamelineEdit4]
+        self.Page02_setAImageFileNamelineEditList = [self.Page02_setAImageFileNamelineEdit1, self.Page02_setAImageFileNamelineEdit2,
+                                                     self.Page02_setAImageFileNamelineEdit3, self.Page02_setAImageFileNamelineEdit4]
+        self.Page02_setBImageFileNamelineEditList = [self.Page02_setBImageFileNamelineEdit1, self.Page02_setBImageFileNamelineEdit2,
+                                                     self.Page02_setBImageFileNamelineEdit3, self.Page02_setBImageFileNamelineEdit4]
+        self.Page02_setCImageFileNamelineEditList = [self.Page02_setCImageFileNamelineEdit1, self.Page02_setCImageFileNamelineEdit2,
+                                                     self.Page02_setCImageFileNamelineEdit3, self.Page02_setCImageFileNamelineEdit4]
+
         self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(0, 0))
         self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1, 0))
         self.Page02_AImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(2, 0))
@@ -4708,30 +4719,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def saveCaptureImage(self, id, camID): # id - 0:OK, 1: NG, 2: A, 3: B, 4: C
         global g_capImage
 
-        imageNumber = 1
+        imageNumber = 0
         tempCurPwd = os.getcwd()
-        if id == 0 and (len(self.Page02_setOKImagelineEditList[camID].text()) > 0):
-            os.chdir(self.Page02_setOKImagelineEditList[camID].text()) # Move TO Save PWD
-        elif id == 1 and (len(self.Page02_setNGImagelineEditList[camID].text()) > 0):
-            os.chdir(self.Page02_setNGImagelineEditList[camID].text()) # Move TO Save PWD
-        elif id == 2 and (len(self.Page02_setAImagelineEditList[camID].text()) > 0):
-            os.chdir(self.Page02_setAImagelineEditList[camID].text())
-        elif id == 3 and (len(self.Page02_setBImagelineEditList[camID].text()) > 0):
-            os.chdir(self.Page02_setBImagelineEditList[camID].text())
-        elif id == 4 and (len(self.Page02_setCImagelineEditList[camID].text()) > 0):
-            os.chdir(self.Page02_setCImagelineEditList[camID].text())
+        fileStr = "image"
+
+        if id == 0:
+            if len(self.Page02_setOKImagelineEditList[camID].text()) > 0:
+                os.chdir(self.Page02_setOKImagelineEditList[camID].text()) # Move TO Save PWD
+            if len(self.Page02_setOKImageFileNamelineEditList[camID].text()) > 0:
+                fileStr = self.Page02_setOKImageFileNamelineEditList[camID].text()
+        elif id == 1:
+            if len(self.Page02_setNGImagelineEditList[camID].text()) > 0:
+                os.chdir(self.Page02_setNGImagelineEditList[camID].text()) # Move TO Save PWD
+            if len(self.Page02_setNGImageFileNamelineEditList[camID].text()) > 0:
+                fileStr = self.Page02_setNGImageFileNamelineEditList[camID].text()
+        elif id == 2:
+            if len(self.Page02_setAImagelineEditList[camID].text()) > 0:
+                os.chdir(self.Page02_setAImagelineEditList[camID].text())
+            if len(self.Page02_setAImageFileNamelineEditList[camID].text()) > 0:
+                fileStr = self.Page02_setAImageFileNamelineEditList[camID].text()
+        elif id == 3:
+            if len(self.Page02_setBImagelineEditList[camID].text()) > 0:
+                os.chdir(self.Page02_setBImagelineEditList[camID].text())
+            if len(self.Page02_setBImageFileNamelineEditList[camID].text()) > 0:
+                fileStr = self.Page02_setBImageFileNamelineEditList[camID].text()
+        elif id == 4:
+            if len(self.Page02_setCImagelineEditList[camID].text()) > 0:
+                os.chdir(self.Page02_setCImagelineEditList[camID].text())
+            if len(self.Page02_setCImageFileNamelineEditList[camID].text()) > 0:
+                fileStr = self.Page02_setCImageFileNamelineEditList[camID].text()
 
         while True:
-            if cv2.imread("image.jpg") is None:
-                g_capImage[camID].save("image.jpg")
-                break
-
-            fileName = "image(" + str(imageNumber) + ").jpg"
-            if cv2.imread(fileName) is None:
-                g_capImage[camID].save(fileName)
-                break
-            else:
+            imageNumberStr = "(" + str(imageNumber) + ")" if imageNumber != 0 else ""
+            if os.path.exists(fileStr + imageNumberStr + ".jpg"):
                 imageNumber = imageNumber + 1
+            else:
+                g_capImage[camID].save(fileStr + imageNumberStr + ".jpg")
+                break
         os.chdir(tempCurPwd)
 ## Capture(ENDED)
 
