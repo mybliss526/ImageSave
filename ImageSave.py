@@ -1121,14 +1121,14 @@ class Ui_MainWindow(object):
         self.Page02_CapturePointLayout3_2 = QHBoxLayout(self.horizontalLayoutWidget_35)
         self.Page02_CapturePointLayout3_2.setObjectName(u"Page02_CapturePointLayout3_2")
         self.Page02_CapturePointLayout3_2.setContentsMargins(0, 0, 0, 0)
-        self.Page02_setCapturePointButton2_2 = QPushButton(self.horizontalLayoutWidget_35)
-        self.Page02_setCapturePointButton2_2.setObjectName(u"Page02_setCapturePointButton2_2")
-        sizePolicy.setHeightForWidth(self.Page02_setCapturePointButton2_2.sizePolicy().hasHeightForWidth())
-        self.Page02_setCapturePointButton2_2.setSizePolicy(sizePolicy)
-        self.Page02_setCapturePointButton2_2.setMinimumSize(QSize(55, 0))
-        self.Page02_setCapturePointButton2_2.setStyleSheet(u"color: rgb(0, 0, 0);")
+        self.Page02_setCapturePointButton3 = QPushButton(self.horizontalLayoutWidget_35)
+        self.Page02_setCapturePointButton3.setObjectName(u"Page02_setCapturePointButton3")
+        sizePolicy.setHeightForWidth(self.Page02_setCapturePointButton3.sizePolicy().hasHeightForWidth())
+        self.Page02_setCapturePointButton3.setSizePolicy(sizePolicy)
+        self.Page02_setCapturePointButton3.setMinimumSize(QSize(55, 0))
+        self.Page02_setCapturePointButton3.setStyleSheet(u"color: rgb(0, 0, 0);")
 
-        self.Page02_CapturePointLayout3_2.addWidget(self.Page02_setCapturePointButton2_2)
+        self.Page02_CapturePointLayout3_2.addWidget(self.Page02_setCapturePointButton3)
 
         self.horizontalLayoutWidget_34 = QWidget(self.tab_3)
         self.horizontalLayoutWidget_34.setObjectName(u"horizontalLayoutWidget_34")
@@ -3771,7 +3771,7 @@ class Ui_MainWindow(object):
         self.Page02_setCImagebutton3.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page02_setCImageFileNameLabel3.setText(QCoreApplication.translate("MainWindow", u"\ud30c\uc77c\uba85:", None))
         self.Page02_CImageSaveButton3.setText(QCoreApplication.translate("MainWindow", u"\ucea1\uccd0\uc800\uc7a5", None))
-        self.Page02_setCapturePointButton2_2.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
+        self.Page02_setCapturePointButton3.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815", None))
         self.Page02_CapturePointLabel3.setText(QCoreApplication.translate("MainWindow", u"\uc88c\ud45c", None))
         self.Page02_CapturePointLabel3_2.setText(QCoreApplication.translate("MainWindow", u"(", None))
         self.Page02_CapturePointStartX3.setText(QCoreApplication.translate("MainWindow", u"0", None))
@@ -3915,6 +3915,7 @@ g_isStopClicked = [False, False, False, False]
 g_isPlayClicked = [False, False, False, False]
 g_isDrawRectangleStatus = [False, False, False, False]
 g_isDrawingEnded = [False, False, False, False]
+g_drawRectToPoint = [False, False, False, False]
 g_startX, g_startY, g_endX, g_endY = [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]
 g_capImage = []
 
@@ -4056,8 +4057,10 @@ class camThread(threading.Thread):
 
         if self.isStopFrameCaptured:
             global g_isDrawRectangleStatus, g_isDrawingEnded
-            if not g_isDrawRectangleStatus[self.camID] or not g_isDrawingEnded[self.camID]:
+            global g_drawRectToPoint
+            if not g_isDrawRectangleStatus[self.camID] or not g_isDrawingEnded[self.camID] or g_drawRectToPoint[self.camID]:
                 self.stopFrame = self.originalStopFrame.copy()
+                g_drawRectToPoint[self.camID] = False
             return self.stopFrame
         else:
             return frame
@@ -4474,7 +4477,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 ## Capture(BEGIN)
     def setupCapture(self):
         self.isStPosOnImage = False
-        self.capImgStartX, self.capImgStartY, self.capImgEndX, self.capImgEndY = 212, 30, 962, 450  ### Note: Image Mouse Postion
+        self.capImgStartX, self.capImgStartY, self.capImgEndX, self.capImgEndY = 212, 30, 963, 451  ### Note: Image Mouse Postion
 
         self.Page02_setOKImagelineEditList = [self.Page02_setOKImagelineEdit1, self.Page02_setOKImagelineEdit2,
                                               self.Page02_setOKImagelineEdit3, self.Page02_setOKImagelineEdit4]
@@ -4497,6 +4500,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                      self.Page02_setBImageFileNamelineEdit3, self.Page02_setBImageFileNamelineEdit4]
         self.Page02_setCImageFileNamelineEditList = [self.Page02_setCImageFileNamelineEdit1, self.Page02_setCImageFileNamelineEdit2,
                                                      self.Page02_setCImageFileNamelineEdit3, self.Page02_setCImageFileNamelineEdit4]
+
+        self.Page02_CapturePointStartXList = [self.Page02_CapturePointStartX1, self.Page02_CapturePointStartX2,
+                                              self.Page02_CapturePointStartX3, self.Page02_CapturePointStartX4]
+        self.Page02_CapturePointStartYList = [self.Page02_CapturePointStartY1, self.Page02_CapturePointStartY2,
+                                              self.Page02_CapturePointStartY3, self.Page02_CapturePointStartY4]
+        self.Page02_CapturePointEndXList = [self.Page02_CapturePointEndX1, self.Page02_CapturePointEndX2,
+                                            self.Page02_CapturePointEndX3, self.Page02_CapturePointEndX4]
+        self.Page02_CapturePointEndYList = [self.Page02_CapturePointEndY1, self.Page02_CapturePointEndY2,
+                                            self.Page02_CapturePointEndY3, self.Page02_CapturePointEndY4]
 
         self.Page02_OKImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(0, 0))
         self.Page02_NGImageSaveButton1.clicked.connect(lambda: self.saveCaptureImage(1, 0))
@@ -4566,6 +4578,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Page02_CaptureSetButton4.clicked.connect(lambda: self.drawRectangleStatus(True, 3))
         self.Page02_CaptureReleaseButton4.clicked.connect(lambda: self.drawRectangleStatus(False, 3))
 
+        self.Page02_setCapturePointButton1.clicked.connect(lambda: self.drawRectToPointOnCapture(0))
+        self.Page02_setCapturePointButton2.clicked.connect(lambda: self.drawRectToPointOnCapture(1))
+        self.Page02_setCapturePointButton3.clicked.connect(lambda: self.drawRectToPointOnCapture(2))
+        self.Page02_setCapturePointButton4.clicked.connect(lambda: self.drawRectToPointOnCapture(3))
+
+    def drawRectToPointOnCapture(self, camID):
+        global g_startX, g_startY, g_endX, g_endY
+        global g_isDrawRectangleStatus, g_isDrawingEnded
+        global g_drawRectToPoint
+
+        valStartX = int(self.Page02_CapturePointStartXList[camID].text())
+        valStartY = int(self.Page02_CapturePointStartYList[camID].text())
+        valEndX = int(self.Page02_CapturePointEndXList[camID].text())
+        valEndY = int(self.Page02_CapturePointEndYList[camID].text())
+
+        if valStartX < 0 or valStartX > valEndX or valStartX > self.cameraWindowWidth:
+            valStartX = 0
+            self.Page02_CapturePointStartXList[camID].setText(str(valStartX))
+        if valStartY < 0 or valStartY > valEndY or valStartY > self.cameraWindowHeight:
+            valStartY = 0
+            self.Page02_CapturePointStartYList[camID].setText(str(valStartY))
+        if valEndX < 0 or valEndX < valStartX or valEndX > self.cameraWindowWidth:
+            valEndX = self.cameraWindowWidth
+            self.Page02_CapturePointEndXList[camID].setText(str(valEndX))
+        if valEndY < 0 or valEndY < valStartY or valEndY > self.cameraWindowHeight:
+            valEndY = self.cameraWindowHeight
+            self.Page02_CapturePointEndYList[camID].setText(str(valEndY))
+
+        g_startX[camID] = valStartX
+        g_startY[camID] = valStartY
+        g_endX[camID] = valEndX
+        g_endY[camID] = valEndY
+
+        g_isDrawRectangleStatus[camID] = True
+        g_isDrawingEnded[camID] = True
+        g_drawRectToPoint[camID] = True
 
     def captureFrameStop(self, camID):
         global g_isStopClicked, g_isPlayClicked
@@ -4698,8 +4746,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             """이미지를 벗어나는 영역에 선택한 경우"""
             if g_startX[tabIndex] < self.capImgStartX : g_startX[tabIndex] = self.capImgStartX
             if g_startY[tabIndex] < self.capImgStartY : g_startY[tabIndex] = self.capImgStartY
-            if g_endX[tabIndex] >= self.capImgEndX    : g_endX[tabIndex] = self.capImgEndX
-            if g_endY[tabIndex] >= self.capImgEndY    : g_endY[tabIndex] = self.capImgEndY
+            if g_endX[tabIndex] > self.capImgEndX    : g_endX[tabIndex] = self.capImgEndX
+            if g_endY[tabIndex] > self.capImgEndY    : g_endY[tabIndex] = self.capImgEndY
 
             """이미지 좌표계로 보정. 즉, Point를 (0,0)으로 조정"""
             g_startX[tabIndex] -= self.capImgStartX
@@ -4707,14 +4755,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             g_endX[tabIndex] -= self.capImgStartX
             g_endY[tabIndex] -= self.capImgStartY
 
+            self.Page02_CapturePointStartXList[tabIndex].setText(str(g_startX[tabIndex]))
+            self.Page02_CapturePointStartYList[tabIndex].setText(str(g_startY[tabIndex]))
+            self.Page02_CapturePointEndXList[tabIndex].setText(str(g_endX[tabIndex]))
+            self.Page02_CapturePointEndYList[tabIndex].setText(str(g_endY[tabIndex]))
+
     def drawRectangleStatus(self, isBoolState, camID):
         global g_isDrawRectangleStatus
         global g_startX, g_startY, g_endX, g_endY
         tabIndex = self.CameratabWidget.currentIndex()
 
         g_isDrawRectangleStatus[camID] = isBoolState
-        if g_isDrawRectangleStatus[camID]:
+        if not g_isDrawRectangleStatus[camID]:
             g_startX[tabIndex], g_startY[tabIndex], g_endX[tabIndex], g_endY[tabIndex] = 0, 0, self.cameraWindowWidth, self.cameraWindowHeight
+
+        self.Page02_CapturePointStartXList[tabIndex].setText(str(g_startX[tabIndex]))
+        self.Page02_CapturePointStartYList[tabIndex].setText(str(g_startY[tabIndex]))
+        self.Page02_CapturePointEndXList[tabIndex].setText(str(g_endX[tabIndex]))
+        self.Page02_CapturePointEndYList[tabIndex].setText(str(g_endY[tabIndex]))
 
     def saveCaptureImage(self, id, camID): # id - 0:OK, 1: NG, 2: A, 3: B, 4: C
         global g_capImage
