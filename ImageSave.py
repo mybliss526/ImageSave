@@ -4665,9 +4665,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Page04_setCImagelineEdit.setText(dirName)
 
     def mousePressEvent(self, QMouseEvent):
-        if self.clipPlayPageOn: #ClipPlay의 Mouse 이벤트
+        if self.clipPlayPageOn:     #ClipPlay의 Mouse 이벤트
             global g_isDrawingEndedOnClip, g_startXOnClip, g_startYOnClip
-            if self.clipImgStartX < QMouseEvent.x() <= self.clipImgEndX and self.clipImgStartY < QMouseEvent.y() <= self.clipImgEndY:
+            if g_isDrawRectangleStatusOnClip and self.clipImgStartX < QMouseEvent.x() <= self.clipImgEndX and self.clipImgStartY < QMouseEvent.y() <= self.clipImgEndY:
                 self.isStPosOnClip = True
             else:
                 self.isStPosOnClip = False
@@ -4675,13 +4675,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             g_isDrawingEndedOnClip = False
             g_startXOnClip, g_startYOnClip = QMouseEvent.x(), QMouseEvent.y()
-        else: #Capture 페이지의 Mouse 이벤트
+        elif self.capturePageOn:    #Capture 페이지의 Mouse 이벤트
             global g_isDrawingEnded
             global g_startX, g_startY
+            global g_isDrawRectangleStatus
 
             tabIndex = self.CameratabWidget.currentIndex()
 
-            if self.capturePageOn and self.capImgStartX < QMouseEvent.x() <= self.capImgEndX and self.capImgStartY < QMouseEvent.y() <= self.capImgEndY:
+            if g_isDrawRectangleStatus[tabIndex] and self.capImgStartX < QMouseEvent.x() <= self.capImgEndX and self.capImgStartY < QMouseEvent.y() <= self.capImgEndY:
                 self.isStPosOnImage = True
             else:
                 self.isStPosOnImage = False
@@ -4725,8 +4726,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Page04_CapturePointStartY.setText(str(g_startYOnClip))
             self.Page04_CapturePointEndX.setText(str(g_endXOnClip))
             self.Page04_CapturePointEndY.setText(str(g_endYOnClip))
-
-        else:
+        elif self.capturePageOn:    #Capture 페이지의 Mouse 이벤트
             global g_isDrawRectangleStatus, g_isDrawingEnded
             global g_startX, g_startY, g_endX, g_endY
             tabIndex = self.CameratabWidget.currentIndex()
