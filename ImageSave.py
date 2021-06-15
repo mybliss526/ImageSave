@@ -8,18 +8,29 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-
-from moviepy.editor import *
-
 import sys
-import cv2
 import os
+import cv2
 import numpy as np
 import threading
 import time
+
+INSTALL_PATH = os.path.split(sys.executable)[0] # 파이썬 인터프리터의 실행파일 경로.
+PLUGINS_PATH = INSTALL_PATH + "\Lib\site-packages\PySide2\plugins"
+
+if __name__ == '__main__':
+    from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint, QRect, QSize, QUrl, Qt)
+    QCoreApplication.setLibraryPaths([PLUGINS_PATH])
+
+if __name__ == '__main__':
+    from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+                               QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
+                               QRadialGradient, QGradient, QImage)
+    QCoreApplication.setLibraryPaths([PLUGINS_PATH])
+
+from PySide2.QtWidgets import *
+
+from moviepy.editor import *
 
 
 class Ui_MainWindow(object):
