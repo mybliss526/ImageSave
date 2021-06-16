@@ -3933,6 +3933,8 @@ g_capImage = []
 class camThread(threading.Thread):
     def __init__(self, camID, width, height, captureImage, liveW, liveH, liveLabel, captureLabel, videoDir, maxStorageSpinBox):
         super().__init__()
+
+        '''Live Thread Member'''
         self.width = width
         self.height = height
         self.captureImage = captureImage
@@ -3942,13 +3944,17 @@ class camThread(threading.Thread):
         self.captureLabel = captureLabel
         self.camID = camID # Zero base
 
+        '''Record Thread Member'''
         self.strVideoFileDir = videoDir
         self.maxRecordStorageSpinBox = maxStorageSpinBox
-        self.tempVideoFileForMERGE = "tempMergeVideo.mp4"  # temp for Merge original
-        self.isOversizeStatus = False
         self.isCreateFile = False
-        self.isCreateOversizeFile = False
+        self.strVideoFile = ""
+        self.fileNameList = []
+        self.recPrevTime = 0
+        self.totalFileSize = 0
+        self.oldFileSize = 0
 
+        '''Captrue Thread Member'''
         self.isStopFrameCaptured = False
         self.stopFrame = np.zeros((self.width, self.height, 3), np.uint8)
         self.originalStopFrame = np.zeros((self.width, self.height, 3), np.uint8)
@@ -3990,66 +3996,42 @@ class camThread(threading.Thread):
     ## Record in Thread(START)
     def frameRecording(self, frame):
         global g_isRecordStatus
-        strVideoFile = "CAM{}_Video.mp4".format(self.camID + 1)  # original video
-        if len(self.strVideoFileDir.text()) > 0: strVideoFile = self.strVideoFileDir.text() + "/" + strVideoFile
 
-        if g_isRecordStatus[self.camID]:
-            frame = cv2.resize(frame, (self.width, self.height))
+        if g_isRecordStatus[self.camID]: # 녹화시작
+            frame = cv2.resize(frame, (self.width, self.height))    # 반드시 resize해주어 녹화 영상데이터와 size를 동일하게 맞춰야함!
 
-            ### Create Video File from Frame (START) - (NOTE: 'Codec: mp4v, 확장자:mp4'를 사용해야 VideoWriter 및 VideoFileClip 클래스가 정상적으로 동작함.)
-            if not self.isOversizeStatus:
-                if not self.isCreateFile:
-                    self.videoWriterOriginal = cv2.VideoWriter(strVideoFile, cv2.VideoWriter_fourcc(*'mp4v'), 30.0, (self.width, self.height))
-                    self.isCreateFile = True
-                self.videoWriterOriginal.write(frame)
-                fileSize = os.path.getsize(strVideoFile)
-            else:
-                if not self.isCreateOversizeFile:
-                    self.videoWriterMergeFile = cv2.VideoWriter(self.tempVideoFileForMERGE, cv2.VideoWriter_fourcc(*'mp4v'), 30.0, (self.width, self.height))
-                    self.isCreateOversizeFile = True
-                self.videoWriterMergeFile.write(frame)
-                fileSize = os.path.getsize(strVideoFile) + os.path.getsize(self.tempVideoFileForMERGE)
-            ### Create Video File from Frame (ENDED)
+            if not self.isCreateFile:   # 파일이 없는 경우 파일 생성(새로 시작, 파일 갱신 주기)
+                self.strVideoFile = "CAM{}_Video_{}.mp4".format(self.camID + 1, time.strftime("%Y%m%d-%H%M%S"))  # original video
+                if len(self.strVideoFileDir.text()) > 0: self.strVideoFile = self.strVideoFileDir.text() + "/" + self.strVideoFile
+                self.videoWriterOriginal = cv2.VideoWriter(self.strVideoFile, cv2.VideoWriter_fourcc(*'mp4v'), 30.0, (self.width, self.height))
+                self.isCreateFile = True
+                self.recPrevTime = time.time()
+                self.fileNameList.append(self.strVideoFile)
+                self.oldFileSize = self.totalFileSize
+            self.videoWriterOriginal.write(frame)
+            self.totalFileSize = self.oldFileSize + os.path.getsize(self.strVideoFile)
+            # print("fileSize : {}({})".format(self.totalFileSize, self.maxRecordStorageSpinBox.value() * 1024 * 1024))
 
-            if self.maxRecordStorageSpinBox.value() * 1024 * 1024 < fileSize:  # 1MB = 1048576
-                if not self.isOversizeStatus:
-                    self.videoWriterOriginal.release()  # Orignal Video File을 release해주어 앞부분 cut할 수 있도록 해줌.
-                else:
-                    self.videoWriterMergeFile.release()
-                    self.mergeVideoFile(strVideoFile, self.tempVideoFileForMERGE, strVideoFile)
-                    self.isCreateOversizeFile = False
+            recCurrentTime = time.time()
+            if recCurrentTime - self.recPrevTime > 60: # 60초 마다 파일 갱신
+                self.isCreateFile = False
+                self.recPrevTime = recCurrentTime
+                self.videoWriterOriginal.release()
 
-                self.cutVideoFile(10, strVideoFile)     # cut Video prev 10sec.
-                self.isOversizeStatus = True
-        else:
-            if not self.isOversizeStatus:
-                if self.isCreateFile:
+            if self.maxRecordStorageSpinBox.value() * 1024 * 1024 < self.totalFileSize: #Oversize시 가장 앞부분의 file delete
+                if len(self.fileNameList) == 1 :  # File이 한개인데 용량 초과한 경우: 해당파일 삭제 후 새로 녹화하기
                     self.videoWriterOriginal.release()
                     self.isCreateFile = False
-            else:
-                if self.isCreateOversizeFile:
-                    self.videoWriterMergeFile.release()
-                    self.mergeVideoFile(strVideoFile, self.tempVideoFileForMERGE, strVideoFile)
-                    self.isCreateOversizeFile = False
-
-    def cutVideoFile(self, second, fileName):
-        tempVideoFileforCUT = 'tempCutVideo.mp4'        # temp for cut original
-        with VideoFileClip(fileName) as video:
-            new = video.subclip(second, video.duration) # cut prev 'second'
-            new.write_videofile(tempVideoFileforCUT, audio_codec='aac')  # 앞의 영상을 자르는 동작을 정상적으로 해주기 위해 audio_codec에 대해 설정해 줌.
-        os.remove(fileName)
-        os.rename(tempVideoFileforCUT, fileName)        # tempVideoFileforCUT을 Orignal Video File Name으로 변경해주어 저장.
-
-    def mergeVideoFile(self, clip1, clip2, finalName):
-        tempMergedFileName = "tempMergedFile.mp4"
-        mergeClip1 = VideoFileClip(clip1)
-        mergeClip2 = VideoFileClip(clip2)
-        mergeResultClip = concatenate_videoclips([mergeClip1, mergeClip2])
-        mergeResultClip.write_videofile(tempMergedFileName)
-        os.remove(clip1)
-        os.remove(clip2)
-        os.rename(tempMergedFileName, finalName)
-        print("merge success!!!!!!!!!!")
+                    self.totalFileSize = 0
+                else:
+                    self.oldFileSize = self.oldFileSize - os.path.getsize(self.fileNameList[0])
+                print("!!!WARNING(OverSize Record)!!! Remove '{}' File". format(self.fileNameList[0]))
+                os.remove(self.fileNameList[0])
+                self.fileNameList.pop(0)
+        else:   # 녹화해제
+            if self.isCreateFile:
+                self.videoWriterOriginal.release()
+                self.isCreateFile = False
     ## Record in Thread(ENDED)
 
     ## Capture in Thread(BEGIN)
