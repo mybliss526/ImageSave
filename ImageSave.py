@@ -4383,7 +4383,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 fileStr = self.Page04_setCFileNameLlineEdit.text()
 
         while True:
-            imageNumberStr = "(" + str(imageNumber) + ")" if imageNumber != 0 else ""
+            imageNumberStr = "_" + str(imageNumber) if imageNumber != 0 else ""
             if os.path.exists(fileStr + imageNumberStr + ".jpg"):
                 imageNumber = imageNumber + 1
             else:
@@ -4801,7 +4801,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 fileStr = self.Page02_setCImageFileNamelineEditList[camID].text()
 
         while True:
-            imageNumberStr = "(" + str(imageNumber) + ")" if imageNumber != 0 else ""
+            imageNumberStr = "_" + str(imageNumber) if imageNumber != 0 else ""
             if os.path.exists(fileStr + imageNumberStr + ".jpg"):
                 imageNumber = imageNumber + 1
             else:
