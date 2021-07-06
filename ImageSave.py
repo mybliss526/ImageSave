@@ -4717,7 +4717,7 @@ class Ui_MainWindow(object):
         self.MenubarLabel.setText("")
     # retranslateUi
 
-## Cam Thread (BEGIN) - Live(Page01, Page02), Recording, Capture
+## Cam Thread (BEGIN) - Live(Page01, Page02), Recording, Capture, ObjectDetect
 semaphore = threading.Semaphore(5) #Live: 4, ClipPlay: 1
 g_isRecordStatus = [False, False, False, False]
 
@@ -4730,7 +4730,7 @@ g_startX, g_startY, g_endX, g_endY = [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [
 g_capImage = []
 
 class camThread(threading.Thread):
-    def __init__(self, camID, width, height, captureImage, liveW, liveH, liveLabel, captureLabel, videoDir, maxStorageSpinBox):
+    def __init__(self, camID, width, height, captureImage, liveW, liveH, liveLabel, captureLabel, videoDir, maxStorageSpinBox, objectDetectImageLabel):
         super().__init__()
 
         '''Live Thread Member'''
@@ -4739,9 +4739,10 @@ class camThread(threading.Thread):
         self.captureImage = captureImage
         self.liveW = liveW
         self.liveH = liveH
-        self.liveLabel = liveLabel
-        self.captureLabel = captureLabel
+        self.liveLabel = liveLabel       # Page01
+        self.captureLabel = captureLabel # Page03
         self.camID = camID # Zero base
+        self.objectDetectImageLabel = objectDetectImageLabel # Page05
 
         '''Record Thread Member'''
         self.strVideoFileDir = videoDir
@@ -4775,6 +4776,24 @@ class camThread(threading.Thread):
             liveImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
             liveImage1 = liveImage.copy().scaled(self.liveW, self.liveH)
 
+            detectFrame = frame.copy()
+        ### Test Code (BEGIN) ###
+            """ 주의사항!! Note: 정상 인식되는지 확인을 위해 녹화본을 바탕으로 Detect하는 Test코드. 추후 배포버전에선 해당 내용 전체 삭제해야함!!!!! """
+            test = True # 녹화영상으로 TEST하라면 해당 내용 True
+            if test and self.camID == 0:
+                try:
+                    success, detectFrame = self.test.read()
+                    detectFrame = cv2.cvtColor(detectFrame, cv2.COLOR_RGB2BGR)
+                except: # 동영상 반복 및 Video Capture 초기화를 위함
+                    self.test = cv2.VideoCapture("Test/210113_Loader.mp4") #녹화 영상 데이터
+                    self.test.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                    success, detectFrame = self.test.read()
+                    detectFrame = cv2.cvtColor(detectFrame, cv2.COLOR_RGB2BGR)
+                    print("Test Video Reset")
+        ### Test Code (ENDED) ###
+            camForDetectImage = QImage(detectFrame, detectFrame.shape[1], detectFrame.shape[0], detectFrame.strides[0], QImage.Format_RGB888)
+            resizeCamForDetectImage = camForDetectImage.scaled(self.width, self.height)
+
             frame = self.captureFrame(frame)
             frame, x, y, width, height = self.drawRectangleRegion(frame)
             capImage = QImage(frame, frame.shape[1], frame.shape[0], frame.strides[0], QImage.Format_RGB888)
@@ -4788,9 +4807,11 @@ class camThread(threading.Thread):
             noVideoImage.fill(qRgb(50, 50, 50))
             liveImage1 = noVideoImage.copy()
             captureImage1 = noVideoImage.copy()
+            resizeCamForDetectImage = noVideoImage.copy()
 
         self.liveLabel.setPixmap(QPixmap.fromImage(liveImage1))
         self.captureLabel.setPixmap(QPixmap.fromImage(captureImage1))
+        self.objectDetectImageLabel.setPixmap(QPixmap.fromImage(resizeCamForDetectImage))
 
     ## Record in Thread(START)
     def frameRecording(self, frame):
@@ -5226,6 +5247,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Page02_ImageLabelList           = [self.Page02_ImageLabel1, self.Page02_ImageLabel2, self.Page02_ImageLabel3, self.Page02_ImageLabel4]
         Page03_setVideoDirlineEditList  = [self.Page03_setVideoDirlineEdit1, self.Page03_setVideoDirlineEdit2, self.Page03_setVideoDirlineEdit3, self.Page03_setVideoDirlineEdit4]
         Page03_RecordCapSpinBoxList     = [self.Page03_RecordCapSpinBox1, self.Page03_RecordCapSpinBox2, self.Page03_RecordCapSpinBox3, self.Page03_RecordCapSpinBox4]
+        Page05_ImageLabelList           = [self.Page05_ImageLabel1, self.Page05_ImageLabel2, self.Page05_ImageLabel3, self.Page05_ImageLabel4]
 
         liveWidth, liveHeight = self.horizontalLayoutWidget_5.geometry().width(), self.horizontalLayoutWidget_5.geometry().height()
 
@@ -5236,7 +5258,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.listThread.append(camThread(capIndex, self.cameraWindowWidth, self.cameraWindowHeight, self.capture[capIndex], liveWidth, liveHeight,
                                              Page01_LiveImagelabelList[capIndex], Page02_ImageLabelList[capIndex],
-                                             Page03_setVideoDirlineEditList[capIndex], Page03_RecordCapSpinBoxList[capIndex]))
+                                             Page03_setVideoDirlineEditList[capIndex], Page03_RecordCapSpinBoxList[capIndex],
+                                             Page05_ImageLabelList[capIndex]))
             self.listThread[-1].start()
 ## WebCam Image(ENDED)
 
