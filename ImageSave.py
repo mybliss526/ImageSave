@@ -4729,6 +4729,10 @@ g_drawRectToPoint = [False, False, False, False]
 g_startX, g_startY, g_endX, g_endY = [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]
 g_capImage = []
 
+g_detectStartX, g_detectStartY, g_detectEndX, g_detectEndY = [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]
+g_isDetectDrawRectangleStatus = [False, False, False, False]
+g_isDetectDrawingEnded = [False, False, False, False]
+
 class camThread(threading.Thread):
     def __init__(self, camID, width, height, captureImage, liveW, liveH, liveLabel, captureLabel, videoDir, maxStorageSpinBox, objectDetectImageLabel):
         super().__init__()
@@ -4791,6 +4795,7 @@ class camThread(threading.Thread):
                     detectFrame = cv2.cvtColor(detectFrame, cv2.COLOR_RGB2BGR)
                     print("Test Video Reset")
         ### Test Code (ENDED) ###
+            detectFrame, x, y, width, height = self.drawDetectRectangleRegion(detectFrame)
             camForDetectImage = QImage(detectFrame, detectFrame.shape[1], detectFrame.shape[0], detectFrame.strides[0], QImage.Format_RGB888)
             resizeCamForDetectImage = camForDetectImage.scaled(self.width, self.height)
 
@@ -4892,6 +4897,24 @@ class camThread(threading.Thread):
             stPosX, stPosY, endPosX, endPosY = int(g_startX[self.camID] * ratioX), int(g_startY[self.camID] * ratioY), int(g_endX[self.camID] * ratioX), int(g_endY[self.camID] * ratioY)
 
             frame = cv2.rectangle(frame, (stPosX - drawMargin, stPosY - drawMargin), (endPosX + drawMargin, endPosY + drawMargin), (0, 0, 255), 2)
+            return frame, stPosX, stPosY, endPosX - stPosX, endPosY - stPosY
+        else:
+            return frame, 0, 0, frame.shape[1], frame.shape[0]
+
+    def drawDetectRectangleRegion(self, frame):
+        global g_isDetectDrawRectangleStatus, g_isDetectDrawingEnded
+        global g_detectStartX, g_detectStartY, g_detectEndX, g_detectEndY
+
+        if g_isDetectDrawRectangleStatus[self.camID] and g_isDetectDrawingEnded[self.camID]:
+            frameHeight, frameWidth = frame.shape[:2]
+
+            ratioX = frameWidth / self.width
+            ratioY = frameHeight / self.height
+            drawMargin = 2  # 이미지캡쳐에서 rectangle이 포함되지 않도록 drawMargin 추가
+
+            stPosX, stPosY, endPosX, endPosY = int(g_detectStartX[self.camID] * ratioX), int(g_detectStartY[self.camID] * ratioY), int(g_detectEndX[self.camID] * ratioX), int(g_detectEndY[self.camID] * ratioY)
+
+            frame = cv2.rectangle(frame, (stPosX - drawMargin, stPosY - drawMargin), (endPosX + drawMargin, endPosY + drawMargin), (255, 0, 0), 2)
             return frame, stPosX, stPosY, endPosX - stPosX, endPosY - stPosY
         else:
             return frame, 0, 0, frame.shape[1], frame.shape[0]
@@ -5021,7 +5044,44 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupRecord()
         self.setupCapture()
         self.setupClipPlay()
+        self.setupObjectDetect()
         self.setupMenuBar()
+
+## Object Detect(BEGIN)
+    def setupObjectDetect(self):
+        self.isDetectStPosOnImage = False
+
+        self.detectImgStartX, self.detectImgStartY, self.detectImgEndX, self.detectImgEndY = 212, 30, 963, 451  ### Note: Image Mouse Postion
+
+        self.Page05_DetectPointStartXList = [self.Page05_DetectPointStartX1, self.Page05_DetectPointStartX2,
+                                              self.Page05_DetectPointStartX3, self.Page05_DetectPointStartX4]
+        self.Page05_DetectPointStartYList = [self.Page05_DetectPointStartY1, self.Page05_DetectPointStartY2,
+                                              self.Page05_DetectPointStartY3, self.Page05_DetectPointStartY4]
+        self.Page05_DetectPointEndXList = [self.Page05_DetectPointEndX1, self.Page05_DetectPointEndX2,
+                                            self.Page05_DetectPointEndX3, self.Page05_DetectPointEndX4]
+        self.Page05_DetectPointEndYList = [self.Page05_DetectPointEndY1, self.Page05_DetectPointEndY2,
+                                            self.Page05_DetectPointEndY3, self.Page05_DetectPointEndY4]
+
+        self.Page05_DetectMethodRadioButtonAuto1.clicked.connect(lambda: self.detectMethodStatus(0))
+        self.Page05_DetectMethodRadioButtonManual1.clicked.connect(lambda: self.detectMethodStatus(0))
+        self.Page05_DetectMethodRadioButtonAuto2.clicked.connect(lambda: self.detectMethodStatus(1))
+        self.Page05_DetectMethodRadioButtonManual2.clicked.connect(lambda: self.detectMethodStatus(1))
+        self.Page05_DetectMethodRadioButtonAuto3.clicked.connect(lambda: self.detectMethodStatus(2))
+        self.Page05_DetectMethodRadioButtonManual3.clicked.connect(lambda: self.detectMethodStatus(2))
+        self.Page05_DetectMethodRadioButtonAuto4.clicked.connect(lambda: self.detectMethodStatus(3))
+        self.Page05_DetectMethodRadioButtonManual4.clicked.connect(lambda: self.detectMethodStatus(3))
+
+    def detectMethodStatus(self, camID):
+        Page05_DetectMethodRadioButtonAutoList = [self.Page05_DetectMethodRadioButtonAuto1, self.Page05_DetectMethodRadioButtonAuto2,
+                                                  self.Page05_DetectMethodRadioButtonAuto3, self.Page05_DetectMethodRadioButtonAuto4]
+
+        if Page05_DetectMethodRadioButtonAutoList[camID].isChecked():
+            g_isDetectDrawRectangleStatus[camID] = False
+        else:
+            g_isDetectDrawRectangleStatus[camID] = True
+
+
+## Object Detect(ENDED)
 
 ## ClipPlay(BEGIN)
     def setupClipPlay(self):
@@ -5216,6 +5276,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def setupMenuBar(self):
         self.capturePageOn = False
         self.clipPlayPageOn = False
+        self.objectDetectPageOn = False
         self.Menu_LivepushButton.clicked.connect(lambda: self.changeStackWidget(0))
         self.Menu_CapturepushButton.clicked.connect(lambda: self.changeStackWidget(1))
         self.Menu_RecordpushButton.clicked.connect(lambda: self.changeStackWidget(2))
@@ -5228,6 +5289,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentWidget(PageIdList[id])
         self.capturePageOn = (id == 1)
         self.clipPlayPageOn = (id == 3)
+        self.objectDetectPageOn = (id == 4)
 ## MenuBar(ENDED)
 
 ## WebCam Image(BEGIN)
@@ -5506,6 +5568,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             g_isDrawingEnded[tabIndex] = False
             g_startX[tabIndex], g_startY[tabIndex] = QMouseEvent.x(), QMouseEvent.y()
+        elif self.objectDetectPageOn:
+            global g_isDetectDrawingEnded
+            global g_detectStartX, g_detectStartY
+            global g_isDetectDrawRectangleStatus
+
+            detectTabIndex = self.Page05_DetectTabWidget.currentIndex()
+
+            if g_isDetectDrawRectangleStatus[detectTabIndex] and self.detectImgStartX < QMouseEvent.x() <= self.detectImgEndX and self.detectImgStartY < QMouseEvent.y() <= self.detectImgEndY:
+                self.isDetectStPosOnImage = True
+            else:
+                self.isDetectStPosOnImage = False
+                return
+
+            g_isDetectDrawingEnded[detectTabIndex] = False
+            g_detectStartX[detectTabIndex], g_detectStartY[detectTabIndex] = QMouseEvent.x(), QMouseEvent.y()
 
     def mouseReleaseEvent(self, QMouseEvent):
         if self.clipPlayPageOn:  # ClipPlay의 Mouse 이벤트
@@ -5575,6 +5652,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Page02_CapturePointStartYList[tabIndex].setText(str(g_startY[tabIndex]))
             self.Page02_CapturePointEndXList[tabIndex].setText(str(g_endX[tabIndex]))
             self.Page02_CapturePointEndYList[tabIndex].setText(str(g_endY[tabIndex]))
+        elif self.objectDetectPageOn:
+            global g_isDetectDrawRectangleStatus, g_isDetectDrawingEnded
+            global g_detectStartX, g_detectStartY, g_detectEndX, g_detectEndY
+            detectTabIndex = self.Page05_DetectTabWidget.currentIndex()
+
+            if not self.isDetectStPosOnImage or not g_isDetectDrawRectangleStatus[detectTabIndex]:
+                return
+
+            g_detectEndX[detectTabIndex], g_detectEndY[detectTabIndex] = QMouseEvent.x(), QMouseEvent.y()
+
+            """Start 포인트가 End 포인트 보다 작은경우 포인트 스위칭"""
+            if g_detectEndX[detectTabIndex] < g_detectStartX[detectTabIndex]:
+                g_detectStartX[detectTabIndex], g_detectEndX[detectTabIndex] = g_detectEndX[detectTabIndex], g_detectStartX[detectTabIndex]
+            if g_detectEndY[detectTabIndex] < g_detectStartY[detectTabIndex]:
+                g_detectStartY[detectTabIndex], g_detectEndY[detectTabIndex] = g_detectEndY[detectTabIndex], g_detectStartY[detectTabIndex]
+
+            """이미지를 벗어나는 영역에 선택한 경우"""
+            if g_detectStartX[detectTabIndex] < self.detectImgStartX : g_detectStartX[detectTabIndex] = self.detectImgStartX
+            if g_detectStartY[detectTabIndex] < self.detectImgStartY : g_detectStartY[detectTabIndex] = self.detectImgStartY
+            if g_detectEndX[detectTabIndex] > self.detectImgEndX    : g_detectEndX[detectTabIndex] = self.detectImgEndX
+            if g_detectEndY[detectTabIndex] > self.detectImgEndY    : g_detectEndY[detectTabIndex] = self.detectImgEndY
+
+            """이미지 좌표계로 보정. 즉, Point를 (0,0)으로 조정"""
+            g_detectStartX[detectTabIndex] -= self.detectImgStartX
+            g_detectStartY[detectTabIndex] -= self.detectImgStartY
+            g_detectEndX[detectTabIndex] -= self.detectImgStartX
+            g_detectEndY[detectTabIndex] -= self.detectImgStartY
+
+            self.Page05_DetectPointStartXList[detectTabIndex].setText(str(g_detectStartX[detectTabIndex]))
+            self.Page05_DetectPointStartYList[detectTabIndex].setText(str(g_detectStartY[detectTabIndex]))
+            self.Page05_DetectPointEndXList[detectTabIndex].setText(str(g_detectEndX[detectTabIndex]))
+            self.Page05_DetectPointEndYList[detectTabIndex].setText(str(g_detectEndY[detectTabIndex]))
+
+            g_isDetectDrawingEnded[detectTabIndex] = True
 
     def drawRectangleStatus(self, isBoolState, camID):
         global g_isDrawRectangleStatus
