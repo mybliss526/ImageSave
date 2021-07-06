@@ -4779,7 +4779,7 @@ class camThread(threading.Thread):
             detectFrame = frame.copy()
         ### Test Code (BEGIN) ###
             """ 주의사항!! Note: 정상 인식되는지 확인을 위해 녹화본을 바탕으로 Detect하는 Test코드. 추후 배포버전에선 해당 내용 전체 삭제해야함!!!!! """
-            test = True # 녹화영상으로 TEST하라면 해당 내용 True
+            test = False # 녹화영상으로 TEST하라면 해당 내용 True
             if test and self.camID == 0:
                 try:
                     success, detectFrame = self.test.read()
